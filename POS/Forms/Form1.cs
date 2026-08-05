@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using POS.Services.Security;
 using System.Windows.Forms;
 
 namespace POS
 {
     public partial class Form1 : Form
     {
+        private readonly UserService _userService;
         public Form1()
         {
+            _userService = new UserService();
             InitializeComponent();
+            _userService.
         }
     }
 }
