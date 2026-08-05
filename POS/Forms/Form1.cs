@@ -12,5 +12,10 @@ namespace POS
             InitializeComponent();
             _userService.
         }
+
+        private void sfButton1_Click(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }
