@@ -11,7 +11,6 @@ namespace POS.Data.Context
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             modelBuilder.Configurations.Add(new Configurations.UserConfiguration());
 
             modelBuilder.Entity<User>().ToTable("Users");
