@@ -60,12 +60,13 @@
     <Compile Include="Configurations\RoleConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
     <Compile Include="Context\POSContext.cs" />
-    <Compile Include="Migrations\202608041253573_initialMigration.cs" />
-    <Compile Include="Migrations\202608041253573_initialMigration.Designer.cs">
-      <DependentUpon>202608041253573_initialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\202608090521584_initial-create.cs" />
+    <Compile Include="Migrations\202608090521584_initial-create.Designer.cs">
+      <DependentUpon>202608090521584_initial-create.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -78,8 +79,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202608041253573_initialMigration.resx">
-      <DependentUpon>202608041253573_initialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202608090521584_initial-create.resx">
+      <DependentUpon>202608090521584_initial-create.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

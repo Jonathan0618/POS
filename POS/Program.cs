@@ -17,7 +17,14 @@ namespace POS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SignIn());
+
+            using (var signIn = new SignIn())
+            {
+                if (signIn.ShowDialog() == DialogResult.OK)
+                {
+                    Application.Run(new mainfrm());
+                }
+            }
         }
     }
 }
