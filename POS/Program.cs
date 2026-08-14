@@ -22,7 +22,7 @@ namespace POS
             {
                 if (signIn.ShowDialog() == DialogResult.OK)
                 {
-                    Application.Run(new mainfrm());
+                    Application.Run(new frmMain());
                 }
             }
         }

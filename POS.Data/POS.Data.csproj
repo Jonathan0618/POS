@@ -57,12 +57,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\InventoryConfiguration.cs" />
     <Compile Include="Configurations\RoleConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
     <Compile Include="Context\POSContext.cs" />
     <Compile Include="Migrations\202608090521584_initial-create.cs" />
     <Compile Include="Migrations\202608090521584_initial-create.Designer.cs">
       <DependentUpon>202608090521584_initial-create.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608131312108_inventory-tables.cs" />
+    <Compile Include="Migrations\202608131312108_inventory-tables.Designer.cs">
+      <DependentUpon>202608131312108_inventory-tables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,6 +86,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202608090521584_initial-create.resx">
       <DependentUpon>202608090521584_initial-create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608131312108_inventory-tables.resx">
+      <DependentUpon>202608131312108_inventory-tables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

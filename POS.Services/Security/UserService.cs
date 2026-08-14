@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using POS.Data.Context;
 using POS.Domains.Security;
 using POS.Models.Store;
+using POS.Services.Repository;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -20,10 +21,13 @@ namespace POS.Services.Security
             _userManager = new UserManager<User>(new UserStore<User>(_context));
         }
 
-        public async Task CreateUser(string username, string password)
+        public async Task CreateUser(User user, string password)
         {
-            var user = new User { UserName = username };
-            await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, password);
+            if (!result.Succeeded)
+            {
+                throw new DataException(string.Join(", ", result.Errors));
+            }
         }
 
         public async Task<User> FindByIdAsync(string userId)
@@ -49,5 +53,6 @@ namespace POS.Services.Security
             
             return isSuccess;
         }
+
     }
 }

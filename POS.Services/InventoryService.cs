@@ -58,6 +58,53 @@ namespace POS.Services
             }
             return productViewModels;
         }
+        public IEnumerable<CategoryViewModel> GetAllCategories()
+        {
+            var categories = _categoryRepo.GetAll().Select(x => new CategoryViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description
+            });
+            return categories;
+        }
+
+        public void AddCategory(CategoryViewModel category)
+        {
+            var newCategory = new Category
+            {
+                Name = category.Name,
+                Description = category.Description
+            };
+            _categoryRepo.Add(newCategory);
+        }
+
+        public void DeleteCategory(CategoryViewModel category)
+        {
+            var categoryToDelete = _categoryRepo.GetById(category.Id);
+            if (categoryToDelete != null)
+            {
+                _categoryRepo.Delete(categoryToDelete);
+            }
+        }
+
+        public void UpdateCategory(CategoryViewModel category)
+        {
+            var categoryToUpdate = _categoryRepo.GetById(category.Id);
+            if (categoryToUpdate != null)
+            {
+                categoryToUpdate.Name = category.Name;
+                categoryToUpdate.Description = category.Description;
+                _categoryRepo.Update(categoryToUpdate);
+            }
+        }
+    }
+
+    public class CategoryViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 
     public class ProductViewModel
