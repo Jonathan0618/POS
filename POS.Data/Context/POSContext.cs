@@ -13,6 +13,7 @@ namespace POS.Data.Context
             base.OnModelCreating(modelBuilder);
             modelBuilder.Configurations.Add(new Configurations.UserConfiguration());
             modelBuilder.Configurations.Add(new Configurations.InventoryConfiguration());
+            modelBuilder.Configurations.Add(new Configurations.ProductConfiguration());
 
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Role>().ToTable("Roles");

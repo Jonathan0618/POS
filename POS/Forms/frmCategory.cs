@@ -61,5 +61,10 @@ namespace POS.Forms
             }
             LoadData();
         }
+
+        private void gcCategory_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

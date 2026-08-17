@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SignIn));
             this.sidePanel1 = new DevExpress.XtraEditors.SidePanel();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.sidePanel2 = new DevExpress.XtraEditors.SidePanel();
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
@@ -39,10 +40,10 @@
             this.btnSignIn = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.chkRememberMe = new DevExpress.XtraEditors.CheckButton();
             this.sidePanel1.SuspendLayout();
-            this.sidePanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.sidePanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // sidePanel1
@@ -70,9 +71,21 @@
             this.labelControl1.TabIndex = 1;
             this.labelControl1.Text = "CSPOS";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::POS.Properties.Resources.point_of_sale;
+            this.pictureBox1.Location = new System.Drawing.Point(38, 217);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(369, 228);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // sidePanel2
             // 
             this.sidePanel2.BackgroundImage = global::POS.Properties.Resources.BG_pnael;
+            this.sidePanel2.Controls.Add(this.chkRememberMe);
             this.sidePanel2.Controls.Add(this.labelControl5);
             this.sidePanel2.Controls.Add(this.labelControl4);
             this.sidePanel2.Controls.Add(this.labelControl3);
@@ -86,6 +99,7 @@
             this.sidePanel2.Size = new System.Drawing.Size(833, 647);
             this.sidePanel2.TabIndex = 1;
             this.sidePanel2.Text = "sidePanel2";
+            this.sidePanel2.Click += new System.EventHandler(this.sidePanel2_Click);
             // 
             // labelControl5
             // 
@@ -116,7 +130,7 @@
             // 
             this.labelControl3.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl3.Appearance.Options.UseFont = true;
-            this.labelControl3.Location = new System.Drawing.Point(282, 293);
+            this.labelControl3.Location = new System.Drawing.Point(282, 280);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Size = new System.Drawing.Size(55, 14);
             this.labelControl3.TabIndex = 4;
@@ -147,30 +161,31 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(282, 312);
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPassword.Location = new System.Drawing.Point(282, 300);
             this.txtPassword.Multiline = true;
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(316, 34);
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(316, 29);
             this.txtPassword.TabIndex = 1;
             // 
             // txtUserName
             // 
+            this.txtUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUserName.Location = new System.Drawing.Point(282, 243);
             this.txtUserName.Multiline = true;
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(316, 34);
+            this.txtUserName.Size = new System.Drawing.Size(316, 31);
             this.txtUserName.TabIndex = 0;
             // 
-            // pictureBox1
+            // chkRememberMe
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::POS.Properties.Resources.point_of_sale;
-            this.pictureBox1.Location = new System.Drawing.Point(38, 217);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(369, 228);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.chkRememberMe.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("chkRememberMe.ImageOptions.Image")));
+            this.chkRememberMe.Location = new System.Drawing.Point(282, 341);
+            this.chkRememberMe.Name = "chkRememberMe";
+            this.chkRememberMe.Size = new System.Drawing.Size(110, 23);
+            this.chkRememberMe.TabIndex = 7;
+            this.chkRememberMe.Text = "Remember Me";
             // 
             // SignIn
             // 
@@ -183,11 +198,12 @@
             this.Name = "SignIn";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SignIn";
+            this.Load += new System.EventHandler(this.SignIn_Load);
             this.sidePanel1.ResumeLayout(false);
             this.sidePanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.sidePanel2.ResumeLayout(false);
             this.sidePanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -205,5 +221,6 @@
         private System.Windows.Forms.Button btnSignIn;
         private DevExpress.XtraEditors.LabelControl labelControl5;
         private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraEditors.CheckButton chkRememberMe;
     }
 }

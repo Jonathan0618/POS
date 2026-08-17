@@ -43,7 +43,6 @@ namespace POS.Services
         {
             var products = _productRepo.GetAll();
             var productViewModels = new List<ProductViewModel>();
-            var sardinas = productViewModels.Where(x => x.Name == "Sardinas");
             foreach (var product in products)
             {
                 var category = _categoryRepo.GetById(product.CategoryId);
@@ -53,10 +52,29 @@ namespace POS.Services
                     Name = product.Name,
                     Description = product.Description,
                     Price = product.Price,
+                    Quantity = product.Quantity,
                     CategoryName = _categoryRepo.GetById(product.CategoryId)?.Name
                 });
             }
             return productViewModels;
+        }
+
+        public IEnumerable<ProductViewModel> GetProductsByCategoryName(string categoryName)
+        {
+            var category = _categoryRepo.GetAll().FirstOrDefault(c => c.Name == categoryName);
+            if (category == null)
+            {
+                return new List<ProductViewModel>();
+            }
+            var products = _productRepo.GetAll().Where(p => p.CategoryId == category.Id).Select(p => new ProductViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryName = category.Name
+            });
+            return products;
         }
         public IEnumerable<CategoryViewModel> GetAllCategories()
         {
@@ -98,6 +116,23 @@ namespace POS.Services
                 _categoryRepo.Update(categoryToUpdate);
             }
         }
+
+        public IEnumerable<ProductViewModel> GetLowStockProducts(int threshold)
+        {
+            var products = _productRepo.GetAll().Where(p => p.Quantity < threshold).Select(p => new ProductViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryName = _categoryRepo.GetById(p.CategoryId)?.Name,
+                Quantity = p.Quantity
+            });
+            return products;
+        }
+
+
+
     }
 
     public class CategoryViewModel
@@ -112,8 +147,19 @@ namespace POS.Services
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
+
+        public int CategoryId { get; set; }
         public string CategoryName { get; set; }
+
+        public decimal CostPrice { get; set; }
+        public decimal Price { get; set; }
+
+        public int Quantity { get; set; }
+
+        public string Barcode { get; set; }
+        public string ExpiryDate { get; set; }
+
+        public bool IsActive { get; set; }
     }
 
 }
