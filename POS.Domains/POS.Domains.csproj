@@ -61,6 +61,7 @@
     <Compile Include="BusinessObjects\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Role.cs" />
+    <Compile Include="Security\RoleClaim.cs" />
     <Compile Include="Security\User.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POS.Common\POS.Common.csproj">
+      <Project>{b81cf6ea-6e59-4b19-b6c0-5bc3a9a1ffa9}</Project>
+      <Name>POS.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POS.Core\POS.Core.csproj">
       <Project>{6621C786-E927-4217-8CB6-13B61FBE68D3}</Project>
       <Name>POS.Core</Name>

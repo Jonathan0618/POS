@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using POS.Core.Common.Enumerations;
+using POS.Common.Enumerations;
 
 namespace POS.Domains.Security
 {

@@ -54,6 +54,11 @@
             this.barButtonItem19 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem22 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem23 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem24 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnUsers = new DevExpress.XtraBars.BarButtonItem();
+            this.btnRoles = new DevExpress.XtraBars.BarButtonItem();
+            this.btnRolePermissions = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup15 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -78,8 +83,6 @@
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.pnlMain = new DevExpress.XtraEditors.PanelControl();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem24 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.SuspendLayout();
@@ -114,9 +117,12 @@
             this.barButtonItem22,
             this.barButtonItem23,
             this.barButtonItem4,
-            this.barButtonItem24});
+            this.barButtonItem24,
+            this.btnUsers,
+            this.btnRoles,
+            this.btnRolePermissions});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 36;
+            this.ribbon.MaxItemId = 39;
             this.ribbon.Name = "ribbon";
             this.ribbon.PageHeaderItemLinks.Add(this.barStaticItem1);
             this.ribbon.PageHeaderItemLinks.Add(this.barStaticItem2);
@@ -327,6 +333,48 @@
             this.barButtonItem23.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem23.ImageOptions.LargeImage")));
             this.barButtonItem23.Name = "barButtonItem23";
             // 
+            // barButtonItem4
+            // 
+            this.barButtonItem4.Caption = "Sample";
+            this.barButtonItem4.Id = 34;
+            this.barButtonItem4.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem4.ImageOptions.Image")));
+            this.barButtonItem4.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem4.ImageOptions.LargeImage")));
+            this.barButtonItem4.Name = "barButtonItem4";
+            this.barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem4_ItemClick_1);
+            // 
+            // barButtonItem24
+            // 
+            this.barButtonItem24.Caption = "Users";
+            this.barButtonItem24.Id = 35;
+            this.barButtonItem24.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem24.ImageOptions.Image")));
+            this.barButtonItem24.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem24.ImageOptions.LargeImage")));
+            this.barButtonItem24.Name = "barButtonItem24";
+            // 
+            // btnUsers
+            // 
+            this.btnUsers.Caption = "Users";
+            this.btnUsers.Id = 36;
+            this.btnUsers.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnUsers.ImageOptions.Image")));
+            this.btnUsers.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnUsers.ImageOptions.LargeImage")));
+            this.btnUsers.Name = "btnUsers";
+            this.btnUsers.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnUsers_ItemClick);
+            // 
+            // btnRoles
+            // 
+            this.btnRoles.Caption = "Roles";
+            this.btnRoles.Id = 37;
+            this.btnRoles.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnRoles.ImageOptions.Image")));
+            this.btnRoles.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnRoles.ImageOptions.LargeImage")));
+            this.btnRoles.Name = "btnRoles";
+            // 
+            // btnRolePermissions
+            // 
+            this.btnRolePermissions.Caption = "Role Permissions";
+            this.btnRolePermissions.Id = 38;
+            this.btnRolePermissions.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnRolePermissions.ImageOptions.Image")));
+            this.btnRolePermissions.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnRolePermissions.ImageOptions.LargeImage")));
+            this.btnRolePermissions.Name = "btnRolePermissions";
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -457,8 +505,11 @@
             // 
             // ribbonPageGroup9
             // 
+            this.ribbonPageGroup9.ItemLinks.Add(this.btnUsers);
+            this.ribbonPageGroup9.ItemLinks.Add(this.btnRoles);
+            this.ribbonPageGroup9.ItemLinks.Add(this.btnRolePermissions);
             this.ribbonPageGroup9.Name = "ribbonPageGroup9";
-            this.ribbonPageGroup9.Text = "ribbonPageGroup9";
+            this.ribbonPageGroup9.Text = "Security";
             // 
             // ribbonPage7
             // 
@@ -500,23 +551,6 @@
             this.ribbonPageGroup3.ItemLinks.Add(this.barButtonItem6);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.Text = "Quick Acess";
-            // 
-            // barButtonItem4
-            // 
-            this.barButtonItem4.Caption = "Sample";
-            this.barButtonItem4.Id = 34;
-            this.barButtonItem4.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem4.ImageOptions.Image")));
-            this.barButtonItem4.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem4.ImageOptions.LargeImage")));
-            this.barButtonItem4.Name = "barButtonItem4";
-            this.barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem4_ItemClick_1);
-            // 
-            // barButtonItem24
-            // 
-            this.barButtonItem24.Caption = "Users";
-            this.barButtonItem24.Id = 35;
-            this.barButtonItem24.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem24.ImageOptions.Image")));
-            this.barButtonItem24.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem24.ImageOptions.LargeImage")));
-            this.barButtonItem24.Name = "barButtonItem24";
             // 
             // frmMain
             // 
@@ -593,5 +627,8 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup15;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarButtonItem barButtonItem24;
+        private DevExpress.XtraBars.BarButtonItem btnUsers;
+        private DevExpress.XtraBars.BarButtonItem btnRoles;
+        private DevExpress.XtraBars.BarButtonItem btnRolePermissions;
     }
 }
