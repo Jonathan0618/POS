@@ -2,9 +2,14 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using POS.Data.Context;
 using POS.Domains.Security;
+using POS.Models.Security;
 using POS.Models.Store;
 using POS.Services.Repository;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace POS.Services.Security
@@ -21,6 +26,27 @@ namespace POS.Services.Security
             _userManager = new UserManager<User>(new UserStore<User>(_context));
         }
 
+        public async Task<IEnumerable<UserDTO>> GetUsers()
+        {
+            var users = _userManager.Users.Select(x => new UserDTO
+            {
+                UserId = x.Id,
+                FullName = $"{x.FirstName} {x.LastName}",
+                Username = x.UserName,
+                Role = x.Roles.FirstOrDefault().RoleId
+            });
+            await users.ForEachAsync(x => x.RoleName = _roleManager.FindById(x.Role).Name);
+            return users.ToList();
+        }
+        public IEnumerable<RoleDTO> GetRoles()
+        {
+            var roles = _roleManager.Roles.Select(x => new RoleDTO
+            {
+                RoleId = x.Id,
+                Name = x.Name
+            });
+            return roles.ToList();
+        }
         public async Task CreateUser(User user, string password)
         {
             var result = await _userManager.CreateAsync(user, password);

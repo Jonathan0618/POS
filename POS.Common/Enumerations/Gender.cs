@@ -1,4 +1,4 @@
-﻿namespace POS.Core.Common.Enumerations
+﻿namespace POS.Common.Enumerations
 {
     public enum Gender
     {

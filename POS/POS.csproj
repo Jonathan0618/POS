@@ -137,6 +137,24 @@
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Security\frmAddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\frmAddUser.Designer.cs">
+      <DependentUpon>frmAddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Security\frmEditUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\frmEditUser.Designer.cs">
+      <DependentUpon>frmEditUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Security\frmUsers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\frmUsers.Designer.cs">
+      <DependentUpon>frmUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SignIn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,11 +181,23 @@
     <Compile Include="Reports\rptReceipt.Designer.cs">
       <DependentUpon>rptReceipt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utility\ControlMapper.cs" />
+    <Compile Include="Utility\ControlPropertySetter.cs" />
+    <Compile Include="Validators\ModelValidator.cs" />
     <EmbeddedResource Include="Forms\frmCategory.resx">
       <DependentUpon>frmCategory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Security\frmAddUser.resx">
+      <DependentUpon>frmAddUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Security\frmEditUser.resx">
+      <DependentUpon>frmEditUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Security\frmUsers.resx">
+      <DependentUpon>frmUsers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SignIn.resx">
       <DependentUpon>SignIn.cs</DependentUpon>
@@ -213,6 +243,10 @@
     <ProjectReference Include="..\POS.Domains\POS.Domains.csproj">
       <Project>{21A866F4-A412-480D-9133-3E024479F489}</Project>
       <Name>POS.Domains</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POS.Models\POS.Models.csproj">
+      <Project>{F7688131-C72A-4D16-B3A6-7BF92115DC40}</Project>
+      <Name>POS.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\POS.Services\POS.Services.csproj">
       <Project>{3c43d7da-308d-4668-98e7-de7cbd99358c}</Project>

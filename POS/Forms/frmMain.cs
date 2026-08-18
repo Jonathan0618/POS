@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraBars;
+using POS.Forms.Security;
 using POS.Reports;
 using POS.Services;
 using POS.Services.Security;
@@ -77,6 +78,12 @@ namespace POS.Forms
         {
             var frmCategory = new frmCategory();
             frmCategory.ShowDialog();
+        }
+
+        private void btnUsers_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var frm = new frmUsers();
+            frm.ShowDialog();
         }
     }
 }
