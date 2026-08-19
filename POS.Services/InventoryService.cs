@@ -1,4 +1,5 @@
-﻿using POS.Domains.BusinessObjects;
+﻿ using POS.Domains.BusinessObjects;
+using POS.Models.Security;
 using POS.Services.Repository;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,15 +18,17 @@ namespace POS.Services
             _categoryRepo = new BaseRepository<Category>();
         }
 
-        public void AddProduct(ProductViewModel product)
+        public void AddProduct(InventoryDTO product)
         {
             var newProduct = new Product
             {
-                Name = product.Name,
+                Name = product.ProductName,
                 Description = product.Description,
                 Price = product.Price,
-                CategoryId = _categoryRepo.GetAll().FirstOrDefault(c => c.Name == product.CategoryName).Id,
-                };
+                CostPrice = product.CostPrice,
+                Barcode = product.Barcode,
+                CategoryId = product.CategoryId
+            };
             _productRepo.Add(newProduct);
         }
 
@@ -53,6 +56,7 @@ namespace POS.Services
                     Description = product.Description,
                     Price = product.Price,
                     Quantity = product.Quantity,
+                    IsActive = product.IsActive,
                     CategoryName = _categoryRepo.GetById(product.CategoryId)?.Name
                 });
             }

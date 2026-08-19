@@ -25,6 +25,8 @@ namespace POS.Forms
 
         private async void btnSignIn_Click(object sender, EventArgs e)
         {
+            btnSignIn.Enabled = false;
+
             var username = txtUserName.Text;
             var password = txtPassword.Text;
 

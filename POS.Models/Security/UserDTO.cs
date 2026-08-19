@@ -8,6 +8,8 @@ namespace POS.Models.Security
         public string FullName { get; set; }
         public string RoleName { get; set; }
         [Required]
+        //annotation for 10-15 chars
+
         public string Username { get; set; }
         [Required]
         public string Salutation { get; set; }

@@ -28,14 +28,14 @@ namespace POS.Services.Security
 
         public async Task<IEnumerable<UserDTO>> GetUsers()
         {
-            var users = _userManager.Users.Select(x => new UserDTO
+            var users = _userManager.Users.Include(x => x.Roles).ToList().Select(x => new UserDTO
             {
                 UserId = x.Id,
                 FullName = $"{x.FirstName} {x.LastName}",
                 Username = x.UserName,
-                Role = x.Roles.FirstOrDefault().RoleId
-            });
-            await users.ForEachAsync(x => x.RoleName = _roleManager.FindById(x.Role).Name);
+                Role = x.Roles.FirstOrDefault()?.RoleId ?? "Guest"
+            }).ToList();
+            users.ForEach(x => x.RoleName = "Guest");
             return users.ToList();
         }
         public IEnumerable<RoleDTO> GetRoles()

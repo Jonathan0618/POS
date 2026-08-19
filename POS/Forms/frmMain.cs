@@ -85,5 +85,11 @@ namespace POS.Forms
             var frm = new frmUsers();
             frm.ShowDialog();
         }
+
+        private void barButtonItem24_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var frm = new frmUsers();
+            frm.ShowDialog();
+        }
     }
 }

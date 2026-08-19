@@ -1,5 +1,6 @@
 ﻿using DevExpress.XtraEditors;
 using DevExpress.XtraGrid;
+using POS.Inventory;
 using POS.Services;
 using System;
 using System.ComponentModel;
@@ -65,6 +66,12 @@ namespace POS.Forms
             gcProduct.FormatRules.Add(rule);
 
             LoadData();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var addProductForm = new AddProducts();
+            addProductForm.ShowDialog();
         }
     }
 }
