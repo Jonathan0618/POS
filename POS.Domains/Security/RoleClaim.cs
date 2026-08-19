@@ -8,10 +8,11 @@ namespace POS.Domains.Security
         public string Id { get; set; }
         public string RoleId { get; set; }
         public Role Role { get; set; }
-        public string Name { get; set; }
-        public bool CanView { get; set; }
-        public bool CanEdit { get; set; }
-        public bool CanAdd { get; set; }
-        public bool CanDelete { get; set; }
+        public int ModuleId { get; set; }
+        public Module Module { get; set; }
+        public bool CanView { get; set; } = false;
+        public bool CanAdd { get; set; } = false;
+        public bool CanEdit { get; set; } = false;
+        public bool CanDelete { get; set; } = false;
     }
 }

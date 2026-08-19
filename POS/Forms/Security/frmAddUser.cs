@@ -24,14 +24,14 @@ namespace POS.Forms.Security
             slueRole.Properties.DataSource = roles;
         }
 
-        private void btnSave_Click(object sender, System.EventArgs e)
+        private async void btnSave_Click(object sender, System.EventArgs e)
         {
-            var users = new UserDTO();
-            _controlMapper.MapToEntity(users, this);
-            var validateResult = _validator.Validate(users, dxErrorProvider1, this);
+            var user = new UserDTO();
+            _controlMapper.MapToEntity(user, this);
+            var validateResult = _validator.Validate(user, dxErrorProvider1, this);
             if(validateResult)
             {
-                //save
+                await _userService.AddUserAsync(user);
             }
         }
     }

@@ -83,6 +83,7 @@
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.pnlMain = new DevExpress.XtraEditors.PanelControl();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.btnModules = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.SuspendLayout();
@@ -120,9 +121,10 @@
             this.barButtonItem24,
             this.btnUsers,
             this.btnRoles,
-            this.btnRolePermissions});
+            this.btnRolePermissions,
+            this.btnModules});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 39;
+            this.ribbon.MaxItemId = 40;
             this.ribbon.Name = "ribbon";
             this.ribbon.PageHeaderItemLinks.Add(this.barStaticItem1);
             this.ribbon.PageHeaderItemLinks.Add(this.barStaticItem2);
@@ -361,11 +363,12 @@
             // 
             // btnRoles
             // 
-            this.btnRoles.Caption = "Roles";
+            this.btnRoles.Caption = "Roles & Permissions";
             this.btnRoles.Id = 37;
             this.btnRoles.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnRoles.ImageOptions.Image")));
             this.btnRoles.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnRoles.ImageOptions.LargeImage")));
             this.btnRoles.Name = "btnRoles";
+            this.btnRoles.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnRoles_ItemClick);
             // 
             // btnRolePermissions
             // 
@@ -505,9 +508,9 @@
             // 
             // ribbonPageGroup9
             // 
-            this.ribbonPageGroup9.ItemLinks.Add(this.btnUsers);
+            this.ribbonPageGroup9.ItemLinks.Add(this.btnModules);
             this.ribbonPageGroup9.ItemLinks.Add(this.btnRoles);
-            this.ribbonPageGroup9.ItemLinks.Add(this.btnRolePermissions);
+            this.ribbonPageGroup9.ItemLinks.Add(this.btnUsers);
             this.ribbonPageGroup9.Name = "ribbonPageGroup9";
             this.ribbonPageGroup9.Text = "Security";
             // 
@@ -551,6 +554,15 @@
             this.ribbonPageGroup3.ItemLinks.Add(this.barButtonItem6);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.Text = "Quick Acess";
+            // 
+            // btnModules
+            // 
+            this.btnModules.Caption = "Modules";
+            this.btnModules.Id = 39;
+            this.btnModules.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnModules.ImageOptions.Image")));
+            this.btnModules.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnModules.ImageOptions.LargeImage")));
+            this.btnModules.Name = "btnModules";
+            this.btnModules.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnModules_ItemClick);
             // 
             // frmMain
             // 
@@ -630,5 +642,6 @@
         private DevExpress.XtraBars.BarButtonItem btnUsers;
         private DevExpress.XtraBars.BarButtonItem btnRoles;
         private DevExpress.XtraBars.BarButtonItem btnRolePermissions;
+        private DevExpress.XtraBars.BarButtonItem btnModules;
     }
 }

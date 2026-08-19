@@ -109,7 +109,7 @@ namespace POS.Utility
 
             if (control is SearchLookUpEdit slueEdit)
             {
-                object slueValue = slueEdit.EditValue;
+                string slueValue = (string)slueEdit.EditValue;
                 var convertedValue = slueValue == null ? null : Convert.ChangeType(slueValue, property.PropertyType);
                 property.SetValue(entity, convertedValue);
                 return;

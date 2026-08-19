@@ -1,4 +1,6 @@
-﻿using POS.Services.Credentials;
+﻿using POS.Core;
+using POS.Models.Store;
+using POS.Services.Credentials;
 using POS.Services.Security;
 using System;
 using System.Threading.Tasks;
@@ -10,11 +12,13 @@ namespace POS.Forms
     public partial class SignIn : DevExpress.XtraEditors.XtraForm
     {
         private readonly UserService _userService;
+        private readonly RoleService _roleService;
 
         public SignIn()
         {
             InitializeComponent();
             _userService = new UserService();
+            _roleService = new RoleService();
             this.AcceptButton = btnSignIn;
         }
 
@@ -32,6 +36,7 @@ namespace POS.Forms
             if (isSuccess) 
             { 
                 DialogResult = DialogResult.OK;
+                _roleService.SetupClaims(CurrentUser.RoleId, username);
                 this.Close();
             }
             else

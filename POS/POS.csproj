@@ -125,6 +125,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\AuthorizeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmCategory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +151,18 @@
     </Compile>
     <Compile Include="Forms\Security\frmEditUser.Designer.cs">
       <DependentUpon>frmEditUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Security\frmModules.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\frmModules.Designer.cs">
+      <DependentUpon>frmModules.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Security\frmRoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\frmRoles.Designer.cs">
+      <DependentUpon>frmRoles.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Security\frmUsers.cs">
       <SubType>Form</SubType>
@@ -196,6 +211,12 @@
     <EmbeddedResource Include="Forms\Security\frmEditUser.resx">
       <DependentUpon>frmEditUser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Security\frmModules.resx">
+      <DependentUpon>frmModules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Security\frmRoles.resx">
+      <DependentUpon>frmRoles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Security\frmUsers.resx">
       <DependentUpon>frmUsers.cs</DependentUpon>
     </EmbeddedResource>
@@ -240,6 +261,14 @@
     <None Include="Resources\shopping-cart1.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POS.Common\POS.Common.csproj">
+      <Project>{B81CF6EA-6E59-4B19-B6C0-5BC3A9A1FFA9}</Project>
+      <Name>POS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POS.Core\POS.Core.csproj">
+      <Project>{6621c786-e927-4217-8cb6-13b61fbe68d3}</Project>
+      <Name>POS.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POS.Domains\POS.Domains.csproj">
       <Project>{21A866F4-A412-480D-9133-3E024479F489}</Project>
       <Name>POS.Domains</Name>
