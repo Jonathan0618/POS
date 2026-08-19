@@ -126,9 +126,9 @@
             // 
             this.labelControl8.Location = new System.Drawing.Point(12, 27);
             this.labelControl8.Name = "labelControl8";
-            this.labelControl8.Size = new System.Drawing.Size(65, 13);
+            this.labelControl8.Size = new System.Drawing.Size(71, 13);
             this.labelControl8.TabIndex = 34;
-            this.labelControl8.Text = "Old Password";
+            this.labelControl8.Text = "New Password";
             // 
             // txtPassword
             // 
@@ -273,9 +273,9 @@
             // 
             this.labelControl10.Location = new System.Drawing.Point(12, 53);
             this.labelControl10.Name = "labelControl10";
-            this.labelControl10.Size = new System.Drawing.Size(71, 13);
+            this.labelControl10.Size = new System.Drawing.Size(84, 13);
             this.labelControl10.TabIndex = 36;
-            this.labelControl10.Text = "New Password";
+            this.labelControl10.Text = "Confirm Password";
             // 
             // dxErrorProvider1
             // 

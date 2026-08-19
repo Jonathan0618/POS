@@ -12,8 +12,10 @@ namespace POS.Data.Context
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Configurations.Add(new Configurations.UserConfiguration());
+            modelBuilder.Configurations.Add(new Configurations.RoleConfiguration());
             modelBuilder.Configurations.Add(new Configurations.InventoryConfiguration());
             modelBuilder.Configurations.Add(new Configurations.ProductConfiguration());
+            modelBuilder.Configurations.Add(new Configurations.RoleClaimConfig());
 
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Role>().ToTable("Roles");

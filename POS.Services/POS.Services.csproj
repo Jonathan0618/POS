@@ -58,14 +58,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationService.cs" />
     <Compile Include="Credentials\CredentialStore.cs" />
     <Compile Include="InventoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Security\ModuleService.cs" />
+    <Compile Include="Security\RoleService.cs" />
     <Compile Include="Security\UserService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\POS.Common\POS.Common.csproj">
+      <Project>{b81cf6ea-6e59-4b19-b6c0-5bc3a9a1ffa9}</Project>
+      <Name>POS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POS.Core\POS.Core.csproj">
+      <Project>{6621c786-e927-4217-8cb6-13b61fbe68d3}</Project>
+      <Name>POS.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POS.Data\POS.Data.csproj">
       <Project>{F318FAB7-CEDE-4FCA-9D70-36C820473018}</Project>
       <Name>POS.Data</Name>

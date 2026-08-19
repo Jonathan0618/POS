@@ -1,11 +1,14 @@
 ﻿using DevExpress.XtraBars;
+using POS.Core;
 using POS.Forms.Security;
 using POS.Reports;
 using POS.Services;
 using POS.Services.Security;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Claims;
 
 namespace POS.Forms
 {
@@ -20,7 +23,6 @@ namespace POS.Forms
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-
         }
 
         private void barButtonItem13_ItemClick(object sender, ItemClickEventArgs e)
@@ -83,6 +85,18 @@ namespace POS.Forms
         private void btnUsers_ItemClick(object sender, ItemClickEventArgs e)
         {
             var frm = new frmUsers();
+            frm.ShowDialog();
+        }
+
+        private void btnRoles_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var frm = new frmRoles();
+            frm.ShowDialog();
+        }
+
+        private void btnModules_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var frm = new frmModules();
             frm.ShowDialog();
         }
     }

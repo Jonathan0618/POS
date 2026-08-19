@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using POS.Domains.Security;
+using System.Data.Entity.ModelConfiguration;
 
 namespace POS.Data.Configurations
 {

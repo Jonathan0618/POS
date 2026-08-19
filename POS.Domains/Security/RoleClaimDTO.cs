@@ -1,15 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using POS.Common.Enumerations;
+using System.ComponentModel.DataAnnotations;
 
 namespace POS.Domains.Security
 {
-    public class RoleClaim
+    public class RoleClaimDTO
     {
-        [StringLength(36)]
-        public string Id { get; set; }
-        public string RoleId { get; set; }
-        public Role Role { get; set; }
+        public string RoleClaimId { get; set; }
+        [Required]
         public int ModuleId { get; set; }
-        public Module Module { get; set; }
+        public string Name { get; set; }
+        public string RoleId { get; set; }
         public bool CanView { get; set; } = false;
         public bool CanAdd { get; set; } = false;
         public bool CanEdit { get; set; } = false;

@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\InventoryConfiguration.cs" />
+    <Compile Include="Configurations\RoleClaimConfig.cs" />
     <Compile Include="Configurations\RoleConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
     <Compile Include="Context\POSContext.cs" />
@@ -76,6 +77,22 @@
     <Compile Include="Migrations\202608151455513_product.cs" />
     <Compile Include="Migrations\202608151455513_product.Designer.cs">
       <DependentUpon>202608151455513_product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608190308530_add-role-roleclaim-table.cs" />
+    <Compile Include="Migrations\202608190308530_add-role-roleclaim-table.Designer.cs">
+      <DependentUpon>202608190308530_add-role-roleclaim-table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608190856275_role-claim-table-update.cs" />
+    <Compile Include="Migrations\202608190856275_role-claim-table-update.Designer.cs">
+      <DependentUpon>202608190856275_role-claim-table-update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608191411276_add-module-table.cs" />
+    <Compile Include="Migrations\202608191411276_add-module-table.Designer.cs">
+      <DependentUpon>202608191411276_add-module-table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608191516350_fix-identity-role.cs" />
+    <Compile Include="Migrations\202608191516350_fix-identity-role.Designer.cs">
+      <DependentUpon>202608191516350_fix-identity-role.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +120,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202608151455513_product.resx">
       <DependentUpon>202608151455513_product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608190308530_add-role-roleclaim-table.resx">
+      <DependentUpon>202608190308530_add-role-roleclaim-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608190856275_role-claim-table-update.resx">
+      <DependentUpon>202608190856275_role-claim-table-update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608191411276_add-module-table.resx">
+      <DependentUpon>202608191411276_add-module-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608191516350_fix-identity-role.resx">
+      <DependentUpon>202608191516350_fix-identity-role.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
