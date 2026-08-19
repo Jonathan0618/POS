@@ -9,13 +9,13 @@ namespace POS.Services
 {
     public class InventoryService
     {
-        private readonly BaseRepository<Product> _productRepo;
-        private readonly BaseRepository<Category> _categoryRepo;
+        private readonly BaseRepository<Product, int> _productRepo;
+        private readonly BaseRepository<Category, int> _categoryRepo;
 
         public InventoryService()
         {
-            _productRepo = new BaseRepository<Product>();
-            _categoryRepo = new BaseRepository<Category>();
+            _productRepo = new BaseRepository<Product, int>();
+            _categoryRepo = new BaseRepository<Category, int>();
         }
 
         public void AddProduct(InventoryDTO product)

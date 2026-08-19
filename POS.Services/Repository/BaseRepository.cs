@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace POS.Services.Repository
 {
-    public class BaseRepository<T> where T : class
+    public class BaseRepository<T, TKey> where T : class
     {
         private readonly POSContext _context;
         private readonly DbSet<T> _dbSet;
@@ -36,7 +36,7 @@ namespace POS.Services.Repository
             _context.SaveChanges();
         }
 
-        public T GetById(object id)
+        public T GetById(TKey id)
         {
             return _dbSet.Find(id);
         }
@@ -44,6 +44,11 @@ namespace POS.Services.Repository
         public IEnumerable<T> GetAll()
         {
             return _dbSet.ToList();
+        }
+
+        public IQueryable<T> GetAllAsQueryable()
+        {
+            return _dbSet.AsNoTracking();
         }
 
         public IEnumerable<T> Fetch(Expression<Func<T, bool>> expression)
