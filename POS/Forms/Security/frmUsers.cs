@@ -20,6 +20,7 @@ namespace POS.Forms.Security
             var users = await _userService.GetUsers();
             gcUsers.DataSource = users;
         }
+
         [Validate("UserForm", ClaimActionType.Add)]
         private void btnAdd_Click(object sender, System.EventArgs e)
         {

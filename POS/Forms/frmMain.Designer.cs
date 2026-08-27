@@ -59,6 +59,7 @@
             this.btnUsers = new DevExpress.XtraBars.BarButtonItem();
             this.btnRoles = new DevExpress.XtraBars.BarButtonItem();
             this.btnRolePermissions = new DevExpress.XtraBars.BarButtonItem();
+            this.btnModules = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup15 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -83,7 +84,6 @@
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.pnlMain = new DevExpress.XtraEditors.PanelControl();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.btnModules = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.SuspendLayout();
@@ -276,6 +276,7 @@
             this.barButtonItem17.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem17.ImageOptions.Image")));
             this.barButtonItem17.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem17.ImageOptions.LargeImage")));
             this.barButtonItem17.Name = "barButtonItem17";
+            this.barButtonItem17.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem17_ItemClick);
             // 
             // barButtonItem14
             // 
@@ -351,6 +352,7 @@
             this.barButtonItem24.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem24.ImageOptions.Image")));
             this.barButtonItem24.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem24.ImageOptions.LargeImage")));
             this.barButtonItem24.Name = "barButtonItem24";
+            this.barButtonItem24.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem24_ItemClick);
             // 
             // btnUsers
             // 
@@ -377,6 +379,15 @@
             this.btnRolePermissions.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnRolePermissions.ImageOptions.Image")));
             this.btnRolePermissions.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnRolePermissions.ImageOptions.LargeImage")));
             this.btnRolePermissions.Name = "btnRolePermissions";
+            // 
+            // btnModules
+            // 
+            this.btnModules.Caption = "Modules";
+            this.btnModules.Id = 39;
+            this.btnModules.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnModules.ImageOptions.Image")));
+            this.btnModules.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnModules.ImageOptions.LargeImage")));
+            this.btnModules.Name = "btnModules";
+            this.btnModules.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnModules_ItemClick);
             // 
             // ribbonPage1
             // 
@@ -554,15 +565,6 @@
             this.ribbonPageGroup3.ItemLinks.Add(this.barButtonItem6);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.Text = "Quick Acess";
-            // 
-            // btnModules
-            // 
-            this.btnModules.Caption = "Modules";
-            this.btnModules.Id = 39;
-            this.btnModules.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnModules.ImageOptions.Image")));
-            this.btnModules.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnModules.ImageOptions.LargeImage")));
-            this.btnModules.Name = "btnModules";
-            this.btnModules.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnModules_ItemClick);
             // 
             // frmMain
             // 

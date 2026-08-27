@@ -32,13 +32,18 @@ namespace POS.Data.Configurations
                 .HasPrecision(18, 2);
             Property(p => p.Barcode)
                 .HasMaxLength(50);
-            Property(p => p.ExpiryDate)
-                .HasMaxLength(50);
-            Property(p => p.ModifiedBy)
-                .HasMaxLength(100);
-            Property(p => p.CreatedBy)
-                .HasMaxLength(100);
-
         }
     }
+
+    public class StockConfiguration : EntityTypeConfiguration<Stock>
+    {
+        public StockConfiguration()
+        {
+            HasRequired(s => s.Product)
+                .WithMany()
+                .HasForeignKey(s => s.ProductId)
+                .WillCascadeOnDelete(false);
+        }
+    }
+
 }

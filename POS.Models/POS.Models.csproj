@@ -43,8 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\InventoryDTO.cs" />
     <Compile Include="Security\ModuleDTO.cs" />
     <Compile Include="Security\RoleDTO.cs" />
+    <Compile Include="Security\StockDTO.cs" />
     <Compile Include="Security\UserDTO.cs" />
     <Compile Include="Store\UserStore.cs" />
   </ItemGroup>

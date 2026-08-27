@@ -50,8 +50,8 @@
             this.searchLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.dxErrorProvider1 = new DevExpress.XtraEditors.DXErrorProvider.DXErrorProvider(this.components);
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtUsername.Properties)).BeginInit();
@@ -108,7 +108,7 @@
             // 
             this.labelControl2.Location = new System.Drawing.Point(20, 74);
             this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(48, 13);
+            this.labelControl2.Size = new System.Drawing.Size(51, 13);
             this.labelControl2.TabIndex = 6;
             this.labelControl2.Text = "Username";
             // 
@@ -116,7 +116,7 @@
             // 
             this.labelControl3.Location = new System.Drawing.Point(20, 100);
             this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(45, 13);
+            this.labelControl3.Size = new System.Drawing.Size(50, 13);
             this.labelControl3.TabIndex = 7;
             this.labelControl3.Text = "Firstname";
             // 
@@ -124,7 +124,7 @@
             // 
             this.labelControl4.Location = new System.Drawing.Point(20, 126);
             this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(57, 13);
+            this.labelControl4.Size = new System.Drawing.Size(64, 13);
             this.labelControl4.TabIndex = 9;
             this.labelControl4.Text = "Middlename";
             // 
@@ -139,7 +139,7 @@
             // 
             this.labelControl5.Location = new System.Drawing.Point(20, 152);
             this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(46, 13);
+            this.labelControl5.Size = new System.Drawing.Size(48, 13);
             this.labelControl5.TabIndex = 11;
             this.labelControl5.Text = "Lastname";
             // 
@@ -154,7 +154,7 @@
             // 
             this.labelControl6.Location = new System.Drawing.Point(20, 178);
             this.labelControl6.Name = "labelControl6";
-            this.labelControl6.Size = new System.Drawing.Size(77, 13);
+            this.labelControl6.Size = new System.Drawing.Size(82, 13);
             this.labelControl6.TabIndex = 13;
             this.labelControl6.Text = "Name Extension";
             // 
@@ -169,7 +169,7 @@
             // 
             this.labelControl7.Location = new System.Drawing.Point(20, 204);
             this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(47, 13);
+            this.labelControl7.Size = new System.Drawing.Size(53, 13);
             this.labelControl7.TabIndex = 15;
             this.labelControl7.Text = "Salutation";
             // 
@@ -184,7 +184,7 @@
             // 
             this.labelControl8.Location = new System.Drawing.Point(20, 256);
             this.labelControl8.Name = "labelControl8";
-            this.labelControl8.Size = new System.Drawing.Size(46, 13);
+            this.labelControl8.Size = new System.Drawing.Size(49, 13);
             this.labelControl8.TabIndex = 17;
             this.labelControl8.Text = "Password";
             // 
@@ -207,6 +207,7 @@
             this.slueRole.Properties.ValueMember = "Id";
             this.slueRole.Size = new System.Drawing.Size(297, 20);
             this.slueRole.TabIndex = 18;
+            this.slueRole.EditValueChanged += new System.EventHandler(this.slueRole_EditValueChanged);
             // 
             // searchLookUpEdit1View
             // 
@@ -221,7 +222,7 @@
             // 
             this.labelControl9.Location = new System.Drawing.Point(20, 230);
             this.labelControl9.Name = "labelControl9";
-            this.labelControl9.Size = new System.Drawing.Size(22, 13);
+            this.labelControl9.Size = new System.Drawing.Size(23, 13);
             this.labelControl9.TabIndex = 19;
             this.labelControl9.Text = "Role";
             // 
@@ -229,13 +230,17 @@
             // 
             this.btnSave.Appearance.BackColor = System.Drawing.Color.Turquoise;
             this.btnSave.Appearance.Options.UseBackColor = true;
-            this.btnSave.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
+            this.btnSave.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.ImageOptions.Image")));
             this.btnSave.Location = new System.Drawing.Point(316, 293);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(98, 32);
             this.btnSave.TabIndex = 20;
             this.btnSave.Text = "Save";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // dxErrorProvider1
+            // 
+            this.dxErrorProvider1.ContainerControl = this;
             // 
             // gridColumn1
             // 
@@ -244,10 +249,6 @@
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
-            // 
-            // dxErrorProvider1
-            // 
-            this.dxErrorProvider1.ContainerControl = this;
             // 
             // frmAddUser
             // 

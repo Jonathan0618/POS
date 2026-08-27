@@ -34,5 +34,10 @@ namespace POS.Forms.Security
                 await _userService.AddUserAsync(user);
             }
         }
+
+        private void slueRole_EditValueChanged(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

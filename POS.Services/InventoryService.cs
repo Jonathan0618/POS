@@ -1,6 +1,6 @@
 ﻿using POS.Domains.BusinessObjects;
+using POS.Models.Security;
 using POS.Services.Repository;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,22 +10,26 @@ namespace POS.Services
     {
         private readonly BaseRepository<Product, int> _productRepo;
         private readonly BaseRepository<Category, int> _categoryRepo;
+        private readonly BaseRepository<Stock, int> _stockRepo;
 
         public InventoryService()
         {
             _productRepo = new BaseRepository<Product, int>();
             _categoryRepo = new BaseRepository<Category, int>();
+            _stockRepo = new BaseRepository<Stock, int>();
         }
 
-        public void AddProduct(ProductViewModel product)
+        public void AddProduct(InventoryDTO product)
         {
             var newProduct = new Product
             {
-                Name = product.Name,
+                Name = product.ProductName,
                 Description = product.Description,
-                Price = product.Price,
-                CategoryId = _categoryRepo.GetAll().FirstOrDefault(c => c.Name == product.CategoryName).Id,
-                };
+                Price = product.SellingPrice,
+                CostPrice = product.CostPrice,
+                Barcode = product.Barcode,
+                CategoryId = product.CategoryId,
+            };
             _productRepo.Add(newProduct);
         }
 
@@ -87,6 +91,7 @@ namespace POS.Services
             return categories;
         }
 
+
         public void AddCategory(CategoryViewModel category)
         {
             var newCategory = new Category
@@ -131,35 +136,69 @@ namespace POS.Services
             return products;
         }
 
+        public IEnumerable<StockViewModel> GetAllStocks()
+        {
+            var stocks = _stockRepo.GetAll();
+            var stockViewModels = new List<StockViewModel>();
 
+            foreach (var stock in stocks)
+            {
+                stockViewModels.Add(new StockViewModel
+                {
+                    Id = stock.Id,
+                    ProductId = stock.ProductId,
+                    Quantity = stock.Quantity,
+                    Unit = stock.Unit,
+                    ReorderLevel = stock.ReorderLevel
+                });
+            }
+
+            return stockViewModels;
+
+        }
+
+        public class CategoryViewModel
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+        }
+
+        public class ProductViewModel
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+
+            public int CategoryId { get; set; }
+            public string CategoryName { get; set; }
+
+            public decimal CostPrice { get; set; }
+            public decimal Price { get; set; }
+
+            public int Quantity { get; set; }
+
+            public string Barcode { get; set; }
+            public string ExpiryDate { get; set; }
+
+            public bool IsActive { get; set; }
+        }
+
+        public class StockViewModel 
+        {
+            public int Id { get; set; }
+
+            public int ProductId { get; set; }
+
+            public string ProductName { get; set; }
+
+            public string Unit { get; set; }
+
+            public int Quantity { get; set; }
+
+            public int ReorderLevel { get; set; }
+
+        }
 
     }
-
-    public class CategoryViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-    }
-
-    public class ProductViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
-
-        public decimal CostPrice { get; set; }
-        public decimal Price { get; set; }
-
-        public int Quantity { get; set; }
-
-        public string Barcode { get; set; }
-        public string ExpiryDate { get; set; }
-
-        public bool IsActive { get; set; }
-    }
-
 }

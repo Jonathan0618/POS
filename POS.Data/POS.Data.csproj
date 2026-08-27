@@ -57,7 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\AuditLogConfiguration.cs" />
     <Compile Include="Configurations\InventoryConfiguration.cs" />
+    <Compile Include="Configurations\POSConfiguration.cs" />
     <Compile Include="Configurations\RoleClaimConfig.cs" />
     <Compile Include="Configurations\RoleConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
@@ -94,6 +96,22 @@
     <Compile Include="Migrations\202608191516350_fix-identity-role.Designer.cs">
       <DependentUpon>202608191516350_fix-identity-role.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202608210819333_ImventoryMigration.cs" />
+    <Compile Include="Migrations\202608210819333_ImventoryMigration.Designer.cs">
+      <DependentUpon>202608210819333_ImventoryMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608230519587_auditLog.cs" />
+    <Compile Include="Migrations\202608230519587_auditLog.Designer.cs">
+      <DependentUpon>202608230519587_auditLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608230620449_ProductUnit.cs" />
+    <Compile Include="Migrations\202608230620449_ProductUnit.Designer.cs">
+      <DependentUpon>202608230620449_ProductUnit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608260321596_update.cs" />
+    <Compile Include="Migrations\202608260321596_update.Designer.cs">
+      <DependentUpon>202608260321596_update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
@@ -103,6 +121,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POS.Core\POS.Core.csproj">
+      <Project>{6621c786-e927-4217-8cb6-13b61fbe68d3}</Project>
+      <Name>POS.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POS.Domains\POS.Domains.csproj">
       <Project>{21A866F4-A412-480D-9133-3E024479F489}</Project>
       <Name>POS.Domains</Name>
@@ -132,6 +154,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202608191516350_fix-identity-role.resx">
       <DependentUpon>202608191516350_fix-identity-role.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608210819333_ImventoryMigration.resx">
+      <DependentUpon>202608210819333_ImventoryMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608230519587_auditLog.resx">
+      <DependentUpon>202608230519587_auditLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608230620449_ProductUnit.resx">
+      <DependentUpon>202608230620449_ProductUnit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202608260321596_update.resx">
+      <DependentUpon>202608260321596_update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

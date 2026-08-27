@@ -42,5 +42,10 @@ namespace POS.Forms.Security
             var user = await _userService.GetUserByIdAsync(_userId);
             _controlMapper.MapToControl(user, this);
         }
+
+        private void txtNameExt_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
