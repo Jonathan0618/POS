@@ -38,7 +38,7 @@ namespace POS.Services.Security
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
-                //new Claim(ClaimTypes.Role, user.Roles.f),
+                //new Claim(ClaimTypes.Role, ),
             };
 
             var roleClaims = _claimsRepo.GetAllAsQueryable()

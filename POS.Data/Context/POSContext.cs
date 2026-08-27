@@ -1,5 +1,14 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using POS.Core;
+using POS.Domains.AuditEntry;
 using POS.Domains.Security;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Security.AccessControl;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace POS.Data.Context
 {
@@ -8,6 +17,7 @@ namespace POS.Data.Context
         public POSContext() : base("POSConnection")
         {
         }
+        public DbSet<AuditLog> AuditLogs { get; set; }
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -15,7 +25,9 @@ namespace POS.Data.Context
             modelBuilder.Configurations.Add(new Configurations.RoleConfiguration());
             modelBuilder.Configurations.Add(new Configurations.InventoryConfiguration());
             modelBuilder.Configurations.Add(new Configurations.ProductConfiguration());
+            modelBuilder.Configurations.Add(new Configurations.StockConfiguration());
             modelBuilder.Configurations.Add(new Configurations.RoleClaimConfig());
+            modelBuilder.Configurations.Add(new Configurations.AuditLogConfiguration());
 
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Role>().ToTable("Roles");
@@ -25,6 +37,67 @@ namespace POS.Data.Context
 
         }
 
-       
+        public override int SaveChanges()
+        {
+            OnBeforeSaveChanges();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            OnBeforeSaveChanges();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void OnBeforeSaveChanges()
+        {
+            var auditLogs = new List<AuditLog>();
+
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                if (entry.Entity is AuditLog)
+                    continue;
+
+                if (entry.State != EntityState.Added &&
+                    entry.State != EntityState.Modified &&
+                    entry.State != EntityState.Deleted)
+                    continue;
+
+                var audit = new AuditLog
+                {
+                    TableName = entry.Entity.GetType().Name,
+                    Action = entry.State.ToString(),
+                    UserId = CurrentUser.UserId,
+                    DateLogged = DateTime.Now
+                };
+
+                if (entry.State == EntityState.Modified)
+                {
+                    audit.OldValue = string.Join(", ",
+                        entry.OriginalValues.PropertyNames
+                            .Select(p => $"{p}={entry.OriginalValues[p]}"));
+
+                    audit.NewValue = string.Join(", ",
+                        entry.CurrentValues.PropertyNames
+                            .Select(p => $"{p}={entry.CurrentValues[p]}"));
+                }
+                else if (entry.State == EntityState.Added)
+                {
+                    audit.NewValue = string.Join(", ",
+                        entry.CurrentValues.PropertyNames
+                            .Select(p => $"{p}={entry.CurrentValues[p]}"));
+                }
+                else if (entry.State == EntityState.Deleted)
+                {
+                    audit.OldValue = string.Join(", ",
+                        entry.OriginalValues.PropertyNames
+                            .Select(p => $"{p}={entry.OriginalValues[p]}"));
+                }
+
+                auditLogs.Add(audit);
+            }
+
+            AuditLogs.AddRange(auditLogs);
+        }
     }
 }

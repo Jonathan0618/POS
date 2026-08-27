@@ -99,5 +99,20 @@ namespace POS.Forms
             var frm = new frmModules();
             frm.ShowDialog();
         }
+
+        private void barButtonItem24_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var frm = new frmUsers();
+            frm.ShowDialog();
+        }
+
+        private void barButtonItem17_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            pnlMain.Controls.Clear();
+
+            var uc = new ucStock();
+            uc.Dock = System.Windows.Forms.DockStyle.Fill;
+            pnlMain.Controls.Add(uc);
+        }
     }
 }

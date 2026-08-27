@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using static POS.Services.InventoryService;
 
 namespace POS.Forms
 {
@@ -65,6 +66,12 @@ namespace POS.Forms
             gcProduct.FormatRules.Add(rule);
 
             LoadData();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var frmAddProduct = new frmAddProducts();
+            frmAddProduct.ShowDialog();
         }
     }
 }
