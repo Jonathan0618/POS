@@ -1,5 +1,7 @@
 ﻿using POS.Forms;
 using System;
+using POS.Composition;
+using POS.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,11 +20,35 @@ namespace POS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (var signIn = new SignIn())
+            try
             {
-                if (signIn.ShowDialog() == DialogResult.OK)
+                DatabaseMigrationService.ApplyPendingMigrations();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    "The database could not be updated. The application will close.\n\n" +
+                    exception.Message,
+                    "Database Migration Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            var composition = new ApplicationCompositionRoot();
+            while (true)
+            {
+                using (var signIn = composition.CreateSignIn())
                 {
-                    Application.Run(new frmMain());
+                    if (signIn.ShowDialog() != DialogResult.OK)
+                        return;
+                }
+
+                using (var main = composition.CreateMainForm())
+                {
+                    Application.Run(main);
+                    if (!main.LogoutRequested)
+                        return;
                 }
             }
         }

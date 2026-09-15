@@ -12,9 +12,13 @@ namespace POS.Forms.Security
     public partial class frmRoles : DevExpress.XtraEditors.XtraForm
     {
         private readonly RoleService _roleService;
-        public frmRoles()
+        public frmRoles() : this(new RoleService())
         {
-            _roleService = new RoleService();
+        }
+
+        public frmRoles(RoleService roleService)
+        {
+            _roleService = roleService ?? throw new ArgumentNullException(nameof(roleService));
             InitializeComponent();
         }
 
