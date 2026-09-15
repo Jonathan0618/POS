@@ -31,6 +31,36 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Operations\StoreSettingsDTO.cs" />
+    <Compile Include="Operations\CategoryPageDTO.cs" />
+    <Compile Include="Operations\ProductPageDTO.cs" />
+    <Compile Include="Operations\ProductIdentifiersDTO.cs" />
+    <Compile Include="Operations\ProductPriceHistoryDTO.cs" />
+    <Compile Include="Operations\InventoryBalancePageDTO.cs" />
+    <Compile Include="Operations\InventoryAlertPageDTO.cs" />
+    <Compile Include="Operations\InventoryReconciliationDTO.cs" />
+    <Compile Include="Operations\StockAdjustmentDTO.cs" />
+    <Compile Include="Operations\StockCountPostingDTO.cs" />
+    <Compile Include="Operations\StockCountHistoryDTO.cs" />
+    <Compile Include="Operations\StockMovementPageDTO.cs" />
+    <Compile Include="Operations\SupplierDTO.cs" />
+    <Compile Include="Operations\SupplierProductDTO.cs" />
+    <Compile Include="Operations\SupplierPurchaseHistoryDTO.cs" />
+    <Compile Include="Operations\PurchaseOrderDTO.cs" />
+    <Compile Include="Operations\PurchaseReturnDTO.cs" />
+    <Compile Include="Operations\GoodsReceiptDTO.cs" />
+    <Compile Include="Operations\CustomerDTO.cs" />
+    <Compile Include="Operations\RegisterStationDTO.cs" />
+    <Compile Include="Operations\CashierShiftDTO.cs" />
+    <Compile Include="Operations\SaleCheckoutDTO.cs" />
+    <Compile Include="Operations\SaleCartDTO.cs" />
+    <Compile Include="Operations\SaleReceiptDTO.cs" />
+    <Compile Include="Operations\SaleReturnDTO.cs" />
+    <Compile Include="Operations\ManagementReportDTO.cs" />
+    <Compile Include="Operations\ReportExportDTO.cs" />
+    <Compile Include="Operations\MaintenanceDTO.cs" />
+    <Compile Include="Operations\AuditPageDTO.cs" />
+    <Compile Include="Operations\AuditRetentionSummaryDTO.cs" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -42,10 +72,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POS.Common\POS.Common.csproj">
+      <Project>{B81CF6EA-6E59-4B19-B6C0-5BC3A9A1FFA9}</Project>
+      <Name>POS.Common</Name>
+    </ProjectReference>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\InventoryDTO.cs" />
     <Compile Include="Security\ModuleDTO.cs" />
     <Compile Include="Security\RoleDTO.cs" />
+    <Compile Include="Security\SaleDTO.cs" />
     <Compile Include="Security\StockDTO.cs" />
     <Compile Include="Security\UserDTO.cs" />
     <Compile Include="Store\UserStore.cs" />

@@ -1,5 +1,6 @@
 ﻿using POS.Common.Enumerations;
 using POS.Core.Attributes;
+using POS.Core.Security;
 using POS.Models.Security;
 using POS.Services.Security;
 using System.Windows.Forms;
@@ -9,9 +10,13 @@ namespace POS.Forms.Security
     public partial class frmUsers : AuthorizedForm
     {
         private readonly UserService _userService;
-        public frmUsers()
+        public frmUsers() : this(new UserService())
         {
-            _userService = new UserService();
+        }
+
+        public frmUsers(UserService userService)
+        {
+            _userService = userService ?? throw new System.ArgumentNullException(nameof(userService));
             InitializeComponent();
         }
 
@@ -21,22 +26,22 @@ namespace POS.Forms.Security
             gcUsers.DataSource = users;
         }
 
-        [Validate("UserForm", ClaimActionType.Add)]
+        [Validate(ResourceCodes.Users, ClaimActionType.Add)]
         private void btnAdd_Click(object sender, System.EventArgs e)
         {
-            var frm = new frmAddUser();
+            var frm = new frmAddUser(_userService);
             frm.ShowDialog();
         }
 
-        [Validate("UserForm", ClaimActionType.Edit)]
+        [Validate(ResourceCodes.Users, ClaimActionType.Edit)]
         private void btnEdit_Click(object sender, System.EventArgs e)
         {
             var user = gridUsers.GetFocusedRow() as UserDTO;
-            var frm = new frmEditUser(user.UserId);
+            var frm = new frmEditUser(user.UserId, _userService);
             frm.ShowDialog();
         }
 
-        [Validate("UserForm", ClaimActionType.Delete)]
+        [Validate(ResourceCodes.Users, ClaimActionType.Delete)]
         private void btnDelete_Click(object sender, System.EventArgs e)
         {
             if (MessageBox.Show("Delete this User?", "Confirmation", MessageBoxButtons.OKCancel,

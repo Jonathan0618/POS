@@ -13,6 +13,9 @@ namespace POS.Domains.AuditEntry
         public string TableName { get; set; }
 
         public string RecordId { get; set; }
+        public Guid? CorrelationId { get; set; }
+        public int? RegisterStationId { get; set; }
+        [StringLength(30)] public string RegisterCode { get; set; }
 
         public string Action { get; set; } // Added, Modified, Deleted
 
