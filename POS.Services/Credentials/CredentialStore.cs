@@ -14,12 +14,11 @@ namespace POS.Services.Credentials
                 "credentials.dat"
             );
 
-        public static void SaveCredentials(string username, string password)
+        public static void SaveUsername(string username)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
 
-            string data = username + "\n" + password;
-            byte[] plainBytes = Encoding.UTF8.GetBytes(data);
+            byte[] plainBytes = Encoding.UTF8.GetBytes(username ?? string.Empty);
 
             byte[] encrypted = ProtectedData.Protect(
                 plainBytes,
@@ -30,7 +29,7 @@ namespace POS.Services.Credentials
             File.WriteAllBytes(FilePath, encrypted);
         }
 
-        public static (string Username, string Password)? LoadCredentials()
+        public static string LoadUsername()
         {
             if (!File.Exists(FilePath))
                 return null;
@@ -46,12 +45,7 @@ namespace POS.Services.Credentials
                 );
 
                 string data = Encoding.UTF8.GetString(decrypted);
-                string[] parts = data.Split(new[] { '\n' }, 2);
-
-                if (parts.Length != 2)
-                    return null;
-
-                return (parts[0], parts[1]);
+                return data.Split(new[] { '\n' }, 2)[0];
             }
             catch
             {

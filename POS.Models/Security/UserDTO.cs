@@ -2,11 +2,21 @@
 
 namespace POS.Models.Security
 {
+    public class UserActivityDTO
+    {
+        public long ActivityId { get; set; }
+        public System.DateTime DateLogged { get; set; }
+        public string Category { get; set; }
+        public string Action { get; set; }
+        public string Details { get; set; }
+    }
+
     public class UserDTO
     {
         public string UserId { get; set; }
         public string FullName { get; set; }
         public string RoleName { get; set; }
+        public bool IsActive { get; set; }
         [Required]
         public string Username { get; set; }
         [Required]

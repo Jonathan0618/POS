@@ -10,7 +10,7 @@ namespace POS.Data.Configurations
             HasMany(c => c.Products)
                 .WithRequired(p => p.Category)
                 .HasForeignKey(p => p.CategoryId)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
 
         }
     }

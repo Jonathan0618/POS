@@ -14,11 +14,15 @@ namespace POS.Forms.Security
         private readonly ModelValidator<UserDTO> _validator;
         private readonly UserService _userService;
         private readonly string _userId;
-        public frmEditUser(string userId)
+        public frmEditUser(string userId) : this(userId, new UserService())
+        {
+        }
+
+        public frmEditUser(string userId, UserService userService)
         {
             _controlMapper = new ControlMapper<UserDTO>();
             _validator = new ModelValidator<UserDTO>();
-            _userService = new UserService();
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _userId = userId;
             InitializeComponent();
         }
