@@ -1,4 +1,4 @@
-using POS.Common.Enumerations;
+﻿using POS.Common.Enumerations;
 using POS.Core.Abstractions;
 using POS.Core.Security;
 using POS.Data;
