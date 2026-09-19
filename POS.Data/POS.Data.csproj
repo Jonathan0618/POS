@@ -47,6 +47,7 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.4\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,11 +60,15 @@
   <ItemGroup>
     <Compile Include="Configurations\AuditLogConfiguration.cs" />
     <Compile Include="Configurations\InventoryConfiguration.cs" />
+    <Compile Include="Configurations\OperationsConfiguration.cs" />
     <Compile Include="Configurations\POSConfiguration.cs" />
     <Compile Include="Configurations\RoleClaimConfig.cs" />
     <Compile Include="Configurations\RoleConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
     <Compile Include="Context\POSContext.cs" />
+    <Compile Include="Auditing\AuditValuePolicy.cs" />
+    <Compile Include="Auditing\AuditEventDetails.cs" />
+    <Compile Include="DatabaseMigrationService.cs" />
     <Compile Include="Migrations\202608090521584_initial-create.cs" />
     <Compile Include="Migrations\202608090521584_initial-create.Designer.cs">
       <DependentUpon>202608090521584_initial-create.cs</DependentUpon>
@@ -100,6 +105,14 @@
     <Compile Include="Migrations\202608210819333_ImventoryMigration.Designer.cs">
       <DependentUpon>202608210819333_ImventoryMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202608221104197_auditLogTable.cs" />
+    <Compile Include="Migrations\202608221104197_auditLogTable.Designer.cs">
+      <DependentUpon>202608221104197_auditLogTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202608221608150_stock.cs" />
+    <Compile Include="Migrations\202608221608150_stock.Designer.cs">
+      <DependentUpon>202608221608150_stock.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202608230519587_auditLog.cs" />
     <Compile Include="Migrations\202608230519587_auditLog.Designer.cs">
       <DependentUpon>202608230519587_auditLog.cs</DependentUpon>
@@ -111,6 +124,90 @@
     <Compile Include="Migrations\202608260321596_update.cs" />
     <Compile Include="Migrations\202608260321596_update.Designer.cs">
       <DependentUpon>202608260321596_update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609041408353_FullOperationsFoundation.cs" />
+    <Compile Include="Migrations\202609041408353_FullOperationsFoundation.Designer.cs">
+      <DependentUpon>202609041408353_FullOperationsFoundation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609041412014_BackfillInventoryLedger.cs" />
+    <Compile Include="Migrations\202609041412014_BackfillInventoryLedger.Designer.cs">
+      <DependentUpon>202609041412014_BackfillInventoryLedger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609041752236_AddUniqueSaleReceiptNumber.cs" />
+    <Compile Include="Migrations\202609041752236_AddUniqueSaleReceiptNumber.Designer.cs">
+      <DependentUpon>202609041752236_AddUniqueSaleReceiptNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609041800112_AddSaleConfigurationSnapshot.cs" />
+    <Compile Include="Migrations\202609050726325_AddAuditCorrelationId.cs" />
+    <Compile Include="Migrations\202609061700000_AddPurchaseOrderCancellation.cs" />
+    <Compile Include="Migrations\202609061700000_AddPurchaseOrderCancellation.Designer.cs">
+      <DependentUpon>202609061700000_AddPurchaseOrderCancellation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609061820000_AddPurchaseReturns.cs" />
+    <Compile Include="Migrations\202609061820000_AddPurchaseReturns.Designer.cs">
+      <DependentUpon>202609061820000_AddPurchaseReturns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609062020000_AddShiftOpeningGuards.cs" />
+    <Compile Include="Migrations\202609062020000_AddShiftOpeningGuards.Designer.cs">
+      <DependentUpon>202609062020000_AddShiftOpeningGuards.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609062030000_AddCashMovementRequestId.cs" />
+    <Compile Include="Migrations\202609062030000_AddCashMovementRequestId.Designer.cs">
+      <DependentUpon>202609062030000_AddCashMovementRequestId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609062050000_AddSaleCheckoutRequestId.cs" />
+    <Compile Include="Migrations\202609062050000_AddSaleCheckoutRequestId.Designer.cs">
+      <DependentUpon>202609062050000_AddSaleCheckoutRequestId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609062110000_AddSaleReceiptSnapshotsAndRevision.cs" />
+    <Compile Include="Migrations\202609062110000_AddSaleReceiptSnapshotsAndRevision.Designer.cs">
+      <DependentUpon>202609062110000_AddSaleReceiptSnapshotsAndRevision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609062220000_AddSaleReturnPostingGuards.cs" />
+    <Compile Include="Migrations\202609062220000_AddSaleReturnPostingGuards.Designer.cs">
+      <DependentUpon>202609062220000_AddSaleReturnPostingGuards.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609062230000_AddExchangeSaleForeignKey.cs" />
+    <Compile Include="Migrations\202609062230000_AddExchangeSaleForeignKey.Designer.cs">
+      <DependentUpon>202609062230000_AddExchangeSaleForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609062240000_AddManagementQueryIndexes.cs" />
+    <Compile Include="Migrations\202609062240000_AddManagementQueryIndexes.Designer.cs">
+      <DependentUpon>202609062240000_AddManagementQueryIndexes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609061550000_AddStockCountRequestId.cs" />
+    <Compile Include="Migrations\202609061550000_AddStockCountRequestId.Designer.cs">
+      <DependentUpon>202609061550000_AddStockCountRequestId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609061230000_AddAdjustmentRequestUniqueness.cs" />
+    <Compile Include="Migrations\202609061230000_AddAdjustmentRequestUniqueness.Designer.cs">
+      <DependentUpon>202609061230000_AddAdjustmentRequestUniqueness.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609060920000_AddCategoryNameUniqueness.cs" />
+    <Compile Include="Migrations\202609060920000_AddCategoryNameUniqueness.Designer.cs">
+      <DependentUpon>202609060920000_AddCategoryNameUniqueness.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609060910000_PreventCategoryProductCascadeDelete.cs" />
+    <Compile Include="Migrations\202609060910000_PreventCategoryProductCascadeDelete.Designer.cs">
+      <DependentUpon>202609060910000_PreventCategoryProductCascadeDelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609060900000_AddCategoryActiveState.cs" />
+    <Compile Include="Migrations\202609060900000_AddCategoryActiveState.Designer.cs">
+      <DependentUpon>202609060900000_AddCategoryActiveState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609051800000_AddProductIdentifierUniqueness.cs" />
+    <Compile Include="Migrations\202609051800000_AddProductIdentifierUniqueness.Designer.cs">
+      <DependentUpon>202609051800000_AddProductIdentifierUniqueness.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609050942484_AddAuditRegisterAttribution.cs" />
+    <Compile Include="Migrations\202609050942484_AddAuditRegisterAttribution.Designer.cs">
+      <DependentUpon>202609050942484_AddAuditRegisterAttribution.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609050726325_AddAuditCorrelationId.Designer.cs">
+      <DependentUpon>202609050726325_AddAuditCorrelationId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609041800112_AddSaleConfigurationSnapshot.Designer.cs">
+      <DependentUpon>202609041800112_AddSaleConfigurationSnapshot.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -166,6 +263,69 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202608260321596_update.resx">
       <DependentUpon>202608260321596_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609041408353_FullOperationsFoundation.resx">
+      <DependentUpon>202609041408353_FullOperationsFoundation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609041412014_BackfillInventoryLedger.resx">
+      <DependentUpon>202609041412014_BackfillInventoryLedger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609041752236_AddUniqueSaleReceiptNumber.resx">
+      <DependentUpon>202609041752236_AddUniqueSaleReceiptNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609041800112_AddSaleConfigurationSnapshot.resx">
+      <DependentUpon>202609041800112_AddSaleConfigurationSnapshot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609050726325_AddAuditCorrelationId.resx">
+      <DependentUpon>202609050726325_AddAuditCorrelationId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609061700000_AddPurchaseOrderCancellation.resx">
+      <DependentUpon>202609061700000_AddPurchaseOrderCancellation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609061820000_AddPurchaseReturns.resx">
+      <DependentUpon>202609061820000_AddPurchaseReturns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609062020000_AddShiftOpeningGuards.resx">
+      <DependentUpon>202609062020000_AddShiftOpeningGuards.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609062030000_AddCashMovementRequestId.resx">
+      <DependentUpon>202609062030000_AddCashMovementRequestId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609062050000_AddSaleCheckoutRequestId.resx">
+      <DependentUpon>202609062050000_AddSaleCheckoutRequestId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609062110000_AddSaleReceiptSnapshotsAndRevision.resx">
+      <DependentUpon>202609062110000_AddSaleReceiptSnapshotsAndRevision.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609062220000_AddSaleReturnPostingGuards.resx">
+      <DependentUpon>202609062220000_AddSaleReturnPostingGuards.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609062230000_AddExchangeSaleForeignKey.resx">
+      <DependentUpon>202609062230000_AddExchangeSaleForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609062240000_AddManagementQueryIndexes.resx">
+      <DependentUpon>202609062240000_AddManagementQueryIndexes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609061550000_AddStockCountRequestId.resx">
+      <DependentUpon>202609061550000_AddStockCountRequestId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609061230000_AddAdjustmentRequestUniqueness.resx">
+      <DependentUpon>202609061230000_AddAdjustmentRequestUniqueness.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609060920000_AddCategoryNameUniqueness.resx">
+      <DependentUpon>202609060920000_AddCategoryNameUniqueness.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609060910000_PreventCategoryProductCascadeDelete.resx">
+      <DependentUpon>202609060910000_PreventCategoryProductCascadeDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609060900000_AddCategoryActiveState.resx">
+      <DependentUpon>202609060900000_AddCategoryActiveState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609051800000_AddProductIdentifierUniqueness.resx">
+      <DependentUpon>202609051800000_AddProductIdentifierUniqueness.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609050942484_AddAuditRegisterAttribution.resx">
+      <DependentUpon>202609050942484_AddAuditRegisterAttribution.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

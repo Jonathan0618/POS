@@ -63,6 +63,11 @@
     <Compile Include="BusinessObjects\Sale.cs" />
     <Compile Include="BusinessObjects\SaleItem.cs" />
     <Compile Include="BusinessObjects\Stock.cs" />
+    <Compile Include="Operations\InventoryOperations.cs" />
+    <Compile Include="Operations\Purchasing.cs" />
+    <Compile Include="Operations\SalesOperations.cs" />
+    <Compile Include="Operations\ShiftOperations.cs" />
+    <Compile Include="Operations\StoreConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Module.cs" />
     <Compile Include="Security\Role.cs" />
@@ -84,6 +89,7 @@
       <Name>POS.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

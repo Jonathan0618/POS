@@ -29,15 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraGrid.GridFormatRule gridFormatRule1 = new DevExpress.XtraGrid.GridFormatRule();
-            DevExpress.XtraEditors.FormatConditionRuleExpression formatConditionRuleExpression1 = new DevExpress.XtraEditors.FormatConditionRuleExpression();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucProducts));
             this.Quantity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcProducts = new DevExpress.XtraGrid.GridControl();
             this.gcProduct = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.Id = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Barcode = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.ProductName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colProductName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Description = new DevExpress.XtraGrid.Columns.GridColumn();
             this.CategoryName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Price = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -89,22 +87,13 @@
             this.gcProduct.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.Id,
             this.Barcode,
-            this.ProductName,
+            this.colProductName,
             this.Description,
             this.CategoryName,
             this.Price,
             this.CostPrice,
             this.Quantity,
             this.Status});
-            gridFormatRule1.Column = this.Quantity;
-            gridFormatRule1.ColumnApplyTo = this.Quantity;
-            gridFormatRule1.Name = "Quantity";
-            formatConditionRuleExpression1.Appearance.BackColor = System.Drawing.Color.Tomato;
-            formatConditionRuleExpression1.Appearance.Options.HighPriority = true;
-            formatConditionRuleExpression1.Appearance.Options.UseBackColor = true;
-            formatConditionRuleExpression1.Expression = "[Quantity] <= 10";
-            gridFormatRule1.Rule = formatConditionRuleExpression1;
-            this.gcProduct.FormatRules.Add(gridFormatRule1);
             this.gcProduct.GridControl = this.gcProducts;
             this.gcProduct.Name = "gcProduct";
             this.gcProduct.OptionsFind.AlwaysVisible = true;
@@ -124,14 +113,14 @@
             this.Barcode.VisibleIndex = 0;
             this.Barcode.Width = 94;
             // 
-            // ProductName
+            // colProductName
             // 
-            this.ProductName.Caption = "Product Name";
-            this.ProductName.FieldName = "Name";
-            this.ProductName.Name = "ProductName";
-            this.ProductName.Visible = true;
-            this.ProductName.VisibleIndex = 1;
-            this.ProductName.Width = 187;
+            this.colProductName.Caption = "Product Name";
+            this.colProductName.FieldName = "Name";
+            this.colProductName.Name = "colProductName";
+            this.colProductName.Visible = true;
+            this.colProductName.VisibleIndex = 1;
+            this.colProductName.Width = 187;
             // 
             // Description
             // 
@@ -246,7 +235,7 @@
         private DevExpress.XtraGrid.GridControl gcProducts;
         private DevExpress.XtraGrid.Views.Grid.GridView gcProduct;
         private DevExpress.XtraGrid.Columns.GridColumn Id;
-        private DevExpress.XtraGrid.Columns.GridColumn ProductName;
+        private DevExpress.XtraGrid.Columns.GridColumn colProductName;
         private DevExpress.XtraGrid.Columns.GridColumn Description;
         private DevExpress.XtraGrid.Columns.GridColumn Price;
         private DevExpress.XtraGrid.Columns.GridColumn CategoryName;
