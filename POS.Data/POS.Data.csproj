@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Configurations\AuditLogConfiguration.cs" />
     <Compile Include="Configurations\InventoryConfiguration.cs" />
+    <Compile Include="Configurations\MyInfoConfig.cs" />
     <Compile Include="Configurations\POSConfiguration.cs" />
     <Compile Include="Configurations\RoleClaimConfig.cs" />
     <Compile Include="Configurations\RoleConfiguration.cs" />

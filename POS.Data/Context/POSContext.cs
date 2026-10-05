@@ -28,6 +28,7 @@ namespace POS.Data.Context
             modelBuilder.Configurations.Add(new Configurations.StockConfiguration());
             modelBuilder.Configurations.Add(new Configurations.RoleClaimConfig());
             modelBuilder.Configurations.Add(new Configurations.AuditLogConfiguration());
+            modelBuilder.Configurations.Add(new Configurations.MyInfoConfig());
 
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Role>().ToTable("Roles");

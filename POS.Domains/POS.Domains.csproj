@@ -63,6 +63,7 @@
     <Compile Include="BusinessObjects\Sale.cs" />
     <Compile Include="BusinessObjects\SaleItem.cs" />
     <Compile Include="BusinessObjects\Stock.cs" />
+    <Compile Include="practicefolder\MyInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Module.cs" />
     <Compile Include="Security\Role.cs" />
