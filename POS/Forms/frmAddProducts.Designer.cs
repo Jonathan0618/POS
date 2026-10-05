@@ -48,6 +48,8 @@
             this.lueCategoryId = new DevExpress.XtraEditors.LookUpEdit();
             this.lueUnit = new DevExpress.XtraEditors.LookUpEdit();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
+            this.spnBuyingThreshold = new DevExpress.XtraEditors.SpinEdit();
             ((System.ComponentModel.ISupportInitialize)(this.dxErrorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCostPrice.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtBarcode.Properties)).BeginInit();
@@ -58,6 +60,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lueCategoryId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lueUnit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spnBuyingThreshold.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // dxErrorProvider1
@@ -69,7 +72,7 @@
             this.btnSave.Appearance.BackColor = System.Drawing.Color.Turquoise;
             this.btnSave.Appearance.Options.UseBackColor = true;
             this.btnSave.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.ImageOptions.Image")));
-            this.btnSave.Location = new System.Drawing.Point(316, 311);
+            this.btnSave.Location = new System.Drawing.Point(316, 352);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(98, 32);
             this.btnSave.TabIndex = 38;
@@ -220,11 +223,30 @@
             this.labelControl8.TabIndex = 41;
             this.labelControl8.Text = "Unit";
             // 
+            // labelControl9
+            // 
+            this.labelControl9.Location = new System.Drawing.Point(20, 302);
+            this.labelControl9.Name = "labelControl9";
+            this.labelControl9.Size = new System.Drawing.Size(73, 13);
+            this.labelControl9.TabIndex = 43;
+            this.labelControl9.Text = "Warning Level";
+            // 
+            // spnBuyingThreshold
+            // 
+            this.spnBuyingThreshold.Location = new System.Drawing.Point(117, 299);
+            this.spnBuyingThreshold.Name = "spnBuyingThreshold";
+            this.spnBuyingThreshold.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spnBuyingThreshold.Properties.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Default;
+            this.spnBuyingThreshold.Size = new System.Drawing.Size(297, 20);
+            this.spnBuyingThreshold.TabIndex = 42;
+            // 
             // frmAddProducts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(435, 369);
+            this.ClientSize = new System.Drawing.Size(435, 396);
+            this.Controls.Add(this.labelControl9);
             this.Controls.Add(this.labelControl8);
             this.Controls.Add(this.lueUnit);
             this.Controls.Add(this.btnSave);
@@ -241,6 +263,7 @@
             this.Controls.Add(this.txtProductName);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.lueCategoryId);
+            this.Controls.Add(this.spnBuyingThreshold);
             this.Name = "frmAddProducts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmAddProducts";
@@ -256,6 +279,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lueCategoryId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lueUnit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spnBuyingThreshold.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,5 +305,7 @@
         private DevExpress.XtraEditors.LookUpEdit lueCategoryId;
         private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraEditors.LookUpEdit lueUnit;
+        private DevExpress.XtraEditors.LabelControl labelControl9;
+        private DevExpress.XtraEditors.SpinEdit spnBuyingThreshold;
     }
 }

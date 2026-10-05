@@ -34,18 +34,36 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.5.2\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.5.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.4\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.4\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
-    </Reference>
+    <Compile Include="Operations\StoreSettingsDTO.cs" />
+    <Compile Include="Operations\CategoryPageDTO.cs" />
+    <Compile Include="Operations\ProductPageDTO.cs" />
+    <Compile Include="Operations\ProductIdentifiersDTO.cs" />
+    <Compile Include="Operations\ProductPriceHistoryDTO.cs" />
+    <Compile Include="Operations\InventoryBalancePageDTO.cs" />
+    <Compile Include="Operations\InventoryAlertPageDTO.cs" />
+    <Compile Include="Operations\InventoryReconciliationDTO.cs" />
+    <Compile Include="Operations\StockAdjustmentDTO.cs" />
+    <Compile Include="Operations\StockCountPostingDTO.cs" />
+    <Compile Include="Operations\StockCountHistoryDTO.cs" />
+    <Compile Include="Operations\StockMovementPageDTO.cs" />
+    <Compile Include="Operations\SupplierDTO.cs" />
+    <Compile Include="Operations\SupplierProductDTO.cs" />
+    <Compile Include="Operations\SupplierPurchaseHistoryDTO.cs" />
+    <Compile Include="Operations\PurchaseOrderDTO.cs" />
+    <Compile Include="Operations\PurchaseReturnDTO.cs" />
+    <Compile Include="Operations\GoodsReceiptDTO.cs" />
+    <Compile Include="Operations\CustomerDTO.cs" />
+    <Compile Include="Operations\RegisterStationDTO.cs" />
+    <Compile Include="Operations\CashierShiftDTO.cs" />
+    <Compile Include="Operations\SaleCheckoutDTO.cs" />
+    <Compile Include="Operations\SaleCartDTO.cs" />
+    <Compile Include="Operations\SaleReceiptDTO.cs" />
+    <Compile Include="Operations\SaleReturnDTO.cs" />
+    <Compile Include="Operations\ManagementReportDTO.cs" />
+    <Compile Include="Operations\ReportExportDTO.cs" />
+    <Compile Include="Operations\MaintenanceDTO.cs" />
+    <Compile Include="Operations\AuditPageDTO.cs" />
+    <Compile Include="Operations\AuditRetentionSummaryDTO.cs" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -57,10 +75,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POS.Common\POS.Common.csproj">
+      <Project>{B81CF6EA-6E59-4B19-B6C0-5BC3A9A1FFA9}</Project>
+      <Name>POS.Common</Name>
+    </ProjectReference>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\InventoryDTO.cs" />
     <Compile Include="Security\ModuleDTO.cs" />
     <Compile Include="Security\RoleDTO.cs" />
+    <Compile Include="Security\SaleDTO.cs" />
     <Compile Include="Security\StockDTO.cs" />
     <Compile Include="Security\UserDTO.cs" />
     <Compile Include="Store\UserStore.cs" />
@@ -70,12 +93,4 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EntityFramework.6.5.2\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.2\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.5.2\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.2\build\EntityFramework.targets'))" />
-  </Target>
-  <Import Project="..\packages\EntityFramework.6.5.2\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.2\build\EntityFramework.targets')" />
 </Project>

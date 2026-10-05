@@ -67,6 +67,7 @@
     <Reference Include="DevExpress.XtraCharts.v26.1.Wizard, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraDiagram.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraDialogs.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGauges.v26.1.Core, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraGrid.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -131,6 +132,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Composition\ApplicationCompositionRoot.cs" />
     <Compile Include="Base\AuthorizeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +181,27 @@
     <Compile Include="Forms\Security\frmUsers.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Security\frmChangePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\frmLockScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\ucUsers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\ucRolesPermissions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\ucModules.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\frmStoreSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\frmStoreSettings.Designer.cs">
+      <DependentUpon>frmStoreSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Security\frmUsers.Designer.cs">
       <DependentUpon>frmUsers.cs</DependentUpon>
     </Compile>
@@ -215,6 +238,12 @@
       <DependentUpon>frmReportViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Reports\rptReceipt.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\ucAudit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Reports\SettingsReceiptPreview.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptReceipt.Designer.cs">
@@ -301,6 +330,10 @@
     <ProjectReference Include="..\POS.Core\POS.Core.csproj">
       <Project>{6621c786-e927-4217-8cb6-13b61fbe68d3}</Project>
       <Name>POS.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POS.Data\POS.Data.csproj">
+      <Project>{F318FAB7-CEDE-4FCA-9D70-36C820473018}</Project>
+      <Name>POS.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\POS.Domains\POS.Domains.csproj">
       <Project>{21A866F4-A412-480D-9133-3E024479F489}</Project>

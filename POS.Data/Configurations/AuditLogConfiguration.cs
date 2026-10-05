@@ -9,6 +9,8 @@ namespace POS.Data.Configurations
         public AuditLogConfiguration() 
         {
             HasIndex(x => new { x.UserId, x.TableName });
+            HasIndex(x => x.CorrelationId);
+            HasIndex(x => new { x.RegisterStationId, x.DateLogged });
         }
     }
 }

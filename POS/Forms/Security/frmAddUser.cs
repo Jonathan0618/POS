@@ -10,11 +10,15 @@ namespace POS.Forms.Security
         private readonly ControlMapper<UserDTO> _controlMapper;
         private readonly ModelValidator<UserDTO> _validator;
         private readonly UserService _userService;
-        public frmAddUser()
+        public frmAddUser() : this(new UserService())
+        {
+        }
+
+        public frmAddUser(UserService userService)
         {
             _controlMapper = new ControlMapper<UserDTO>();
             _validator = new ModelValidator<UserDTO>();
-            _userService = new UserService();
+            _userService = userService ?? throw new System.ArgumentNullException(nameof(userService));
             InitializeComponent();
         }
 

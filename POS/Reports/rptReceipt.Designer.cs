@@ -62,7 +62,7 @@
             this.xrLabel1.SizeF = new System.Drawing.SizeF(380F, 23F);
             this.xrLabel1.StylePriority.UseFont = false;
             this.xrLabel1.StylePriority.UseTextAlignment = false;
-            this.xrLabel1.Text = "Jonathan Supermarket";
+            this.xrLabel1.Text = "CS Supermarket";
             this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // xrLabel2
@@ -73,7 +73,7 @@
             this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2F, 2F, 0F, 0F, 100F);
             this.xrLabel2.SizeF = new System.Drawing.SizeF(380F, 23F);
             this.xrLabel2.StylePriority.UseTextAlignment = false;
-            this.xrLabel2.Text = "Mabasa Dupax del Norte, Nueva Vizcaya 3706";
+            this.xrLabel2.Text = "Bambang, Nueva Vizcaya 3706";
             this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // xrLabel3
@@ -84,7 +84,7 @@
             this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2F, 2F, 0F, 0F, 100F);
             this.xrLabel3.SizeF = new System.Drawing.SizeF(380F, 23F);
             this.xrLabel3.StylePriority.UseTextAlignment = false;
-            this.xrLabel3.Text = "09383774621";
+            this.xrLabel3.Text = "001";
             this.xrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // ReportHeader

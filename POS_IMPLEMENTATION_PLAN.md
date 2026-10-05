@@ -47,7 +47,7 @@ The table below records overall module delivery, including work completed before
 | 14 | Audit and activity logs | Partial | M1–M5 | In progress |
 | 15 | Dashboard and alerts | Backend implemented | M6 | UI and verification deferred |
 | 16 | Reports | Backend implemented | M6 | UI and verification deferred |
-| 17 | Backup, restore, and maintenance | Missing | M7 | Not started |
+| 17 | Backup, restore, and maintenance | Backend implemented | M7 | UI and verification deferred |
 
 ## Mandatory architectural changes
 
@@ -618,8 +618,8 @@ Implement the phases below in dependency order. A backend phase can be recorded 
 | B3 | Sales, tenders, and receipt data — modules 8, 9, and 10 | Cart/hold/resume services, configured calculations, idempotent checkout, atomic sale/payment/ledger/sequence writes, tender validation, historical receipt DTOs and authorized print/reprint services | Implemented; verification deferred |
 | B4 | Returns, refunds, and exchanges — module 11 | Eligibility and quantity limits, approval rules, return disposition, refund tenders, linked exchange operations, transactional reversals | Implemented; verification deferred |
 | B5 | Management queries — modules 15 and 16 | Authorized dashboard aggregates and report DTO/query/export services derived from historical facts; consistent date/register filters and reconciliation rules | Implemented; verification deferred |
-| B6 | Maintenance and cross-module completion — modules 1, 2, 3, 14, and 17 | Backup/recovery services, diagnostics, migration/startup compatibility, configuration gaps, complete authorization/audit coverage for all new workflows, backend integration review and deferred verification register | Pending; security/audit foundations exist |
-| U1 | All remaining UI work — modules 1–17 | DevExpress screens, main-shell navigation, focused dialogs, binding to completed services, validation/error/loading states, dashboard/report visuals, receipt layouts and operator workflows | Deferred until B0–B6 backend implementation is finished |
+| B6 | Maintenance and cross-module completion — modules 1, 2, 3, 14, and 17 | Backup/recovery services, diagnostics, migration/startup compatibility, configuration gaps, complete authorization/audit coverage for all new workflows, backend integration review and deferred verification register | Implemented; verification deferred |
+| U1 | All remaining UI work — modules 1–17 | DevExpress screens, main-shell navigation, focused dialogs, binding to completed services, validation/error/loading states, dashboard/report visuals, receipt layouts and operator workflows | Ready; not started |
 
 Authorization, validation, audit, UTC handling, money rules, transaction boundaries, and migration compatibility are required within every backend phase; B6 is a final coverage review rather than a reason to postpone these safeguards.
 
@@ -935,12 +935,16 @@ Module 8 checkout-request idempotency/deployment note (2026-09-06): completed-sa
 
 ### M7 — Production readiness
 
-- [ ] Complete module 17.
+- [x] Complete module 17 backend implementation.
 - [ ] Perform performance, security, migration, backup, and restore validation.
-- [ ] Write deployment and operator documentation.
+- [x] Write deployment and operator documentation.
 - [ ] Run a complete user-acceptance test and restore drill.
 
+B6 backend completion/deployment note (2026-09-07): the planned B0–B6 backend implementation is finished, with testing, runtime acceptance, and all remaining UI work still deferred. Module 17 now exposes an authorization-gated `IBackupService` implementation for checked `COPY_ONLY` SQL Server backups and restore into a new, non-live database with relocated data/log files and `DBCC CHECKDB`. The backend intentionally cannot overwrite the configured live database; production replacement remains a coordinated DBA operation. A typed maintenance health contract reports application/database migration versions, connectivity, printer configuration, log-disk capacity, and SQL full-backup age. Diagnostic logging uses bounded, rotating local files and redacts common credential assignments. Backup/restore outcomes append safe operational audit events, and Maintenance is included in audit categorization. Database migration metadata can now be queried independently of startup updates. A stable `Maintenance` resource was added to normal idempotent seeding and granted only to System Administrator. Cross-module service entry points were reviewed for authorization coverage; pure calculations and in-memory cart mutations remain non-persisting helpers, while operational reads/writes retain resource guards. No schema migration was required. Before seeding, a `COPY_ONLY` checksum backup was created and verified at `C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\Backup\POSV1_before_b6_20260907_105700.bak`. The normal migration path reported no pending explicit migrations, ran Seed, and database metadata confirmed Maintenance module ID 20 with full System Administrator permissions; the latest migration remains `AddManagementQueryIndexes`. The Release application build passes with the existing missing Syncfusion-reference warnings and `ucProducts.ProductName` warning. No tests were run, no restore was performed, and no UI was changed. Backup path/SQL service permissions, restore behavior, health-query permissions, logging rotation/redaction, cross-module runtime behavior, performance/security checks, and the restore drill remain explicitly unverified under the testing hold. U1 is now the next implementation phase.
+
 ## Final definition of done for every module — after backend and UI delivery
+
+Non-UI verification resumption note (2026-09-07): testing resumed by user direction. The full Release solution and complete automated test executable pass. Integration coverage now additionally verifies idempotent checkout without duplicate stock movement, idempotent return posting with restock, dashboard/report financial reconciliation, idempotent shift opening/cash movement/close with derived expected cash, and diagnostic-log credential redaction. Nineteen unused Syncfusion references were removed after a repository-wide source/resource search found no usage, and the `ucProducts.ProductName` designer member was renamed to `colProductName`; the following full build reports no warnings. The empty, untracked `MyInfoMigration` artifact set was removed; it was not compiled into `POS.Data`, contained no Up/Down operations, and was not part of the production migration chain. EF tooling reports all 36 application migrations applied to `POSV1`, so no new migration was required. A fresh `COPY_ONLY` checksum backup was created and verified at `C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\Backup\POSV1_nonui_verification_20260907.bak`, restored to the separate `POS_Verification_20260907` database, and passed `DBCC CHECKDB`. Live/restored counts match at 5 products, 5 balances, balance/ledger quantity 62, and 36 migrations. Physical printing, production-scale performance, UI acceptance, and broader multi-workstation soak testing still require their corresponding hardware or representative environment.
 
 This is the final module/release checklist, not a gate requiring UI work during backend phases. Test-related items remain unchecked until testing resumes and the relevant checks actually pass.
 
