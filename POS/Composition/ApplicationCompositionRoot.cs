@@ -1,10 +1,16 @@
 using POS.Forms;
 using POS.Forms.Security;
 using POS.Forms.Settings;
+using POS.Forms.Shifts;
+using POS.Models.Operations;
 using POS.Services;
 using POS.Services.Security;
 using POS.Services.Settings;
+using POS.Services.Shifts;
 using POS.Core.Abstractions;
+using POS.Services.Reporting;
+using POS.Services.Point_of_Sale;
+using POS.Data.Context;
 
 namespace POS.Composition
 {
@@ -122,12 +128,73 @@ namespace POS.Composition
             return Own(new frmStoreSettings(service), service);
         }
 
+        public ucRegisters CreateRegistersControl()
+        {
+            var service = new UserService();
+            var control = new ucRegisters(
+                service,
+                () => new frmRegisterEdit(service),
+                userId => new frmRegisterEdit(service, userId));
+            control.Disposed += (sender, args) => service.Dispose();
+            return control;
+        }
+
+        public frmCashMovement CreateCashMovementForm(CashierShiftDTO shift)
+        {
+            var context = new POSContext();
+            var currentUser = new CurrentUserAccessor();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var service = new CashierShiftService(context, new SystemClock(), currentUser, authorization);
+            var form = new frmCashMovement(service, authorization, shift);
+            form.Disposed += (sender, args) => ((System.IDisposable)(object)context).Dispose();
+            return form;
+        }
+
         public ucAudit CreateAuditControl()
         {
             var currentUser = new CurrentUserAccessor();
             var authorization = new ClaimsAuthorizationService(currentUser);
             return new ucAudit(new AuditService(() => new POS.Data.Context.POSContext(), authorization),
                 new AuditArchiveService(() => new POS.Data.Context.POSContext(), authorization, new SystemClock(), currentUser));
+        }
+
+        public ucDashboard CreateDashboardControl()
+        {
+            var service = new ManagementReportService();
+            var control = new ucDashboard(service);
+            control.Disposed += (sender, args) => service.Dispose();
+            return control;
+        }
+
+        public ucReports CreateReportsControl()
+        {
+            var reports = new ManagementReportService();
+            var output = new ReportOutputService();
+            var control = new ucReports(reports, output);
+            control.Disposed += (sender, args) =>
+            {
+                output.Dispose();
+                reports.Dispose();
+            };
+            return control;
+        }
+
+        public ucReturns CreateReturnsControl()
+        {
+            var context = new POSContext();
+            var currentUser = new CurrentUserAccessor();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var clock = new SystemClock();
+            var receipts = new SaleReceiptService(context, currentUser, authorization, new WindowsReceiptPrinter(), clock);
+            var returns = new SaleReturnService(context, clock, currentUser, authorization);
+            var control = new ucReturns(receipts, returns);
+            control.Disposed += (sender, args) =>
+            {
+                returns.Dispose();
+                receipts.Dispose();
+                ((System.IDisposable)(object)context).Dispose();
+            };
+            return control;
         }
 
         private static TForm Own<TForm>(TForm form, System.IDisposable service)
