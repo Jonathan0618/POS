@@ -64,6 +64,7 @@
     <Reference Include="DevExpress.XtraBars.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraCharts.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraCharts.v26.1.Extensions, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v26.1.UI, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraCharts.v26.1.Wizard, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraDiagram.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -123,11 +124,23 @@
     <Compile Include="Forms\frmCategory.Designer.cs">
       <DependentUpon>frmCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmHeldSales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmHeldSales.Designer.cs">
+      <DependentUpon>frmHeldSales.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmReceivePurchaseOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmReceivePurchaseOrder.Designer.cs">
+      <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Security\frmAddUser.cs">
       <SubType>Form</SubType>
@@ -186,6 +199,12 @@
     <Compile Include="Forms\SignIn.Designer.cs">
       <DependentUpon>SignIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ucGoodsReceiving.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucGoodsReceiving.Designer.cs">
+      <DependentUpon>ucGoodsReceiving.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ucProducts.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -227,8 +246,14 @@
     <EmbeddedResource Include="Forms\frmCategory.resx">
       <DependentUpon>frmCategory.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmHeldSales.resx">
+      <DependentUpon>frmHeldSales.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmReceivePurchaseOrder.resx">
+      <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Security\frmAddUser.resx">
       <DependentUpon>frmAddUser.cs</DependentUpon>
@@ -247,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SignIn.resx">
       <DependentUpon>SignIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ucGoodsReceiving.resx">
+      <DependentUpon>ucGoodsReceiving.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ucProducts.resx">
       <DependentUpon>ucProducts.cs</DependentUpon>
@@ -327,6 +355,24 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="POSForm\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\a-green-truck-icon-on-a-white-background-free-vector.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\parcel-green-box-package-icon-png-img-701751695035782v55ocfugl4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1000_F_566069075_xM05GaluiX3GyemxjBKEDGPzqEs7InkP.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rTnGxj6yc.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box.png" />
   </ItemGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
