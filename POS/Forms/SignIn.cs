@@ -133,5 +133,10 @@ namespace POS.Forms
             }
             _capsLockWarning.Visible = Control.IsKeyLocked(Keys.CapsLock);
         }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

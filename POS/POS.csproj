@@ -177,6 +177,15 @@
     <Compile Include="Forms\Settings\frmStoreSettings.Designer.cs">
       <DependentUpon>frmStoreSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Settings\frmRegisterEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\ucRegisters.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Shifts\frmCashMovement.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Security\frmUsers.Designer.cs">
       <DependentUpon>frmUsers.cs</DependentUpon>
     </Compile>
@@ -197,6 +206,18 @@
     </Compile>
     <Compile Include="Forms\ucStock.Designer.cs">
       <DependentUpon>ucStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ucDashboard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucDashboard.Designer.cs">
+      <DependentUpon>ucDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ucReturns.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucReports.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -233,6 +254,9 @@
     <EmbeddedResource Include="Forms\Security\frmAddUser.resx">
       <DependentUpon>frmAddUser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Security\frmChangePassword.resx">
+      <DependentUpon>frmChangePassword.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Security\frmEditUser.resx">
       <DependentUpon>frmEditUser.cs</DependentUpon>
     </EmbeddedResource>
@@ -253,6 +277,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ucStock.resx">
       <DependentUpon>ucStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ucDashboard.resx">
+      <DependentUpon>ucDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
