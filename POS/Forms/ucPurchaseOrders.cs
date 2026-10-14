@@ -1,4 +1,6 @@
 ﻿using DevExpress.XtraEditors;
+using POS.Services.Purchasing;
+using POS.Models.Operations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,8 +15,10 @@ namespace POS.Forms
 {
     public partial class ucPurchaseOrders : DevExpress.XtraEditors.XtraUserControl
     {
-        public ucPurchaseOrders()
+        private PurchaseOrderService _purchaseOrderService;
+        public ucPurchaseOrders(PurchaseOrderService purchaseOrderService)
         {
+            _purchaseOrderService = purchaseOrderService;
             InitializeComponent();
 
             cboStatus.Properties.Items.Clear();
@@ -28,6 +32,21 @@ namespace POS.Forms
         }
 
         private void cboStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void slueSupplier_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void slueProduct_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gridPurchaseOrders_Click(object sender, EventArgs e)
         {
 
         }

@@ -34,13 +34,6 @@
             this.txtSearch = new DevExpress.XtraEditors.SearchControl();
             this.gridPurchaseOrders = new DevExpress.XtraGrid.GridControl();
             this.gvPurchaseOrders = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.slueSupplier = new DevExpress.XtraEditors.SearchLookUpEdit();
-            this.searchLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.cboStatus = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.slueProduct = new DevExpress.XtraEditors.SearchLookUpEdit();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.deFromDate = new DevExpress.XtraEditors.DateEdit();
-            this.deToDate = new DevExpress.XtraEditors.DateEdit();
             this.colOrderNumber = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colSupplierCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colSupplierName = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -51,6 +44,13 @@
             this.colCancellationReason = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colTotal = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colLineCount = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.slueSupplier = new DevExpress.XtraEditors.SearchLookUpEdit();
+            this.searchLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.cboStatus = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.slueProduct = new DevExpress.XtraEditors.SearchLookUpEdit();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.deFromDate = new DevExpress.XtraEditors.DateEdit();
+            this.deToDate = new DevExpress.XtraEditors.DateEdit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlHeader)).BeginInit();
             this.pnlHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtSearch.Properties)).BeginInit();
@@ -69,11 +69,13 @@
             // 
             // pnlHeader
             // 
+            this.pnlHeader.Appearance.BackColor = System.Drawing.Color.RoyalBlue;
+            this.pnlHeader.Appearance.Options.UseBackColor = true;
             this.pnlHeader.Controls.Add(this.lblTitle);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1200, 100);
+            this.pnlHeader.Size = new System.Drawing.Size(1432, 100);
             this.pnlHeader.TabIndex = 0;
             // 
             // lblTitle
@@ -89,7 +91,7 @@
             // 
             // btnNewPurchaseOrder
             // 
-            this.btnNewPurchaseOrder.Location = new System.Drawing.Point(49, 133);
+            this.btnNewPurchaseOrder.Location = new System.Drawing.Point(25, 128);
             this.btnNewPurchaseOrder.Name = "btnNewPurchaseOrder";
             this.btnNewPurchaseOrder.Size = new System.Drawing.Size(170, 40);
             this.btnNewPurchaseOrder.TabIndex = 1;
@@ -97,12 +99,12 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(872, 146);
+            this.txtSearch.Location = new System.Drawing.Point(1100, 140);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Repository.ClearButton(),
             new DevExpress.XtraEditors.Repository.SearchButton()});
-            this.txtSearch.Size = new System.Drawing.Size(300, 28);
+            this.txtSearch.Size = new System.Drawing.Size(307, 28);
             this.txtSearch.TabIndex = 2;
             // 
             // gridPurchaseOrders
@@ -113,10 +115,11 @@
             this.gridPurchaseOrders.Location = new System.Drawing.Point(25, 180);
             this.gridPurchaseOrders.MainView = this.gvPurchaseOrders;
             this.gridPurchaseOrders.Name = "gridPurchaseOrders";
-            this.gridPurchaseOrders.Size = new System.Drawing.Size(1150, 500);
+            this.gridPurchaseOrders.Size = new System.Drawing.Size(1382, 500);
             this.gridPurchaseOrders.TabIndex = 3;
             this.gridPurchaseOrders.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvPurchaseOrders});
+            this.gridPurchaseOrders.Click += new System.EventHandler(this.gridPurchaseOrders_Click);
             // 
             // gvPurchaseOrders
             // 
@@ -143,79 +146,6 @@
             this.gvPurchaseOrders.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.gvPurchaseOrders.OptionsView.ShowGroupPanel = false;
             this.gvPurchaseOrders.OptionsView.ShowIndicator = false;
-            // 
-            // slueSupplier
-            // 
-            this.slueSupplier.Location = new System.Drawing.Point(746, 130);
-            this.slueSupplier.Name = "slueSupplier";
-            this.slueSupplier.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.slueSupplier.Properties.NullText = "All supppliers";
-            this.slueSupplier.Properties.PopupView = this.searchLookUpEdit1View;
-            this.slueSupplier.Size = new System.Drawing.Size(150, 28);
-            this.slueSupplier.TabIndex = 4;
-            // 
-            // searchLookUpEdit1View
-            // 
-            this.searchLookUpEdit1View.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpEdit1View.Name = "searchLookUpEdit1View";
-            this.searchLookUpEdit1View.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.searchLookUpEdit1View.OptionsView.ShowGroupPanel = false;
-            // 
-            // cboStatus
-            // 
-            this.cboStatus.Location = new System.Drawing.Point(599, 130);
-            this.cboStatus.Name = "cboStatus";
-            this.cboStatus.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cboStatus.Properties.NullText = "All Statuses";
-            this.cboStatus.Size = new System.Drawing.Size(150, 28);
-            this.cboStatus.TabIndex = 5;
-            this.cboStatus.SelectedIndexChanged += new System.EventHandler(this.cboStatus_SelectedIndexChanged);
-            // 
-            // slueProduct
-            // 
-            this.slueProduct.Location = new System.Drawing.Point(456, 133);
-            this.slueProduct.Name = "slueProduct";
-            this.slueProduct.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.slueProduct.Properties.NullText = "All Products";
-            this.slueProduct.Properties.PopupView = this.gridView1;
-            this.slueProduct.Size = new System.Drawing.Size(150, 28);
-            this.slueProduct.TabIndex = 6;
-            // 
-            // gridView1
-            // 
-            this.gridView1.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.gridView1.OptionsView.ShowGroupPanel = false;
-            // 
-            // deFromDate
-            // 
-            this.deFromDate.EditValue = null;
-            this.deFromDate.Location = new System.Drawing.Point(334, 117);
-            this.deFromDate.Name = "deFromDate";
-            this.deFromDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.deFromDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.deFromDate.Properties.NullText = "From Date";
-            this.deFromDate.Size = new System.Drawing.Size(150, 28);
-            this.deFromDate.TabIndex = 7;
-            // 
-            // deToDate
-            // 
-            this.deToDate.EditValue = null;
-            this.deToDate.Location = new System.Drawing.Point(225, 133);
-            this.deToDate.Name = "deToDate";
-            this.deToDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.deToDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.deToDate.Properties.NullText = "To Date";
-            this.deToDate.Size = new System.Drawing.Size(150, 28);
-            this.deToDate.TabIndex = 8;
             // 
             // colOrderNumber
             // 
@@ -317,6 +247,81 @@
             this.colLineCount.VisibleIndex = 9;
             this.colLineCount.Width = 112;
             // 
+            // slueSupplier
+            // 
+            this.slueSupplier.Location = new System.Drawing.Point(929, 140);
+            this.slueSupplier.Name = "slueSupplier";
+            this.slueSupplier.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.slueSupplier.Properties.NullText = "All supppliers";
+            this.slueSupplier.Properties.PopupView = this.searchLookUpEdit1View;
+            this.slueSupplier.Size = new System.Drawing.Size(150, 28);
+            this.slueSupplier.TabIndex = 4;
+            this.slueSupplier.EditValueChanged += new System.EventHandler(this.slueSupplier_EditValueChanged);
+            // 
+            // searchLookUpEdit1View
+            // 
+            this.searchLookUpEdit1View.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.searchLookUpEdit1View.Name = "searchLookUpEdit1View";
+            this.searchLookUpEdit1View.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.searchLookUpEdit1View.OptionsView.ShowGroupPanel = false;
+            // 
+            // cboStatus
+            // 
+            this.cboStatus.Location = new System.Drawing.Point(773, 140);
+            this.cboStatus.Name = "cboStatus";
+            this.cboStatus.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cboStatus.Properties.NullText = "All Statuses";
+            this.cboStatus.Size = new System.Drawing.Size(150, 28);
+            this.cboStatus.TabIndex = 5;
+            this.cboStatus.SelectedIndexChanged += new System.EventHandler(this.cboStatus_SelectedIndexChanged);
+            // 
+            // slueProduct
+            // 
+            this.slueProduct.Location = new System.Drawing.Point(617, 140);
+            this.slueProduct.Name = "slueProduct";
+            this.slueProduct.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.slueProduct.Properties.NullText = "All Products";
+            this.slueProduct.Properties.PopupView = this.gridView1;
+            this.slueProduct.Size = new System.Drawing.Size(150, 28);
+            this.slueProduct.TabIndex = 6;
+            this.slueProduct.EditValueChanged += new System.EventHandler(this.slueProduct_EditValueChanged);
+            // 
+            // gridView1
+            // 
+            this.gridView1.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
+            // 
+            // deFromDate
+            // 
+            this.deFromDate.EditValue = null;
+            this.deFromDate.Location = new System.Drawing.Point(305, 140);
+            this.deFromDate.Name = "deFromDate";
+            this.deFromDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.deFromDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.deFromDate.Properties.NullText = "From Date";
+            this.deFromDate.Size = new System.Drawing.Size(150, 28);
+            this.deFromDate.TabIndex = 7;
+            // 
+            // deToDate
+            // 
+            this.deToDate.EditValue = null;
+            this.deToDate.Location = new System.Drawing.Point(461, 140);
+            this.deToDate.Name = "deToDate";
+            this.deToDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.deToDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.deToDate.Properties.NullText = "To Date";
+            this.deToDate.Size = new System.Drawing.Size(150, 28);
+            this.deToDate.TabIndex = 8;
+            // 
             // ucPurchaseOrders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -331,7 +336,7 @@
             this.Controls.Add(this.btnNewPurchaseOrder);
             this.Controls.Add(this.pnlHeader);
             this.Name = "ucPurchaseOrders";
-            this.Size = new System.Drawing.Size(1200, 700);
+            this.Size = new System.Drawing.Size(1432, 700);
             ((System.ComponentModel.ISupportInitialize)(this.pnlHeader)).EndInit();
             this.pnlHeader.ResumeLayout(false);
             this.pnlHeader.PerformLayout();
