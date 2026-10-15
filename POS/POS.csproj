@@ -161,11 +161,26 @@
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+
     <Compile Include="Forms\frmReceivePurchaseOrder.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmReceivePurchaseOrder.Designer.cs">
       <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
+    </Compile>
+
+    <Compile Include="Forms\frmPurchaseOrderEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPurchaseOrderEdit.Designer.cs">
+      <DependentUpon>frmPurchaseOrderEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmStockCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmStockCount.Designer.cs">
+      <DependentUpon>frmStockCount.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Forms\Security\frmAddUser.cs">
       <SubType>Form</SubType>
@@ -305,7 +320,14 @@
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmReceivePurchaseOrder.resx">
-      <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
+     <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPurchaseOrderEdit.resx">
+      <DependentUpon>frmPurchaseOrderEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmStockCount.resx">
+      <DependentUpon>frmStockCount.cs</DependentUpon>
+
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Security\frmAddUser.resx">
       <DependentUpon>frmAddUser.cs</DependentUpon>
