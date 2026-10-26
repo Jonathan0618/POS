@@ -275,10 +275,16 @@ namespace POS.Services
                 .Skip((pageNumber - 1) * pageSize).Take(pageSize)
                 .Select(a => new { a.Id, a.DateLogged, a.UserId, a.CorrelationId, a.RegisterCode, a.Action, a.OldValue, a.NewValue })
                 .ToList();
+            var store = _context.StoreSettings.AsNoTracking()
+                .Select(s => new { s.CurrencyCode, s.MoneyDecimalPlaces, s.TimeZoneId })
+                .SingleOrDefault();
             var result = new ProductPriceHistoryDTO
             {
                 ProductId = productId, PageNumber = pageNumber, PageSize = pageSize,
-                TotalCount = totalCount, TotalPages = totalPages
+                TotalCount = totalCount, TotalPages = totalPages,
+                CurrencyCode = store == null ? "PHP" : store.CurrencyCode,
+                MoneyDecimalPlaces = store == null ? 2 : store.MoneyDecimalPlaces,
+                TimeZoneId = store == null ? TimeZoneInfo.Local.Id : store.TimeZoneId
             };
             foreach (var record in records)
             {

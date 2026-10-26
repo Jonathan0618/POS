@@ -64,9 +64,11 @@
     <Reference Include="DevExpress.XtraBars.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraCharts.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraCharts.v26.1.Extensions, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v26.1.UI, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraCharts.v26.1.Wizard, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraDiagram.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraDialogs.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGauges.v26.1.Core, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraGrid.v26.1, Version=26.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -87,25 +89,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.BulletGraph.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Chart.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Chart.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Core.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Data.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Diagram.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Diagram.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Grid.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Grid.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.GridCommon.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfBarcode.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfInput.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfListView.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Shared.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Shared.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SpellChecker.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Tools.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Tools.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -117,6 +100,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.4\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -125,8 +111,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Composition\ApplicationCompositionRoot.cs" />
     <Compile Include="Base\AuthorizeForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAddProducts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAddProducts.Designer.cs">
+      <DependentUpon>frmAddProducts.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmCategory.cs">
       <SubType>Form</SubType>
@@ -134,11 +127,44 @@
     <Compile Include="Forms\frmCategory.Designer.cs">
       <DependentUpon>frmCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmHeldSales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmHeldSales.Designer.cs">
+      <DependentUpon>frmHeldSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCheckoutComplete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmProductPriceHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmStockAdjustment.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmReceivePurchaseOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSaleReturn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ucReceipts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucMaintenance.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\frmReceivePurchaseOrder.Designer.cs">
+      <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Security\frmAddUser.cs">
       <SubType>Form</SubType>
@@ -167,6 +193,42 @@
     <Compile Include="Forms\Security\frmUsers.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Security\frmChangePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\frmLockScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\ucUsers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\ucRolesPermissions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Security\ucModules.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\frmStoreSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\frmStoreSettings.Designer.cs">
+      <DependentUpon>frmStoreSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Settings\frmRegisterEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings\ucRegisters.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Shifts\frmCashMovement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Shifts\frmCloseShift.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Shifts\frmOpenShift.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Security\frmUsers.Designer.cs">
       <DependentUpon>frmUsers.cs</DependentUpon>
     </Compile>
@@ -176,17 +238,50 @@
     <Compile Include="Forms\SignIn.Designer.cs">
       <DependentUpon>SignIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ucGoodsReceiving.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucGoodsReceiving.Designer.cs">
+      <DependentUpon>ucGoodsReceiving.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ucProducts.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\ucProducts.Designer.cs">
       <DependentUpon>ucProducts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ucInventory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucStockCounts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucSalesRegister.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Inventory\AddProducts.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Inventory\AddProducts.Designer.cs">
       <DependentUpon>AddProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ucStock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucStock.Designer.cs">
+      <DependentUpon>ucStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ucDashboard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucDashboard.Designer.cs">
+      <DependentUpon>ucDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ucReturns.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucReports.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -199,20 +294,38 @@
     <Compile Include="Reports\rptReceipt.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Forms\Security\ucAudit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Reports\SettingsReceiptPreview.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\rptReceipt.Designer.cs">
       <DependentUpon>rptReceipt.cs</DependentUpon>
     </Compile>
     <Compile Include="Utility\ControlMapper.cs" />
     <Compile Include="Utility\ControlPropertySetter.cs" />
     <Compile Include="Validators\ModelValidator.cs" />
+    <EmbeddedResource Include="Forms\frmAddProducts.resx">
+      <DependentUpon>frmAddProducts.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCategory.resx">
       <DependentUpon>frmCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmHeldSales.resx">
+      <DependentUpon>frmHeldSales.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmReceivePurchaseOrder.resx">
+      <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Security\frmAddUser.resx">
       <DependentUpon>frmAddUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Security\frmChangePassword.resx">
+      <DependentUpon>frmChangePassword.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Security\frmEditUser.resx">
       <DependentUpon>frmEditUser.cs</DependentUpon>
@@ -229,11 +342,20 @@
     <EmbeddedResource Include="Forms\SignIn.resx">
       <DependentUpon>SignIn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ucGoodsReceiving.resx">
+      <DependentUpon>ucGoodsReceiving.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ucProducts.resx">
       <DependentUpon>ucProducts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\AddProducts.resx">
       <DependentUpon>AddProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ucStock.resx">
+      <DependentUpon>ucStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ucDashboard.resx">
+      <DependentUpon>ucDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -278,6 +400,10 @@
       <Project>{6621c786-e927-4217-8cb6-13b61fbe68d3}</Project>
       <Name>POS.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\POS.Data\POS.Data.csproj">
+      <Project>{F318FAB7-CEDE-4FCA-9D70-36C820473018}</Project>
+      <Name>POS.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POS.Domains\POS.Domains.csproj">
       <Project>{21A866F4-A412-480D-9133-3E024479F489}</Project>
       <Name>POS.Domains</Name>
@@ -302,7 +428,27 @@
   <ItemGroup>
     <Analyzer Include="C:\Program Files\DevExpress 26.1\Components\Offline Packages\devexpress.data\26.1.4-pre-26179\analyzers\dotnet\DevExpress.Generator.dll" Visible="false" Condition="Exists('C:\Program Files\DevExpress 26.1\Components\Offline Packages\devexpress.data\26.1.4-pre-26179\analyzers\dotnet\DevExpress.Generator.dll')" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="POSForm\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\a-green-truck-icon-on-a-white-background-free-vector.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\parcel-green-box-package-icon-png-img-701751695035782v55ocfugl4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1000_F_566069075_xM05GaluiX3GyemxjBKEDGPzqEs7InkP.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rTnGxj6yc.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box.png" />
+  </ItemGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

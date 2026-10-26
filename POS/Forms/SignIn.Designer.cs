@@ -33,6 +33,7 @@
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.sidePanel2 = new DevExpress.XtraEditors.SidePanel();
+            this.chkRememberMe = new DevExpress.XtraEditors.CheckButton();
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
@@ -40,7 +41,6 @@
             this.btnSignIn = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
-            this.chkRememberMe = new DevExpress.XtraEditors.CheckButton();
             this.sidePanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.sidePanel2.SuspendLayout();
@@ -61,7 +61,7 @@
             // 
             // labelControl1
             // 
-            this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 48F);
             this.labelControl1.Appearance.ForeColor = System.Drawing.Color.White;
             this.labelControl1.Appearance.Options.UseFont = true;
             this.labelControl1.Appearance.Options.UseForeColor = true;
@@ -101,9 +101,18 @@
             this.sidePanel2.Text = "sidePanel2";
             this.sidePanel2.Click += new System.EventHandler(this.sidePanel2_Click);
             // 
+            // chkRememberMe
+            // 
+            this.chkRememberMe.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("chkRememberMe.ImageOptions.Image")));
+            this.chkRememberMe.Location = new System.Drawing.Point(282, 341);
+            this.chkRememberMe.Name = "chkRememberMe";
+            this.chkRememberMe.Size = new System.Drawing.Size(110, 23);
+            this.chkRememberMe.TabIndex = 7;
+            this.chkRememberMe.Text = "Remember Me";
+            // 
             // labelControl5
             // 
-            this.labelControl5.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl5.Appearance.Font = new System.Drawing.Font("Tahoma", 9F);
             this.labelControl5.Appearance.ForeColor = System.Drawing.Color.IndianRed;
             this.labelControl5.Appearance.Options.UseFont = true;
             this.labelControl5.Appearance.Options.UseForeColor = true;
@@ -128,7 +137,7 @@
             // 
             // labelControl3
             // 
-            this.labelControl3.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl3.Appearance.Font = new System.Drawing.Font("Tahoma", 9F);
             this.labelControl3.Appearance.Options.UseFont = true;
             this.labelControl3.Location = new System.Drawing.Point(282, 280);
             this.labelControl3.Name = "labelControl3";
@@ -138,7 +147,7 @@
             // 
             // labelControl2
             // 
-            this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 9F);
             this.labelControl2.Appearance.Options.UseFont = true;
             this.labelControl2.Location = new System.Drawing.Point(282, 224);
             this.labelControl2.Name = "labelControl2";
@@ -168,6 +177,7 @@
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(316, 29);
             this.txtPassword.TabIndex = 1;
+            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // txtUserName
             // 
@@ -177,15 +187,6 @@
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(316, 31);
             this.txtUserName.TabIndex = 0;
-            // 
-            // chkRememberMe
-            // 
-            this.chkRememberMe.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("chkRememberMe.ImageOptions.Image")));
-            this.chkRememberMe.Location = new System.Drawing.Point(282, 341);
-            this.chkRememberMe.Name = "chkRememberMe";
-            this.chkRememberMe.Size = new System.Drawing.Size(110, 23);
-            this.chkRememberMe.TabIndex = 7;
-            this.chkRememberMe.Text = "Remember Me";
             // 
             // SignIn
             // 

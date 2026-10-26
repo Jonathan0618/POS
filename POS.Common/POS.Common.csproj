@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Enumerations\ClaimActionType.cs" />
     <Compile Include="Enumerations\Gender.cs" />
+    <Compile Include="Enumerations\PosTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

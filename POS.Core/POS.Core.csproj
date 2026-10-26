@@ -41,9 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\IAuthorizationService.cs" />
+    <Compile Include="Abstractions\IClock.cs" />
+    <Compile Include="Abstractions\IBackupService.cs" />
+    <Compile Include="Abstractions\IDiagnosticLogger.cs" />
+    <Compile Include="Abstractions\AuditOperation.cs" />
+    <Compile Include="Abstractions\ICurrentUser.cs" />
+    <Compile Include="Abstractions\IReceiptPrinter.cs" />
     <Compile Include="Attributes\ValidateAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CurrentUser.cs" />
+    <Compile Include="Results\OperationResult.cs" />
+    <Compile Include="Results\PagedResult.cs" />
+    <Compile Include="SessionClaimTypes.cs" />
+    <Compile Include="Security\ResourceCodes.cs" />
+    <Compile Include="Security\AuditCategories.cs" />
+    <Compile Include="Security\NavigationPermission.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\POS.Common\POS.Common.csproj">

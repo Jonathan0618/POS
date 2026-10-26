@@ -17,14 +17,17 @@ namespace POS.Core
             }
         }
 
-        public static void Logout()
+        public static string Fullname => GetClaim(SessionClaimTypes.DisplayName);
+        public static string Username => Principal?.Identity?.Name;
+        public static string UserId => GetClaim(ClaimTypes.NameIdentifier);
+        public static string RoleId => GetClaim(SessionClaimTypes.RoleId);
+        public static string RoleName => GetClaim(ClaimTypes.Role);
+
+        public static void Logout() => Principal = null;
+
+        private static string GetClaim(string claimType)
         {
-            Principal = null;
+            return Principal?.FindFirst(claimType)?.Value;
         }
-        public static string Fullname { get; set; }
-        public static string Username { get; set; }
-        public static string UserId { get; set; }
-        public static string RoleId { get; set; }
-        public static string RoleName { get; set; }
     }
 }
