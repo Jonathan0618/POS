@@ -21,6 +21,9 @@ namespace POS.Models.Operations
     public sealed class ProductPriceHistoryDTO
     {
         public int ProductId { get; set; }
+        public string CurrencyCode { get; set; }
+        public int MoneyDecimalPlaces { get; set; }
+        public string TimeZoneId { get; set; }
         public List<ProductPriceChangeDTO> Items { get; set; } = new List<ProductPriceChangeDTO>();
         public int TotalCount { get; set; }
         public int PageNumber { get; set; }

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Claims;
+using POS.Common.Enumerations;
 
 namespace POS.Forms
 {
@@ -23,6 +24,7 @@ namespace POS.Forms
         private readonly ApplicationCompositionRoot _composition;
         private readonly UserService _userService;
         private readonly NavigationPermission _navigationPermission;
+        private readonly IAuthorizationService _authorization;
         private BarButtonItem _settingsButton;
         private BarButtonItem _registersButton;
         private BarButtonItem _auditButton;
@@ -32,6 +34,13 @@ namespace POS.Forms
         private RibbonPageGroup _auditNavigationGroup;
         private RibbonPageGroup _sessionNavigationGroup;
         private BarButtonItem _reportsButton;
+        private BarButtonItem _heldSalesButton;
+        private BarButtonItem _receivingButton;
+        private BarButtonItem _salesRegisterButton;
+        private BarButtonItem _openShiftButton;
+        private BarButtonItem _receiptsButton;
+        private BarButtonItem _maintenanceButton;
+        private RibbonPageGroup _purchasingNavigationGroup;
         public bool LogoutRequested { get; private set; }
         public frmMain() : this(
             new ApplicationCompositionRoot(),
@@ -49,6 +58,7 @@ namespace POS.Forms
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _navigationPermission = new NavigationPermission(
                 authorization ?? throw new ArgumentNullException(nameof(authorization)));
+            _authorization = authorization;
             InitializeComponent();
             ConfigureSettingsNavigation();
             AddSettingsNavigation();
@@ -84,14 +94,18 @@ namespace POS.Forms
 
         private void ApplyNavigationPermissions()
         {
-            SetVisible(ResourceCodes.Users, barButtonItem6, barButtonItem24, btnUsers, _registersButton);
+            SetVisible(ResourceCodes.Users, barButtonItem6, barButtonItem24, btnUsers);
             SetVisible(ResourceCodes.Roles, btnRoles, btnRolePermissions);
             SetVisible(ResourceCodes.Modules, btnModules);
             SetVisible(ResourceCodes.Settings, barButtonItem5, _settingsButton);
+            SetVisible(ResourceCodes.Settings, _registersButton);
             SetVisible(ResourceCodes.Audit, _auditButton);
             SetVisible(ResourceCodes.Dashboard, barButtonItem1);
             SetVisible(ResourceCodes.Returns, barButtonItem10);
+            SetVisible(ResourceCodes.Sales, _receiptsButton);
+            SetVisible(ResourceCodes.Maintenance, _maintenanceButton);
             SetVisible(ResourceCodes.Reports, _reportsButton);
+            SetVisible(ResourceCodes.Purchasing, _receivingButton);
             SetVisible(ResourceCodes.Products,
                 barButtonItem12, barButtonItem13, barButtonItem19, barButtonItem22);
             SetVisible(ResourceCodes.Inventory,
@@ -100,7 +114,15 @@ namespace POS.Forms
                 barButtonItem23);
             SetVisible(ResourceCodes.Sales,
                 barButtonItem4, barButtonItem7, barButtonItem8, barButtonItem9,
-                barButtonItem10, barButtonItem11);
+                barButtonItem11, _heldSalesButton);
+            if (_salesRegisterButton != null)
+                _salesRegisterButton.Visibility = _authorization.HasPermission(ResourceCodes.Sales, ClaimActionType.View) &&
+                    _authorization.HasPermission(ResourceCodes.Sales, ClaimActionType.Add)
+                    ? BarItemVisibility.Always : BarItemVisibility.Never;
+            if (_openShiftButton != null)
+                _openShiftButton.Visibility = _authorization.HasPermission(ResourceCodes.Shifts, ClaimActionType.View) &&
+                    _authorization.HasPermission(ResourceCodes.Shifts, ClaimActionType.Add)
+                    ? BarItemVisibility.Always : BarItemVisibility.Never;
         }
 
         private void AddAssignedNavigation()
@@ -111,6 +133,8 @@ namespace POS.Forms
             ribbonPageGroup5.Text = "Returns";
             ribbonPageGroup8.Name = "rpgReports";
             ribbonPageGroup8.Text = "Management Reports";
+            _purchasingNavigationGroup = new RibbonPageGroup { Name = "rpgPurchasing", Text = "Purchasing" };
+            ribbonPage3.Groups.Add(_purchasingNavigationGroup);
 
             barButtonItem1.Name = "bbiDashboard";
             barButtonItem1.Caption = "Dashboard";
@@ -118,6 +142,45 @@ namespace POS.Forms
             barButtonItem10.Caption = "Returns / Refunds";
             barButtonItem1.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateDashboardControl()));
             barButtonItem10.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateReturnsControl()));
+
+            _receiptsButton = new BarButtonItem { Caption = "Receipts", Id = 1108, Name = "bbiReceipts" };
+            _receiptsButton.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateReceiptsControl()));
+            ribbon.Items.Add(_receiptsButton);
+            ribbonPageGroup5.ItemLinks.Add(_receiptsButton);
+
+            _maintenanceButton = new BarButtonItem { Caption = "Maintenance", Id = 1109, Name = "bbiMaintenance" };
+            _maintenanceButton.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateMaintenanceControl()));
+            ribbon.Items.Add(_maintenanceButton);
+            ribbonPage7.Groups.Add(new RibbonPageGroup { Name = "rpgMaintenance", Text = "Maintenance", ItemLinks = { _maintenanceButton } });
+
+            _heldSalesButton = new BarButtonItem { Caption = "Held Sales", Id = 1104, Name = "bbiHeldSales" };
+            _heldSalesButton.ItemClick += (sender, args) => ExecuteNavigation(() => ShowOwnedDialog(_composition.CreateHeldSalesForm()));
+            ribbon.Items.Add(_heldSalesButton);
+            ribbonPageGroup1.ItemLinks.Add(_heldSalesButton);
+
+            _salesRegisterButton = new BarButtonItem { Caption = "Sales Register", Id = 1106, Name = "bbiSalesRegister" };
+            _salesRegisterButton.ItemClick += (sender, args) => ExecuteNavigation(() =>
+                ShowWorkspace(_composition.CreateSalesRegisterControl()));
+            ribbon.Items.Add(_salesRegisterButton);
+            ribbonPageGroup1.ItemLinks.Add(_salesRegisterButton);
+
+            var cashNavigationGroup = new RibbonPageGroup { Name = "rpgCash", Text = "Cashier Shift" };
+            ribbonPage2.Groups.Add(cashNavigationGroup);
+            _openShiftButton = new BarButtonItem { Caption = "Open Shift", Id = 1107, Name = "bbiOpenShift" };
+            _openShiftButton.ItemClick += (sender, args) => ExecuteNavigation(ShowOpenShiftDialog);
+            ribbon.Items.Add(_openShiftButton);
+            cashNavigationGroup.ItemLinks.Add(_openShiftButton);
+
+            _receivingButton = new BarButtonItem { Caption = "Goods Receiving", Id = 1105, Name = "bbiReceiving" };
+            _receivingButton.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateGoodsReceivingControl()));
+            ribbon.Items.Add(_receivingButton);
+            _purchasingNavigationGroup.ItemLinks.Add(_receivingButton);
+
+            barButtonItem3.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateInventoryControl()));
+            barButtonItem15.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateInventoryControl()));
+            barButtonItem20.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateInventoryControl()));
+            barButtonItem21.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateInventoryControl()));
+            barButtonItem16.ItemClick += (sender, args) => ExecuteNavigation(() => ShowOwnedDialog(_composition.CreateStockAdjustmentForm()));
 
             _reportsButton = new BarButtonItem { Caption = "Reports", Id = 1102, Name = "bbiReports" };
             _reportsButton.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateReportsControl()));
@@ -225,7 +288,7 @@ namespace POS.Forms
             };
             _registersButton = new BarButtonItem
             {
-                Caption = "Register Employees",
+                Caption = "Register Stations",
                 Id = 1103,
                 Name = "bbiRegisters"
             };
@@ -236,11 +299,13 @@ namespace POS.Forms
             ribbon.Items.Add(_settingsButton);
             ribbon.Items.Add(_registersButton);
             ribbonPageGroup10.ItemLinks.Add(_settingsButton);
-            ribbonPageGroup9.ItemLinks.Add(_registersButton);
+            ribbonPageGroup10.ItemLinks.Add(_registersButton);
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            if (_navigationPermission.CanOpen(ResourceCodes.Dashboard))
+                ExecuteNavigation(() => ShowWorkspace(_composition.CreateDashboardControl()));
         }
 
         private void barButtonItem13_ItemClick(object sender, ItemClickEventArgs e)
@@ -304,7 +369,6 @@ namespace POS.Forms
         {
             ShowUsersControl();
         }
-
         private void btnRoles_ItemClick(object sender, ItemClickEventArgs e)
         {
             ExecuteNavigation(() => ShowWorkspace(_composition.CreateRolesControl()));
@@ -324,7 +388,7 @@ namespace POS.Forms
         {
             ClearMainPanel();
 
-            var uc = _composition.CreateStockControl();
+            var uc = _composition.CreateStockCountsControl();
             uc.Dock = System.Windows.Forms.DockStyle.Fill;
             pnlMain.Controls.Add(uc);
         }
@@ -360,6 +424,25 @@ namespace POS.Forms
                 throw new InvalidOperationException("The requested window is unavailable.");
 
             using (form) form.ShowDialog(this);
+        }
+
+        private void ShowOpenShiftDialog()
+        {
+            using (var form = _composition.CreateOpenShiftForm())
+            {
+                if (form == null)
+                    throw new InvalidOperationException("The requested window is unavailable.");
+
+                if (form.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+                {
+                    XtraMessageBox.Show(
+                        this,
+                        string.Format("Cashier shift {0} opened successfully.", form.CashierShiftId),
+                        "Open Shift",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void ExecuteNavigation(Action action)

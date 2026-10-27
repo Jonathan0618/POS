@@ -125,6 +125,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.4\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -155,6 +158,18 @@
     <Compile Include="Forms\frmHeldSales.Designer.cs">
       <DependentUpon>frmHeldSales.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCheckoutComplete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmProductPriceHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmStockAdjustment.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +180,15 @@
     <Compile Include="Forms\frmReceivePurchaseOrder.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmSaleReturn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ucReceipts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucMaintenance.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\frmReceivePurchaseOrder.Designer.cs">
       <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
     </Compile>
@@ -174,13 +198,6 @@
     </Compile>
     <Compile Include="Forms\frmPurchaseOrderEdit.Designer.cs">
       <DependentUpon>frmPurchaseOrderEdit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmStockCount.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmStockCount.Designer.cs">
-      <DependentUpon>frmStockCount.cs</DependentUpon>
-
     </Compile>
     <Compile Include="Forms\Security\frmAddUser.cs">
       <SubType>Form</SubType>
@@ -239,6 +256,12 @@
     <Compile Include="Forms\Shifts\frmCashMovement.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Shifts\frmCloseShift.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Shifts\frmOpenShift.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Security\frmUsers.Designer.cs">
       <DependentUpon>frmUsers.cs</DependentUpon>
     </Compile>
@@ -259,6 +282,21 @@
     </Compile>
     <Compile Include="Forms\ucProducts.Designer.cs">
       <DependentUpon>ucProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ucInventory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucStockCounts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucSalesRegister.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Inventory\AddProducts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\AddProducts.Designer.cs">
+      <DependentUpon>AddProducts.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ucPurchaseOrders.cs">
       <SubType>UserControl</SubType>
@@ -325,10 +363,6 @@
     <EmbeddedResource Include="Forms\frmPurchaseOrderEdit.resx">
       <DependentUpon>frmPurchaseOrderEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmStockCount.resx">
-      <DependentUpon>frmStockCount.cs</DependentUpon>
-
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Security\frmAddUser.resx">
       <DependentUpon>frmAddUser.cs</DependentUpon>
     </EmbeddedResource>
@@ -355,6 +389,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ucProducts.resx">
       <DependentUpon>ucProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\AddProducts.resx">
+      <DependentUpon>AddProducts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ucPurchaseOrders.resx">
       <DependentUpon>ucPurchaseOrders.cs</DependentUpon>

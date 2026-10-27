@@ -1474,9 +1474,24 @@ namespace POS.Tests
 
             using (var context = new POSContext(ConnectionString))
             {
+                context.RegisterStations.Add(new RegisterStation
+                {
+                    Code = "INACTIVE-SHIFT-LOOKUP",
+                    Name = "Inactive Shift Lookup Register",
+                    IsActive = false
+                });
+                context.SaveChanges();
                 var service = new CashierShiftService(context, new SystemClock(),
                     new TestCurrentUser(), new AllowAllAuthorizationService());
-                var registerId = context.RegisterStations.AsNoTracking().Select(x => x.Id).Single();
+                var activeRegisters = service.GetActiveRegisters(1);
+                AssertEqual(1, activeRegisters.Count, "Bounded active-register lookup count");
+                if (!activeRegisters.All(register => register.IsActive) ||
+                    activeRegisters.Any(register => register.Code == "INACTIVE-SHIFT-LOOKUP"))
+                    throw new InvalidOperationException("Shift register lookup returned an inactive register.");
+                AssertThrows<ValidationException>(() => service.GetActiveRegisters(201),
+                    "Active-register lookup maximum bound");
+                var registerId = context.RegisterStations.AsNoTracking()
+                    .Where(x => x.IsActive).Select(x => x.Id).Single();
                 var open = new OpenCashierShiftDTO
                 {
                     RequestId = Guid.NewGuid(), RegisterStationId = registerId, OpeningCash = 500m

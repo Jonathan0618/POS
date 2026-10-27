@@ -54,6 +54,11 @@ namespace POS.Forms
 
         public event EventHandler<ReturnRequestedEventArgs> ReturnRequested;
 
+        public async void RefreshEligibility()
+        {
+            await LoadEligibilityAsync();
+        }
+
         private void BuildUi()
         {
             Dock = DockStyle.Fill;
@@ -220,7 +225,14 @@ namespace POS.Forms
                     "Returns", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            handler(this, new ReturnRequestedEventArgs(_eligibility.SaleId));
+            try
+            {
+                handler(this, new ReturnRequestedEventArgs(_eligibility.SaleId));
+            }
+            catch (Exception exception)
+            {
+                ShowError(exception);
+            }
         }
 
         private void ClearEligibility()

@@ -3,6 +3,7 @@
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using POS.Data.Context;
+    using POS.Domains.Operations;
     using POS.Domains.Security;
     using POS.Core.Security;
     using System;
@@ -78,6 +79,64 @@
             }
 
             SeedPermissions(context, roleManager, role);
+            SeedDefaultPosConfiguration(context);
+        }
+
+        private static void SeedDefaultPosConfiguration(POSContext context)
+        {
+            if (!context.RegisterStations.Any())
+            {
+                context.RegisterStations.Add(new RegisterStation
+                {
+                    Code = "REG-01",
+                    Name = "Main Register",
+                    IsActive = true
+                });
+            }
+
+            if (!context.StoreSettings.Any())
+            {
+                var tax = context.TaxRates
+                    .Where(x => x.IsActive && !x.EffectiveToUtc.HasValue)
+                    .OrderBy(x => x.Id)
+                    .FirstOrDefault();
+                if (tax == null)
+                {
+                    tax = new TaxRate
+                    {
+                        Name = "VAT",
+                        Rate = 0.12m,
+                        IsInclusive = false,
+                        IsActive = true,
+                        EffectiveFromUtc = DateTime.UtcNow
+                    };
+                    context.TaxRates.Add(tax);
+                    context.SaveChanges();
+                }
+
+                context.StoreSettings.Add(new StoreSetting
+                {
+                    StoreName = "My Store",
+                    CurrencyCode = "PHP",
+                    MoneyDecimalPlaces = 2,
+                    TimeZoneId = TimeZoneInfo.Local.Id,
+                    ReceiptFooter = "Thank you for your purchase.",
+                    DefaultTaxRateId = tax.Id,
+                    AllowNegativeStock = false
+                });
+            }
+
+            if (!context.NumberSequences.Any(x => x.DocumentType == "SALE"))
+            {
+                context.NumberSequences.Add(new NumberSequence
+                {
+                    DocumentType = "SALE",
+                    Prefix = "R",
+                    NextNumber = 1
+                });
+            }
+
+            context.SaveChanges();
         }
 
         private static void SeedPermissions(POSContext context, RoleManager<Role> roleManager, Role administrator)

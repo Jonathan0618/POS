@@ -15,6 +15,7 @@ namespace POS.Models.Operations
         public int RegisterStationId { get; set; }
         public int? CustomerId { get; set; }
         public string CurrencyCode { get; set; }
+        public int MoneyDecimalPlaces { get; set; } = 2;
         public decimal Subtotal { get; set; }
         public decimal TaxAmount { get; set; }
         public decimal DiscountAmount { get; set; }

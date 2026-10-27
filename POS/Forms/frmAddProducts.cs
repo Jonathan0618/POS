@@ -31,8 +31,53 @@ namespace POS.Forms
             _validator = new ModelValidator<InventoryDTO>();
             _inventoryService = inventoryService ?? throw new ArgumentNullException(nameof(inventoryService));
             InitializeComponent();
+            ConfigureUnitLookup();
+            ConfigureResponsiveLayout();
             btnSave.Enabled = AuthorizationService.HasPermission(POS.Core.Security.ResourceCodes.Products,
                 POS.Common.Enumerations.ClaimActionType.Add);
+        }
+
+        private void ConfigureResponsiveLayout()
+        {
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MinimizeBox = false;
+            MaximizeBox = false;
+            MinimumSize = Size;
+            panelControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtProductName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtBarcode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lueCategoryId.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lueUnit.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtSellingPrice.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtCostPrice.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtDescription.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            spnBuyingThreshold.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+        }
+
+        private void ConfigureUnitLookup()
+        {
+            var units = new[]
+            {
+                new UnitOption("piece", "Piece"),
+                new UnitOption("bottle", "Bottle"),
+                new UnitOption("can", "Can"),
+                new UnitOption("bag", "Bag"),
+                new UnitOption("box", "Box"),
+                new UnitOption("pack", "Pack"),
+                new UnitOption("carton", "Carton"),
+                new UnitOption("jar", "Jar"),
+                new UnitOption("kg", "Kilogram (kg)"),
+                new UnitOption("g", "Gram (g)"),
+                new UnitOption("litre", "Litre (L)"),
+                new UnitOption("ml", "Millilitre (ml)")
+            };
+
+            lueUnit.Properties.DataSource = units;
+            lueUnit.Properties.DisplayMember = nameof(UnitOption.DisplayName);
+            lueUnit.Properties.ValueMember = nameof(UnitOption.Value);
+            lueUnit.Properties.NullText = "Select a unit";
+            lueUnit.Properties.ShowHeader = false;
         }
         private void frmAddProducts_Load(object sender, EventArgs e)
         {
@@ -86,6 +131,18 @@ namespace POS.Forms
         private void labelControl9_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private sealed class UnitOption
+        {
+            public UnitOption(string value, string displayName)
+            {
+                Value = value;
+                DisplayName = displayName;
+            }
+
+            public string Value { get; private set; }
+            public string DisplayName { get; private set; }
         }
     }
 }

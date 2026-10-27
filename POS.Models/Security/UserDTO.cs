@@ -18,6 +18,8 @@ namespace POS.Models.Security
         public string RoleName { get; set; }
         public bool IsActive { get; set; }
         [Required]
+        //annotation for 10-15 chars
+
         public string Username { get; set; }
         [Required]
         public string Salutation { get; set; }

@@ -1,0 +1,11 @@
+[
+  {
+    "Name": "POS Application",
+    "Projects": [
+      {
+        "Path": "POS\\POS.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

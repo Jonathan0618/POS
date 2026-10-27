@@ -26,6 +26,7 @@ namespace POS.Tests
                 var migrator = new DbMigrator(configuration);
 
                 migrator.Update();
+                migrator.Update();
 
                 if (migrator.GetPendingMigrations().Any())
                     throw new InvalidOperationException("A fresh database still has pending migrations.");
@@ -55,7 +56,39 @@ SELECT
         INNER JOIN dbo.UserRoles AS ur ON ur.UserId = u.Id
         INNER JOIN dbo.Roles AS r ON r.Id = ur.RoleId
         WHERE u.UserName = 'admin' AND r.Name = 'System Administrator'
-    ) THEN 1 ELSE 0 END;";
+    ) THEN 1 ELSE 0 END,
+    (
+        SELECT COUNT(*)
+        FROM dbo.RegisterStations
+        WHERE Code = 'REG-01'
+          AND Name = 'Main Register'
+          AND IsActive = 1
+    ),
+    (
+        SELECT COUNT(*)
+        FROM dbo.StoreSettings AS s
+        INNER JOIN dbo.TaxRates AS t ON t.Id = s.DefaultTaxRateId
+        WHERE s.StoreName = 'My Store'
+          AND s.CurrencyCode = 'PHP'
+          AND s.MoneyDecimalPlaces = 2
+          AND s.TimeZoneId = @localTimeZoneId
+          AND s.ReceiptFooter = 'Thank you for your purchase.'
+          AND s.AllowNegativeStock = 0
+          AND t.Name = 'VAT'
+          AND t.Rate = 0.12
+          AND t.IsInclusive = 0
+          AND t.IsActive = 1
+          AND t.EffectiveFromUtc <= GETUTCDATE()
+          AND t.EffectiveToUtc IS NULL
+    ),
+    (
+        SELECT COUNT(*)
+        FROM dbo.NumberSequences
+        WHERE DocumentType = 'SALE'
+          AND Prefix = 'R'
+          AND NextNumber = 1
+    );";
+                command.Parameters.AddWithValue("@localTimeZoneId", TimeZoneInfo.Local.Id);
 
                 using (var reader = command.ExecuteReader(CommandBehavior.SingleRow))
                 {
@@ -66,6 +99,15 @@ SELECT
                     if (reader.GetInt32(3) != 1)
                         throw new InvalidOperationException(
                             "Fresh migration did not seed the admin user in the System Administrator role.");
+                    if (reader.GetInt32(4) != 1)
+                        throw new InvalidOperationException(
+                            "Fresh migration did not seed exactly one active REG-01 Main Register.");
+                    if (reader.GetInt32(5) != 1)
+                        throw new InvalidOperationException(
+                            "Fresh migration did not seed store settings with an active default VAT rate.");
+                    if (reader.GetInt32(6) != 1)
+                        throw new InvalidOperationException(
+                            "Fresh migration did not seed exactly one SALE receipt sequence.");
                 }
             }
         }

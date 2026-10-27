@@ -11,6 +11,10 @@ using POS.Core.Abstractions;
 using POS.Data.Context;
 using POS.Services.Reporting;
 using POS.Services.Point_of_Sale;
+using POS.Services.Purchasing;
+using POS.Services.Customers;
+using POS.Services.Inventory;
+using POS.Services.Maintenance;
 
 namespace POS.Composition
 {
@@ -53,6 +57,51 @@ namespace POS.Composition
             var service = new InventoryService();
             var control = new ucProducts(service, CreateAddProductForm);
             control.Disposed += (sender, args) => service.Dispose();
+            return control;
+        }
+
+        public frmStockAdjustment CreateStockAdjustmentForm()
+        {
+            var context = new POSContext(); var user = new CurrentUserAccessor(); var auth = new ClaimsAuthorizationService(user);
+            var products = new InventoryService(context, auth); var ledger = new InventoryLedgerService(context, new SystemClock(), user, auth);
+            var form = new frmStockAdjustment(products, ledger); form.Disposed += (s, e) => ((System.IDisposable)context).Dispose(); return form;
+        }
+
+        public ucInventory CreateInventoryControl()
+        {
+            var context = new POSContext(); var user = new CurrentUserAccessor(); var auth = new ClaimsAuthorizationService(user);
+            var ledger = new InventoryLedgerService(context, new SystemClock(), user, auth); var products = new InventoryService(context, auth);
+            var control = new ucInventory(ledger, products); control.Disposed += (s, e) => ((System.IDisposable)context).Dispose(); return control;
+        }
+
+        public ucStockCounts CreateStockCountsControl()
+        {
+            var context = new POSContext(); var user = new CurrentUserAccessor(); var auth = new ClaimsAuthorizationService(user); var clock = new SystemClock();
+            var service = new StockCountService(context, clock, user, auth); var products = new InventoryService(context, auth); var ledger = new InventoryLedgerService(context, clock, user, auth);
+            var control = new ucStockCounts(service, products, ledger); control.Disposed += (s, e) => ((System.IDisposable)context).Dispose(); return control;
+        }
+
+        public ucSalesRegister CreateSalesRegisterControl()
+        {
+            var currentUser = new CurrentUserAccessor();
+            var clock = new SystemClock();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var context = new POSContext("POSConnection", clock, currentUser);
+            var cart = new SalesCartService(context, authorization);
+            var sales = new SalesService(context, clock, currentUser, authorization);
+            var shifts = new CashierShiftService(context, clock, currentUser, authorization);
+            var customers = new CustomerService(context, authorization);
+            var receipts = new SaleReceiptService(context, currentUser, authorization,
+                new WindowsReceiptPrinter(), clock);
+            var control = new ucSalesRegister(cart, sales, shifts, customers, receipts,
+                () => new frmHeldSales(sales));
+            control.Disposed += (sender, args) =>
+            {
+                receipts.Dispose();
+                sales.Dispose();
+                cart.Dispose();
+                ((System.IDisposable)context).Dispose();
+            };
             return control;
         }
 
@@ -132,13 +181,48 @@ namespace POS.Composition
 
         public ucRegisters CreateRegistersControl()
         {
-            var service = new UserService();
-            var control = new ucRegisters(
-                service,
-                () => new frmRegisterEdit(service),
-                userId => new frmRegisterEdit(service, userId));
-            control.Disposed += (sender, args) => service.Dispose();
+            var context = new POSContext();
+            var currentUser = new CurrentUserAccessor();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var service = new RegisterStationService(context, authorization);
+            var printer = new WindowsReceiptPrinter();
+            var control = new ucRegisters(service,
+                model => new frmRegisterEdit(service, printer.GetInstalledPrinters(), model));
+            control.Disposed += (sender, args) => ((System.IDisposable)context).Dispose();
             return control;
+        }
+
+        public frmHeldSales CreateHeldSalesForm()
+        {
+            var context = new POSContext();
+            var currentUser = new CurrentUserAccessor();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var service = new SalesService(context, new SystemClock(), currentUser, authorization);
+            var form = new frmHeldSales(service);
+            form.Disposed += (sender, args) =>
+            {
+                service.Dispose();
+                ((System.IDisposable)context).Dispose();
+            };
+            return form;
+        }
+
+        public frmReceivePurchaseOrder CreateReceivePurchaseOrderForm()
+        {
+            var context = new POSContext();
+            var currentUser = new CurrentUserAccessor();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var clock = new SystemClock();
+            var form = new frmReceivePurchaseOrder(
+                new PurchaseOrderService(context, clock, authorization),
+                new GoodsReceiptService(context, clock, currentUser, authorization));
+            form.Disposed += (sender, args) => ((System.IDisposable)context).Dispose();
+            return form;
+        }
+
+        public ucGoodsReceiving CreateGoodsReceivingControl()
+        {
+            return new ucGoodsReceiving(CreateReceivePurchaseOrderForm);
         }
 
         public frmCashMovement CreateCashMovementForm(CashierShiftDTO shift)
@@ -149,6 +233,28 @@ namespace POS.Composition
             var service = new CashierShiftService(context, new SystemClock(), currentUser, authorization);
             var form = new frmCashMovement(service, authorization, shift);
             form.Disposed += (sender, args) => ((System.IDisposable)(object)context).Dispose();
+            return form;
+        }
+
+        public frmCloseShift CreateCloseShiftForm(CashierShiftDTO shift)
+        {
+            var context = new POSContext();
+            var currentUser = new CurrentUserAccessor();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var service = new CashierShiftService(context, new SystemClock(), currentUser, authorization);
+            var form = new frmCloseShift(service, authorization, shift);
+            form.Disposed += (sender, args) => ((System.IDisposable)context).Dispose();
+            return form;
+        }
+
+        public frmOpenShift CreateOpenShiftForm()
+        {
+            var context = new POSContext();
+            var currentUser = new CurrentUserAccessor();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var service = new CashierShiftService(context, new SystemClock(), currentUser, authorization);
+            var form = new frmOpenShift(service, currentUser, authorization);
+            form.Disposed += (sender, args) => ((System.IDisposable)context).Dispose();
             return form;
         }
 
@@ -189,13 +295,49 @@ namespace POS.Composition
             var clock = new SystemClock();
             var receipts = new SaleReceiptService(context, currentUser, authorization, new WindowsReceiptPrinter(), clock);
             var returns = new SaleReturnService(context, clock, currentUser, authorization);
+            var shifts = new CashierShiftService(context, clock, currentUser, authorization);
             var control = new ucReturns(receipts, returns);
+            control.ReturnRequested += (sender, args) =>
+            {
+                var eligibility = returns.GetEligibility(args.SaleId);
+                using (var form = new frmSaleReturn(returns, shifts, eligibility))
+                {
+                    if (form.ShowDialog(control.FindForm()) == System.Windows.Forms.DialogResult.OK)
+                        control.RefreshEligibility();
+                }
+            };
             control.Disposed += (sender, args) =>
             {
                 returns.Dispose();
                 receipts.Dispose();
                 ((System.IDisposable)(object)context).Dispose();
             };
+            return control;
+        }
+
+        public ucReceipts CreateReceiptsControl()
+        {
+            var context = new POSContext();
+            var currentUser = new CurrentUserAccessor();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var service = new SaleReceiptService(context, currentUser, authorization, new WindowsReceiptPrinter(), new SystemClock());
+            var control = new ucReceipts(service);
+            control.Disposed += (sender, args) =>
+            {
+                service.Dispose();
+                ((System.IDisposable)context).Dispose();
+            };
+            return control;
+        }
+
+        public ucMaintenance CreateMaintenanceControl()
+        {
+            var context = new POSContext();
+            var currentUser = new CurrentUserAccessor();
+            var authorization = new ClaimsAuthorizationService(currentUser);
+            var service = new DatabaseMaintenanceService(context, authorization, new SystemClock(), currentUser, new DiagnosticFileLogger());
+            var control = new ucMaintenance(service);
+            control.Disposed += (sender, args) => ((System.IDisposable)context).Dispose();
             return control;
         }
 

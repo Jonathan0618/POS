@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucProducts));
             this.Quantity = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Status = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcProducts = new DevExpress.XtraGrid.GridControl();
             this.gcProduct = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.Id = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -40,7 +41,6 @@
             this.CategoryName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Price = new DevExpress.XtraGrid.Columns.GridColumn();
             this.CostPrice = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Status = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.btnAdd = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
@@ -62,6 +62,16 @@
             this.Quantity.Visible = true;
             this.Quantity.VisibleIndex = 6;
             this.Quantity.Width = 80;
+            // 
+            // Status
+            // 
+            this.Status.Caption = "Status";
+            this.Status.FieldName = "Status";
+            this.Status.Name = "Status";
+            this.Status.OptionsColumn.AllowEdit = false;
+            this.Status.OptionsColumn.FixedWidth = true;
+            this.Status.Visible = true;
+            this.Status.VisibleIndex = 7;
             // 
             // gcProducts
             // 
@@ -162,15 +172,6 @@
             this.CostPrice.Visible = true;
             this.CostPrice.VisibleIndex = 5;
             this.CostPrice.Width = 92;
-            // 
-            // Status
-            // 
-            this.Status.Caption = "Status";
-            this.Status.Name = "Status";
-            this.Status.OptionsColumn.AllowEdit = false;
-            this.Status.OptionsColumn.FixedWidth = true;
-            this.Status.Visible = true;
-            this.Status.VisibleIndex = 7;
             // 
             // panelControl1
             // 

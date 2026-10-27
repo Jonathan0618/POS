@@ -146,6 +146,7 @@ namespace POS.Services.Point_of_Sale
                 taxTotal += lineTax;
             }
             cart.CurrencyCode = store.CurrencyCode;
+            cart.MoneyDecimalPlaces = store.MoneyDecimalPlaces;
             cart.Subtotal = subtotal;
             cart.TaxAmount = taxTotal;
             if (cart.DiscountAmount < 0 || cart.DiscountAmount > subtotal + taxTotal || decimal.Round(cart.DiscountAmount, 2) != cart.DiscountAmount)

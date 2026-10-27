@@ -8,6 +8,7 @@ using POS.Services.Security;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace POS.Services.Shifts
@@ -87,6 +88,29 @@ namespace POS.Services.Shifts
                     throw;
                 }
             }
+        }
+
+        public List<RegisterStationDTO> GetActiveRegisters(int maximumResults = 200)
+        {
+            Demand(ClaimActionType.View);
+            if (maximumResults < 1 || maximumResults > 200)
+                throw new ValidationException("The active-register lookup limit must be between 1 and 200.");
+
+            return _context.RegisterStations.AsNoTracking()
+                .Where(register => register.IsActive)
+                .OrderBy(register => register.Code)
+                .ThenBy(register => register.Name)
+                .ThenBy(register => register.Id)
+                .Take(maximumResults)
+                .Select(register => new RegisterStationDTO
+                {
+                    Id = register.Id,
+                    Code = register.Code,
+                    Name = register.Name,
+                    PrinterName = register.PrinterName,
+                    IsActive = register.IsActive
+                })
+                .ToList();
         }
 
         public long PostCashMovement(PostCashMovementDTO request)
