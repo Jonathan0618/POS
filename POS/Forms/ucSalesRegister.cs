@@ -78,7 +78,18 @@ namespace POS.Forms
             Dock = DockStyle.Fill;
             BackColor = System.Drawing.Color.FromArgb(243, 246, 250);
             var header = BuildOperationalHeader();
-            var workArea = new SplitContainer { Dock = DockStyle.Fill, SplitterDistance = 460 };
+            var workArea = new SplitContainer
+            {
+                Dock = DockStyle.Fill,
+                IsSplitterFixed = true,
+                SplitterDistance = 460
+            };
+            workArea.Resize += (sender, args) =>
+            {
+                var split = (SplitContainer)sender;
+                if (split.Width > split.SplitterWidth)
+                    split.SplitterDistance = (split.Width - split.SplitterWidth) / 2;
+            };
             workArea.BackColor = System.Drawing.Color.FromArgb(243, 246, 250);
             workArea.Panel1.Padding = new Padding(10, 10, 5, 10);
             workArea.Panel2.Padding = new Padding(5, 10, 10, 10);
