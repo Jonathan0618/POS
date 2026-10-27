@@ -76,8 +76,12 @@ namespace POS.Forms
         private void BuildUi()
         {
             Dock = DockStyle.Fill;
+            BackColor = System.Drawing.Color.FromArgb(243, 246, 250);
             var header = BuildOperationalHeader();
             var workArea = new SplitContainer { Dock = DockStyle.Fill, SplitterDistance = 500 };
+            workArea.BackColor = System.Drawing.Color.FromArgb(243, 246, 250);
+            workArea.Panel1.Padding = new Padding(10, 10, 5, 10);
+            workArea.Panel2.Padding = new Padding(5, 10, 10, 10);
             var root = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2 };
             root.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
@@ -129,10 +133,14 @@ namespace POS.Forms
 
         private void BuildProducts(Control parent)
         {
-            var filters = new TableLayoutPanel { Dock = DockStyle.Top, Height = 110, ColumnCount = 3, Padding = new Padding(8) };
+            var sectionHeader = SectionHeader("PRODUCT CATALOG", "Scan a barcode or search the catalog");
+            var filters = new TableLayoutPanel { Dock = DockStyle.Top, Height = 116, ColumnCount = 3, RowCount = 3, Padding = new Padding(10, 7, 10, 7) };
             filters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55));
             filters.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92));
             filters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
+            filters.RowStyles.Add(new RowStyle(SizeType.Absolute, 22));
+            filters.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
+            filters.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
             var scanLabel = new LabelControl { Text = "SCAN BARCODE" };
             scanLabel.Appearance.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             filters.Controls.Add(scanLabel, 0, 0);
@@ -158,20 +166,25 @@ namespace POS.Forms
             _products.ViewCollection.Add(_productView);
             _productView.OptionsBehavior.Editable = false;
             _productView.OptionsView.ShowGroupPanel = false;
+            StyleGrid(_productView);
             ProductColumn(nameof(SaleCartLineDTO.ProductName), "Product");
             ProductColumn(nameof(SaleCartLineDTO.Sku), "SKU");
             ProductColumn(nameof(SaleCartLineDTO.Barcode), "Barcode");
             ProductColumn(nameof(SaleCartLineDTO.QuantityAvailable), "Available");
             ProductColumn(nameof(SaleCartLineDTO.UnitPrice), "Unit price", "n2");
-            var pager = new PanelControl { Dock = DockStyle.Bottom, Height = 45 };
+            var pager = new PanelControl { Dock = DockStyle.Bottom, Height = 48, BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder };
             _productPrevious.SetBounds(10, 8, 90, 28);
             _productNext.SetBounds(106, 8, 90, 28);
             _addProduct.Dock = DockStyle.Right;
-            _addProduct.Width = 140;
+            _addProduct.Width = 155;
+            ConfigureSecondaryButton(_productPrevious);
+            ConfigureSecondaryButton(_productNext);
+            ConfigurePrimaryButton(_addProduct, System.Drawing.Color.FromArgb(37, 99, 235));
             pager.Controls.AddRange(new Control[] { _productPrevious, _productNext, _addProduct });
             parent.Controls.Add(_products);
             parent.Controls.Add(pager);
             parent.Controls.Add(filters);
+            parent.Controls.Add(sectionHeader);
 
             _barcode.KeyDown += async (sender, args) => { if (args.KeyCode == Keys.Enter) { args.SuppressKeyPress = true; await ScanAsync(); } };
             _search.KeyDown += async (sender, args) => { if (args.KeyCode == Keys.Enter) { args.SuppressKeyPress = true; _productPageNumber = 1; await SearchAsync(); } };
@@ -186,11 +199,13 @@ namespace POS.Forms
 
         private void BuildCart(Control parent)
         {
+            var sectionHeader = SectionHeader("CURRENT CART", "Review items, customer, and payment total");
             _cartGrid.Dock = DockStyle.Fill;
             _cartGrid.MainView = _cartView;
             _cartGrid.ViewCollection.Add(_cartView);
             _cartView.OptionsBehavior.Editable = false;
             _cartView.OptionsView.ShowGroupPanel = false;
+            StyleGrid(_cartView);
             CartColumn(nameof(SaleCartLineDTO.ProductName), "Product");
             CartColumn(nameof(SaleCartLineDTO.Sku), "SKU");
             CartColumn(nameof(SaleCartLineDTO.Quantity), "Qty");
@@ -199,8 +214,11 @@ namespace POS.Forms
             CartColumn(nameof(SaleCartLineDTO.TaxAmount), "Tax", "n2");
             CartColumn(nameof(SaleCartLineDTO.LineTotal), "Total", "n2");
 
-            var summary = new TableLayoutPanel { Dock = DockStyle.Bottom, Height = 142, ColumnCount = 4, Padding = new Padding(8) };
+            var summary = new TableLayoutPanel { Dock = DockStyle.Bottom, Height = 156, ColumnCount = 4, RowCount = 3, Padding = new Padding(10, 7, 10, 8), BackColor = System.Drawing.Color.White };
             for (var i = 0; i < 4; i++) summary.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+            summary.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
+            summary.RowStyles.Add(new RowStyle(SizeType.Absolute, 36));
+            summary.RowStyles.Add(new RowStyle(SizeType.Absolute, 52));
             summary.Controls.Add(Summary("Subtotal", _subtotal), 0, 0);
             summary.Controls.Add(Summary("Tax", _tax), 1, 0);
             summary.Controls.Add(Summary("Discount", _discount), 2, 0);
@@ -216,6 +234,10 @@ namespace POS.Forms
             _payment.Appearance.Options.UseBackColor = true;
             _payment.Appearance.Options.UseForeColor = true;
             _payment.Appearance.Options.UseFont = true;
+            ConfigureSecondaryButton(_remove);
+            ConfigureSecondaryButton(_hold);
+            ConfigureSecondaryButton(_resume);
+            ConfigureSecondaryButton(_clear);
             summary.Controls.Add(_remove, 0, 1);
             summary.Controls.Add(_hold, 1, 1);
             summary.Controls.Add(_resume, 2, 1);
@@ -225,10 +247,13 @@ namespace POS.Forms
             _status.Dock = DockStyle.Top;
             _status.AutoSizeMode = LabelAutoSizeMode.None;
             _status.Height = 32;
-            _status.Padding = new Padding(8, 7, 8, 0);
+            _status.Padding = new Padding(10, 7, 10, 0);
+            _status.Appearance.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
+            _status.Appearance.Options.UseForeColor = true;
             parent.Controls.Add(_cartGrid);
             parent.Controls.Add(summary);
             parent.Controls.Add(_status);
+            parent.Controls.Add(sectionHeader);
             _cartView.DoubleClick += async (sender, args) => await ChangeQuantityAsync();
             _remove.Click += async (sender, args) => await RemoveSelectedAsync();
             _hold.Click += async (sender, args) => await HoldAsync();
@@ -258,14 +283,85 @@ namespace POS.Forms
 
         private static Control Summary(string caption, LabelControl value)
         {
-            var panel = new PanelControl { Dock = DockStyle.Fill, BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder };
+            var panel = new PanelControl { Dock = DockStyle.Fill, BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder, Padding = new Padding(2, 1, 2, 1) };
             var label = new LabelControl { Text = caption };
             label.SetBounds(0, 0, 120, 18);
-            value.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            label.Appearance.ForeColor = System.Drawing.Color.FromArgb(100, 116, 139);
+            label.Appearance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            label.Appearance.Options.UseForeColor = true;
+            label.Appearance.Options.UseFont = true;
+            value.Appearance.Font = new System.Drawing.Font("Segoe UI", caption == "TOTAL" ? 16F : 12F, System.Drawing.FontStyle.Bold);
+            value.Appearance.ForeColor = caption == "TOTAL"
+                ? System.Drawing.Color.FromArgb(30, 64, 175)
+                : System.Drawing.Color.FromArgb(15, 23, 42);
+            value.Appearance.Options.UseForeColor = true;
             value.SetBounds(0, 22, 150, 28);
             panel.Controls.Add(label);
             panel.Controls.Add(value);
             return panel;
+        }
+
+        private static Control SectionHeader(string title, string subtitle)
+        {
+            var panel = new PanelControl
+            {
+                Dock = DockStyle.Top,
+                Height = 45,
+                Padding = new Padding(10, 5, 10, 3),
+                BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
+            };
+            var heading = new LabelControl { Text = title, Dock = DockStyle.Top, Height = 20 };
+            heading.Appearance.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            heading.Appearance.ForeColor = System.Drawing.Color.FromArgb(15, 23, 42);
+            heading.Appearance.Options.UseFont = true;
+            heading.Appearance.Options.UseForeColor = true;
+            var detail = new LabelControl { Text = subtitle, Dock = DockStyle.Fill };
+            detail.Appearance.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            detail.Appearance.ForeColor = System.Drawing.Color.FromArgb(100, 116, 139);
+            detail.Appearance.Options.UseFont = true;
+            detail.Appearance.Options.UseForeColor = true;
+            panel.Controls.Add(detail);
+            panel.Controls.Add(heading);
+            return panel;
+        }
+
+        private static void StyleGrid(GridView view)
+        {
+            view.RowHeight = 30;
+            view.OptionsView.EnableAppearanceEvenRow = true;
+            view.OptionsView.ShowIndicator = false;
+            view.Appearance.HeaderPanel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            view.Appearance.HeaderPanel.ForeColor = System.Drawing.Color.FromArgb(51, 65, 85);
+            view.Appearance.HeaderPanel.BackColor = System.Drawing.Color.FromArgb(226, 232, 240);
+            view.Appearance.HeaderPanel.Options.UseFont = true;
+            view.Appearance.HeaderPanel.Options.UseForeColor = true;
+            view.Appearance.HeaderPanel.Options.UseBackColor = true;
+            view.Appearance.Row.Font = new System.Drawing.Font("Segoe UI", 9F);
+            view.Appearance.Row.ForeColor = System.Drawing.Color.FromArgb(30, 41, 59);
+            view.Appearance.Row.Options.UseFont = true;
+            view.Appearance.Row.Options.UseForeColor = true;
+            view.Appearance.EvenRow.BackColor = System.Drawing.Color.FromArgb(248, 250, 252);
+            view.Appearance.EvenRow.Options.UseBackColor = true;
+            view.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(219, 234, 254);
+            view.Appearance.FocusedRow.Options.UseBackColor = true;
+        }
+
+        private static void ConfigureSecondaryButton(SimpleButton button)
+        {
+            button.Appearance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            button.Appearance.ForeColor = System.Drawing.Color.FromArgb(51, 65, 85);
+            button.Appearance.Options.UseFont = true;
+            button.Appearance.Options.UseForeColor = true;
+        }
+
+        private static void ConfigurePrimaryButton(SimpleButton button, System.Drawing.Color color)
+        {
+            button.Appearance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            button.Appearance.BackColor = color;
+            button.Appearance.ForeColor = System.Drawing.Color.White;
+            button.Appearance.Options.UseFont = true;
+            button.Appearance.Options.UseBackColor = true;
+            button.Appearance.Options.UseForeColor = true;
         }
 
         private async Task InitializeAsync()
@@ -627,12 +723,12 @@ namespace POS.Forms
 
         private void UpdateOperationalHeader()
         {
-            _registerContext.Text = _shift == null ? "REGISTER  —" : "REGISTER  " + _shift.RegisterCode;
+            _registerContext.Text = _shift == null ? "REGISTER  -" : "REGISTER  " + _shift.RegisterCode;
             _cashierContext.Text = "CASHIER  " + (string.IsNullOrWhiteSpace(_shift == null ? null : _shift.CashierName)
                 ? (CurrentUser.Fullname ?? CurrentUser.Username ?? CurrentUser.UserId ?? "—") : _shift.CashierName);
             _shiftContext.Text = _shift == null
-                ? "SHIFT UNAVAILABLE  •  Open or resolve the cashier shift to enable this register."
-                : string.Format("SHIFT #{0}  •  {1}  •  Opened {2:g}", _shift.Id, _shift.Status.ToUpperInvariant(), _shift.OpenedUtc.ToLocalTime());
+                ? "SHIFT UNAVAILABLE  -  Open or resolve the cashier shift to enable this register."
+                : string.Format("SHIFT #{0}  |  {1}  |  Opened {2:g}", _shift.Id, _shift.Status.ToUpperInvariant(), _shift.OpenedUtc.ToLocalTime());
             if (_cart == null) _itemCount.Text = "ITEMS  0";
         }
 
