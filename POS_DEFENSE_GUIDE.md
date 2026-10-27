@@ -162,6 +162,207 @@ The UI should not be the authority for:
 
 Those rules belong in services, domain concepts, or the persistence boundary.
 
+### 3.5 Dependency Injection in this project
+
+#### What Dependency Injection means
+
+**Dependency Injection (DI)** is a way of supplying an object with the things it needs instead of allowing the object to construct those things internally.
+
+The word “dependency” means another object required to do a job. For example, a sale service depends on a database context, a clock, the current user, and an authorization service. “Injection” means those dependencies are provided to the service, usually through its constructor.
+
+Without injection, a class might do this:
+
+```csharp
+public class SalesService
+{
+    public SaleResult Checkout(SaleRequest request)
+    {
+        var context = new POSContext();
+        var clock = new SystemClock();
+        var user = new CurrentUserAccessor();
+        var authorization = new ClaimsAuthorizationService(user);
+
+        // Business work is now tied to concrete infrastructure.
+        // The method also owns creation and disposal decisions.
+    }
+}
+```
+
+This is difficult to test and difficult to change. A test cannot easily provide a fake clock or controlled user. A future implementation cannot replace SQL Server access, authorization, or printing without editing the business class.
+
+With constructor injection, the class receives what it needs:
+
+```csharp
+public class SalesService
+{
+    private readonly POSContext _context;
+    private readonly IClock _clock;
+    private readonly ICurrentUser _currentUser;
+    private readonly IAuthorizationService _authorization;
+
+    public SalesService(
+        POSContext context,
+        IClock clock,
+        ICurrentUser currentUser,
+        IAuthorizationService authorization)
+    {
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+        _currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
+        _authorization = authorization ?? throw new ArgumentNullException(nameof(authorization));
+    }
+}
+```
+
+The service now concentrates on sales rules. It does not need to know how the clock, user accessor, authorization implementation, or context was created.
+
+#### The three DI roles
+
+| DI role | Meaning | POS example |
+|---|---|---|
+| Dependency | Object required by another object | `POSContext`, `IClock`, `ICurrentUser`, `IAuthorizationService` |
+| Consumer | Class that needs the dependency | `SalesService`, `CashierShiftService`, `frmCloseShift` |
+| Composition root | One place that constructs the object graph | `ApplicationCompositionRoot` |
+
+The composition root is the application’s wiring location. It chooses the concrete implementation and passes it to the consumer. In this project it creates objects such as `SystemClock`, `CurrentUserAccessor`, `ClaimsAuthorizationService`, `POSContext`, `SalesService`, and the related forms or controls.
+
+#### How DI works in the POS flow
+
+```mermaid
+flowchart TD
+    Start[Application starts or module opens] --> Root[ApplicationCompositionRoot]
+    Root --> Clock[Create SystemClock]
+    Root --> User[Create CurrentUserAccessor]
+    Root --> Auth[Create ClaimsAuthorizationService]
+    Root --> Context[Create POSContext]
+    Clock --> Sales[Inject into SalesService]
+    User --> Sales
+    Auth --> Sales
+    Context --> Sales
+    Sales --> Register[Inject service into ucSalesRegister]
+    Register --> UserAction[Cashier presses Checkout]
+    UserAction --> Sales
+    Sales --> Result[Return success or validation/conflict result]
+    Result --> Register
+```
+
+For example, the current composition code creates a shared context and supporting objects for the sales register, then injects them into the services used by `ucSalesRegister`:
+
+```csharp
+var currentUser = new CurrentUserAccessor();
+var clock = new SystemClock();
+var authorization = new ClaimsAuthorizationService(currentUser);
+var context = new POSContext("POSConnection", clock, currentUser);
+
+var cart = new SalesCartService(context, authorization);
+var sales = new SalesService(context, clock, currentUser, authorization);
+var shifts = new CashierShiftService(context, clock, currentUser, authorization);
+var customers = new CustomerService(context, authorization);
+var receipts = new SaleReceiptService(
+    context,
+    currentUser,
+    authorization,
+    new WindowsReceiptPrinter(),
+    clock);
+
+var control = new ucSalesRegister(
+    cart, sales, shifts, customers, receipts, heldSalesFactory);
+```
+
+The important point is not the number of `new` statements. The important point is **where** they occur. They are concentrated in the composition root, not scattered through business methods and forms. The forms receive ready-to-use services through their constructors.
+
+#### Manual DI versus a DI container
+
+There are two common ways to implement DI:
+
+1. **Manual DI** — the composition root explicitly calls constructors and passes dependencies. This is the approach currently visible in `ApplicationCompositionRoot`.
+2. **DI container** — a framework such as Microsoft.Extensions.DependencyInjection resolves registered interfaces and creates the object graph automatically.
+
+This project uses **manual constructor injection**, not a large automatic container. That is a valid DI implementation and can be easier to understand in a desktop application. It makes object ownership explicit, which is useful for disposing EF contexts and services when WinForms controls close.
+
+A container could be added later, but it would not automatically make the architecture better. The important principles are constructor injection, clear lifetimes, one composition root, and avoiding service-locator calls from business code.
+
+#### Dependency inversion versus Dependency Injection
+
+These terms are related but not identical:
+
+- **Dependency Injection** is the mechanism: provide an object with its dependencies.
+- **Dependency Inversion Principle** is the design rule: high-level business policy should not depend directly on low-level details; both should depend on abstractions where practical.
+
+For example, `SaleReceiptService` receiving an `IReceiptPrinter` follows both ideas: the service is injected with a printer contract, and the Windows printer is an outer mechanism. The composition root decides that the production implementation is `WindowsReceiptPrinter`.
+
+The current project applies this strongly to clocks, users, authorization, printers, backup, and diagnostics. Some service classes still receive concrete `POSContext` and concrete service types because the implementation uses EF6 directly. Therefore, the same qualification applies: DI is present and useful, while dependency inversion is applied selectively rather than perfectly at every persistence boundary.
+
+#### DI lifetimes in a desktop application
+
+Web applications often describe services as transient, scoped, or singleton. A WinForms application still needs lifetime decisions, but the scope is usually the application or a workflow rather than an HTTP request.
+
+| Lifetime | Meaning | POS guidance |
+|---|---|---|
+| Transient | Create a new instance for each consumer or operation | Useful for lightweight forms or independent lookup services. |
+| Workflow-scoped | Share an instance across one related workflow | Appropriate for one sales register, receiving workflow, or shift form. A shared `POSContext` keeps one atomic workflow coordinated. |
+| Application-wide | One instance for the application lifetime | Suitable only for safe stateless services or shared session access; avoid using one EF context forever. |
+
+The project generally creates a context and its services for a form or workflow and disposes them when the form/control is disposed. This avoids keeping a long-lived EF change tracker, while allowing related services in one workflow to share the same context and transaction boundary.
+
+#### Ownership and disposal
+
+DI does not remove resource ownership. Someone must decide who disposes an EF context, service, printer, or other disposable object. In this project, the composition root attaches disposal handlers to forms and controls. For example, when the sales register closes, its services and context are disposed together.
+
+This prevents:
+
+- database connections remaining open;
+- stale tracked entities accumulating;
+- a child form disposing an object still used by another workflow;
+- unclear ownership of the same context.
+
+The rule is:
+
+> The code that creates a workflow-scoped disposable dependency should own its lifetime, unless ownership is explicitly transferred.
+
+#### DI and testing
+
+DI improves testing because a test can supply controlled dependencies:
+
+```csharp
+var fakeClock = new FixedClock(expectedUtcTime);
+var fakeUser = new TestCurrentUser("cashier-1");
+var fakeAuthorization = new AllowSalesAuthorization();
+var testContext = CreateIsolatedContext();
+
+var service = new SalesService(
+    testContext,
+    fakeClock,
+    fakeUser,
+    fakeAuthorization);
+```
+
+This makes tests deterministic. The test does not depend on the real wall clock, the interactive Windows user, the production authorization state, or an accidentally shared database. The same idea applies to receipt printing: a fake printer can record “printed receipt” without requiring a physical printer.
+
+DI also makes failure cases easier to test:
+
+- a denied permission;
+- a stale revision;
+- insufficient stock;
+- a duplicate request identifier;
+- a database failure;
+- a failed printer;
+- a known fixed date and timezone.
+
+#### DI mistakes to avoid
+
+1. **Constructing dependencies inside business methods** — hides the object graph and prevents controlled tests.
+2. **Using a service locator everywhere** — the class appears to have no dependencies while secretly resolving them at runtime.
+3. **Injecting the entire composition root into every class** — creates a large hidden dependency instead of explicit requirements.
+4. **Keeping one EF context forever** — can cause stale data, excessive tracking, memory growth, and difficult concurrency behavior.
+5. **Sharing a disposable context across unrelated workflows** — one form may dispose or contaminate another form’s state.
+6. **Injecting too many unrelated services** — usually indicates that a class has too many responsibilities and should be split.
+7. **Confusing UI hiding with authorization** — dependency wiring does not replace service-level permission checks.
+
+#### Defense answer: “Where is Dependency Injection in your system?”
+
+> “Dependency Injection is implemented through constructor injection and the `ApplicationCompositionRoot`. Forms such as `ucSalesRegister`, `frmCloseShift`, and `frmSaleReturn` receive their services instead of constructing them inside event handlers. The composition root creates the concrete `POSContext`, clock, current-user accessor, authorization service, printer, and business services, then passes them into the workflow. This keeps the UI thin, makes ownership and disposal explicit, and allows tests to substitute controlled clocks, users, authorization services, printers, or contexts. We use manual DI rather than an automatic container because the desktop application has a relatively small object graph and explicit lifetime management is valuable.”
+
 ---
 
 ## 4. Module map
@@ -815,4 +1016,3 @@ At the time this guide was prepared, the Release solution build completed with *
 ## 19. Final defense narrative
 
 “This POS is designed around retail business integrity rather than only screen functionality. A product enters the system through catalog and purchasing workflows, becomes inventory through a receipt, is sold through a validated cashier shift, and is removed from inventory through an atomic checkout transaction. The sale stores its own historical snapshot so receipts remain correct. Returns validate the original sale and apply an explicit disposition. Cash movements and shift closing provide accountability. Users receive permissions through roles and resource claims, while changes are audited through the EF context. The database is normalized for operational facts, with intentional denormalization for historical snapshots and fast projections. The application follows onion principles by keeping UI concerns outside the service and domain rules, while acknowledging that direct EF usage in some services makes the implementation onion-inspired rather than a strict textbook version.”
-
