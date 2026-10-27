@@ -84,15 +84,15 @@ namespace POS.Forms
             var amount = _view.Columns.AddVisible(nameof(TenderRow.Amount), "Amount");
             amount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             amount.DisplayFormat.FormatString = "n" + MoneyDecimalPlaces();
-            var reference = _view.Columns.AddVisible(nameof(TenderRow.ExternalReference), "External reference / approval ID");
-            reference.ToolTip = "Use a processor reference or approval ID only. Never enter card PAN, CVV, PIN, or access tokens.";
+            var reference = _view.Columns.AddVisible(nameof(TenderRow.ExternalReference), "Payment reference (non-cash)");
+            reference.ToolTip = "Enter the terminal receipt, approval, or transaction reference for non-cash payments. Leave blank for cash. Never enter card PAN, CVV, PIN, or access tokens.";
             _view.CellValueChanged += (sender, args) => DetailsChanged();
 
             var guidance = new PanelControl { Dock = DockStyle.Bottom, Height = 48, Padding = new Padding(14, 7, 14, 5) };
             var warning = new LabelControl
             {
                 Dock = DockStyle.Top,
-                Text = "External reference: use a processor reference or approval ID only. Never enter PAN, CVV, PIN, or access tokens."
+                Text = "Cash needs no reference. For card, e-wallet, or store credit, enter the terminal or approval reference only. Never enter PAN, CVV, PIN, or access tokens."
             };
             warning.Appearance.ForeColor = System.Drawing.Color.Firebrick;
             warning.Appearance.Options.UseForeColor = true;
@@ -231,7 +231,7 @@ namespace POS.Forms
             if (_tenders.Count < 1 || _tenders.Count > 10) throw new ValidationException("Enter between 1 and 10 tenders.");
             if (_tenders.Any(x => x.Amount <= 0)) throw new ValidationException("Every tender amount must be positive.");
             if (_tenders.Any(x => x.TenderType != TenderType.Cash && string.IsNullOrWhiteSpace(x.ExternalReference)))
-                throw new ValidationException("Every non-cash tender requires an external reference.");
+                throw new ValidationException("Every non-cash payment requires a terminal or approval reference. Cash does not.");
             if (_tenders.Any(x => x.TenderType == TenderType.StoreCredit) && (!_cart.CustomerId.HasValue || _cart.CustomerId.Value <= 0))
                 throw new ValidationException("Store credit requires a selected customer.");
             var nonCash = _tenders.Where(x => x.TenderType != TenderType.Cash).Sum(x => x.Amount);
