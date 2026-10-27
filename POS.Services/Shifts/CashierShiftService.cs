@@ -85,8 +85,15 @@ namespace POS.Services.Shifts
                         // before this connection received the unique-key error.
                         // Resolve it as an idempotent retry instead of forcing
                         // the cashier to retry manually.
-                        var committed = _context.CashierShifts.AsNoTracking()
-                            .SingleOrDefault(s => s.RequestId == request.RequestId);
+                        // Use a fresh context after the rollback. The context
+                        // that owned the failed serializable transaction can
+                        // still carry a stale transaction/connection state.
+                        CashierShift committed;
+                        using (var recoveryContext = new POSContext())
+                        {
+                            committed = recoveryContext.CashierShifts.AsNoTracking()
+                                .SingleOrDefault(s => s.RequestId == request.RequestId);
+                        }
                         if (committed != null &&
                             committed.RegisterStationId == request.RegisterStationId &&
                             committed.CashierUserId == userId &&
