@@ -2,7 +2,9 @@
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using POS.Common.Enumerations;
     using POS.Data.Context;
+    using POS.Domains.BusinessObjects;
     using POS.Domains.Operations;
     using POS.Domains.Security;
     using POS.Core.Security;
@@ -80,6 +82,7 @@
 
             SeedPermissions(context, roleManager, role);
             SeedDefaultPosConfiguration(context);
+            SeedThreeMonthSales(context, user);
         }
 
         private static void SeedDefaultPosConfiguration(POSContext context)
@@ -137,6 +140,233 @@
             }
 
             context.SaveChanges();
+        }
+
+        private static void SeedThreeMonthSales(POSContext context, User cashierUser)
+        {
+            // The marker makes this seed safe to run repeatedly during future
+            // migration updates and prevents duplicate financial history.
+            if (context.Sales.Any(x => x.ReceiptNumber.StartsWith("SEED-")))
+                return;
+
+            var register = context.RegisterStations.Where(x => x.IsActive).OrderBy(x => x.Id).FirstOrDefault();
+            var settings = context.StoreSettings.OrderBy(x => x.Id).FirstOrDefault();
+            var tax = settings == null ? null : context.TaxRates.SingleOrDefault(x => x.Id == settings.DefaultTaxRateId);
+            if (register == null || settings == null || tax == null || cashierUser == null)
+                return;
+
+            var category = context.Set<Category>().SingleOrDefault(x => x.Name == "Seed Grocery");
+            if (category == null)
+            {
+                category = new Category
+                {
+                    Name = "Seed Grocery",
+                    Description = "Sample products created for demonstrations and reports.",
+                    IsActive = true
+                };
+                context.Set<Category>().Add(category);
+                context.SaveChanges();
+            }
+
+            var products = new[]
+            {
+                EnsureSeedProduct(context, category, "SEED-001", "Sample Rice 5kg", 899m, 750m, "480100000001"),
+                EnsureSeedProduct(context, category, "SEED-002", "Sample Cooking Oil 1L", 189m, 150m, "480100000002"),
+                EnsureSeedProduct(context, category, "SEED-003", "Sample Coffee 200g", 249m, 190m, "480100000003")
+            };
+
+            const int openingQuantity = 10000;
+            foreach (var product in products)
+            {
+                var balance = context.InventoryBalances.SingleOrDefault(x => x.ProductId == product.Id);
+                if (balance == null)
+                {
+                    context.InventoryBalances.Add(new InventoryBalance
+                    {
+                        ProductId = product.Id,
+                        QuantityOnHand = openingQuantity
+                    });
+                    context.StockMovements.Add(new StockMovement
+                    {
+                        ProductId = product.Id,
+                        MovementType = StockMovementType.OpeningBalance,
+                        QuantityDelta = openingQuantity,
+                        ReferenceType = "Seed",
+                        ReferenceId = "SEED-OPEN-" + product.Sku,
+                        Reason = "Opening balance for three-month sample sales",
+                        UserId = cashierUser.Id,
+                        CreatedUtc = DateTime.UtcNow.AddDays(-90)
+                    });
+                }
+                product.Quantity = openingQuantity;
+            }
+
+            var customer = context.Customers.SingleOrDefault(x => x.Code == "SEED-CUSTOMER-001");
+            if (customer == null)
+            {
+                customer = new Customer
+                {
+                    Code = "SEED-CUSTOMER-001",
+                    Name = "Sample Walk-in Customer",
+                    IsActive = true
+                };
+                context.Customers.Add(customer);
+            }
+
+            context.SaveChanges();
+
+            var balances = products.ToDictionary(product => product.Id,
+                product => context.InventoryBalances.Single(x => x.ProductId == product.Id));
+            var startDate = DateTime.UtcNow.Date.AddDays(-89);
+            var taxRate = tax.Rate;
+            var saleNumber = 1;
+
+            for (var day = 0; day < 90; day++)
+            {
+                var openedUtc = startDate.AddDays(day).AddHours(8);
+                var shift = new CashierShift
+                {
+                    RequestId = Guid.NewGuid(),
+                    RegisterStationId = register.Id,
+                    CashierUserId = cashierUser.Id,
+                    Status = ShiftStatus.Closed,
+                    OpenedUtc = openedUtc,
+                    ClosedUtc = openedUtc.AddHours(10),
+                    OpeningCash = 500m,
+                    CountedCash = 500m,
+                    Variance = 0m
+                };
+                shift.CashMovements.Add(new CashMovement
+                {
+                    RequestId = Guid.NewGuid(),
+                    MovementType = CashMovementType.Opening,
+                    Amount = 500m,
+                    Reason = "Seeded opening float",
+                    UserId = cashierUser.Id,
+                    CreatedUtc = openedUtc,
+                    CashierShift = shift
+                });
+                context.CashierShifts.Add(shift);
+
+                var dailyCashSales = 0m;
+                for (var saleOfDay = 0; saleOfDay < 3; saleOfDay++)
+                {
+                    var product = products[(day + saleOfDay) % products.Length];
+                    var quantity = 1 + ((day + saleOfDay) % 3);
+                    var subtotal = decimal.Round(product.Price * quantity, 2);
+                    var saleTax = decimal.Round(subtotal * taxRate, 2);
+                    var total = subtotal + saleTax;
+                    var saleDate = openedUtc.AddHours(1 + saleOfDay * 3).AddMinutes(day % 20);
+                    var receiptNumber = string.Format("SEED-{0:yyyyMMdd}-{1:000}", saleDate, saleNumber++);
+                    var cashReceived = decimal.Ceiling(total / 100m) * 100m;
+                    var sale = new Sale
+                    {
+                        RequestId = Guid.NewGuid(),
+                        RequestHash = "SEED-SALE-" + receiptNumber,
+                        SaleDate = saleDate,
+                        ReceiptNumber = receiptNumber,
+                        Status = DocumentStatus.Completed,
+                        RegisterStationId = register.Id,
+                        CashierShiftId = shift.Id,
+                        CustomerId = customer.Id,
+                        CashierUserId = cashierUser.Id,
+                        Subtotal = subtotal,
+                        TaxAmount = saleTax,
+                        TotalAmount = total,
+                        CashReceived = cashReceived,
+                        Change = cashReceived - total,
+                        CurrencyCode = settings.CurrencyCode,
+                        TaxName = tax.Name,
+                        TaxInclusive = tax.IsInclusive,
+                        MoneyDecimalPlaces = settings.MoneyDecimalPlaces,
+                        RoundingMethod = "HalfUp",
+                        StoreName = settings.StoreName,
+                        StoreAddress = settings.Address,
+                        StoreTaxIdentifier = settings.TaxIdentifier,
+                        ReceiptFooter = settings.ReceiptFooter,
+                        RegisterCode = register.Code,
+                        RegisterName = register.Name,
+                        CashierName = cashierUser.UserName,
+                        CustomerCode = customer.Code,
+                        CustomerName = customer.Name,
+                        CashierShift = shift,
+                        Customer = customer,
+                        RegisterStation = register
+                    };
+                    sale.SaleItems.Add(new SaleItem
+                    {
+                        Product = product,
+                        ProductId = product.Id,
+                        Quantity = quantity,
+                        ProductName = product.Name,
+                        Sku = product.Sku,
+                        Barcode = product.Barcode,
+                        UnitPrice = product.Price,
+                        Subtotal = subtotal,
+                        CostPrice = product.CostPrice,
+                        TaxRate = taxRate,
+                        TaxAmount = saleTax
+                    });
+                    sale.Payments.Add(new Payment
+                    {
+                        TenderType = TenderType.Cash,
+                        Status = PaymentStatus.Completed,
+                        Amount = total,
+                        ExternalReference = "SEED-CASH-" + saleNumber,
+                        CreatedUtc = saleDate,
+                        Sale = sale
+                    });
+                    context.Sales.Add(sale);
+                    context.StockMovements.Add(new StockMovement
+                    {
+                        ProductId = product.Id,
+                        MovementType = StockMovementType.Sale,
+                        QuantityDelta = -quantity,
+                        ReferenceType = "Sale",
+                        ReferenceId = receiptNumber,
+                        Reason = "Seeded sample sale",
+                        UserId = cashierUser.Id,
+                        CreatedUtc = saleDate,
+                        Product = product
+                    });
+                    balances[product.Id].QuantityOnHand -= quantity;
+                    dailyCashSales += total;
+                }
+
+                shift.ExpectedCash = shift.OpeningCash + dailyCashSales;
+                shift.CountedCash = shift.ExpectedCash;
+            }
+
+            foreach (var balance in balances.Values)
+                balance.Product.Quantity = balance.QuantityOnHand;
+            context.SaveChanges();
+        }
+
+        private static Product EnsureSeedProduct(POSContext context, Category category,
+            string sku, string name, decimal price, decimal cost, string barcode)
+        {
+            var product = context.Set<Product>().SingleOrDefault(x => x.Sku == sku);
+            if (product != null)
+                return product;
+
+            product = new Product
+            {
+                Name = name,
+                Sku = sku,
+                Description = "Sample product for seeded retail history.",
+                Price = price,
+                CostPrice = cost,
+                CategoryId = category.Id,
+                Category = category,
+                Barcode = barcode,
+                Unit = "piece",
+                IsActive = true,
+                BuyingThreshold = 10,
+                Quantity = 0
+            };
+            context.Set<Product>().Add(product);
+            context.SaveChanges();
+            return product;
         }
 
         private static void SeedPermissions(POSContext context, RoleManager<Role> roleManager, Role administrator)

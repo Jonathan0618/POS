@@ -218,6 +218,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POS.Common\POS.Common.csproj">
+      <Project>{B81CF6EA-6E59-4B19-B6C0-5BC3A9A1FFA9}</Project>
+      <Name>POS.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POS.Core\POS.Core.csproj">
       <Project>{6621c786-e927-4217-8cb6-13b61fbe68d3}</Project>
       <Name>POS.Core</Name>
