@@ -9,6 +9,8 @@ namespace POS.Forms.Security
 {
     public partial class frmUsers : AuthorizedForm
     {
+        protected override string AuthorizationResource => ResourceCodes.Users;
+
         private readonly UserService _userService;
         public frmUsers() : this(new UserService())
         {

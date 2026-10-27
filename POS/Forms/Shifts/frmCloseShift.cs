@@ -14,8 +14,10 @@ using System.Windows.Forms;
 
 namespace POS.Forms.Shifts
 {
-    public sealed class frmCloseShift : XtraForm
+    public sealed class frmCloseShift : AuthorizedForm
     {
+        protected override string AuthorizationResource => ResourceCodes.Shifts;
+
         private readonly CashierShiftService _service;
         private readonly int _cashierShiftId;
         private readonly bool _canClose;

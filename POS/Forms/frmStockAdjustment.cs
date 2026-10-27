@@ -11,8 +11,10 @@ using System.Windows.Forms;
 
 namespace POS.Forms
 {
-    public sealed class frmStockAdjustment : XtraForm
+    public sealed class frmStockAdjustment : AuthorizedForm
     {
+        protected override string AuthorizationResource => ResourceCodes.Inventory;
+
         private readonly InventoryService _products; private readonly InventoryLedgerService _ledger; private readonly LookUpEdit _product = new LookUpEdit(); private readonly SpinEdit _expected = new SpinEdit(), _delta = new SpinEdit(); private readonly MemoEdit _reason = new MemoEdit(); private readonly SimpleButton _post = new SimpleButton { Text = "Post adjustment" };
         public frmStockAdjustment(InventoryService products, InventoryLedgerService ledger) { _products = products ?? throw new ArgumentNullException(nameof(products)); _ledger = ledger ?? throw new ArgumentNullException(nameof(ledger)); Text = "Stock adjustment"; Size = new Size(520, 360); StartPosition = FormStartPosition.CenterParent; BuildUi(); LoadProducts(); }
         private void BuildUi() { var p = new TableLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(16), ColumnCount = 2, RowCount = 5 }; p.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150)); p.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100)); Add(p, "Product", _product, 0); Add(p, "Expected quantity", _expected, 1); Add(p, "Signed quantity delta", _delta, 2); Add(p, "Required reason", _reason, 3); _reason.Height = 55; _reason.Properties.AutoHeight = false; p.Controls.Add(_post, 1, 4); Controls.Add(p); _product.Properties.DisplayMember = "Name"; _product.Properties.ValueMember = "Id"; _product.Properties.NullText = "Select product"; _expected.Properties.ReadOnly = true; _post.Click += Post; _product.EditValueChanged += (s, e) => LoadExpected(); }

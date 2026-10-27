@@ -11,15 +11,57 @@ public class AuthorizedForm : XtraForm
 {
     private bool _authorizationHooksInstalled;
 
+    /// <summary>
+    /// Resource required to open this form. Derived forms can override this
+    /// to enforce the resource's View permission at the UI boundary.
+    /// Service-layer permission checks remain authoritative.
+    /// </summary>
+    protected virtual string AuthorizationResource => null;
+
     protected override void OnLoad(EventArgs e)
     {
         base.OnLoad(e);
+
+        if (IsDesignMode())
+            return;
+
+        if (!CanOpenForm())
+        {
+            BeginInvoke(new Action(Close));
+            return;
+        }
 
         if (!_authorizationHooksInstalled)
         {
             _authorizationHooksInstalled = true;
             InstallAuthorizationHooks();
         }
+    }
+
+    private bool CanOpenForm()
+    {
+        if (string.IsNullOrWhiteSpace(AuthorizationResource))
+            return true;
+
+        if (AuthorizationService.HasPermission(
+                AuthorizationResource,
+                POS.Common.Enumerations.ClaimActionType.View))
+            return true;
+
+        MessageBox.Show(
+            this,
+            $"You are not authorized to view '{AuthorizationResource}'.",
+            "Access Denied",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning);
+        return false;
+    }
+
+    private bool IsDesignMode()
+    {
+        return System.ComponentModel.LicenseManager.UsageMode ==
+                   System.ComponentModel.LicenseUsageMode.Designtime ||
+               DesignMode;
     }
 
     private void InstallAuthorizationHooks()

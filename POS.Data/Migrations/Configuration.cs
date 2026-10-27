@@ -202,14 +202,17 @@
                 claim.CanDelete = true;
             }
 
+            // Keep the operational roles available on every migration/seed run.
+            // Demo user accounts are intentionally not seeded; administrators
+            // assign real users to these roles through the user management UI.
             foreach (var baselineRole in new[] { "Manager", "Cashier", "Inventory Clerk" })
-            {
-                if (roleManager.FindByName(baselineRole) == null)
-                    roleManager.Create(new Role { Id = Guid.NewGuid().ToString(), Name = baselineRole });
-            }
+                EnsureRole(roleManager, baselineRole);
 
+            // Manager: broad operational access, but no destructive access to
+            // users, roles, or maintenance data by default.
             EnsurePermission(context, roleManager, "Manager", ResourceCodes.Users, true, true, true, false);
             EnsurePermission(context, roleManager, "Manager", ResourceCodes.Roles, true, false, false, false);
+            EnsurePermission(context, roleManager, "Manager", ResourceCodes.Modules, true, false, false, false);
             EnsurePermission(context, roleManager, "Manager", ResourceCodes.Settings, true, true, true, false);
             EnsurePermission(context, roleManager, "Manager", ResourceCodes.Products, true, true, true, false);
             EnsurePermission(context, roleManager, "Manager", ResourceCodes.Inventory, true, true, true, false);
@@ -222,7 +225,10 @@
             EnsurePermission(context, roleManager, "Manager", ResourceCodes.Dashboard, true, false, false, false);
             EnsurePermission(context, roleManager, "Manager", ResourceCodes.Reports, true, true, false, false);
             EnsurePermission(context, roleManager, "Manager", ResourceCodes.Audit, true, false, false, false);
+            EnsurePermission(context, roleManager, "Manager", ResourceCodes.Maintenance, true, true, true, false);
 
+            // Cashier: selling, customer lookup, returns, and shift/cash
+            // operations. Product and inventory data are read-only.
             EnsurePermission(context, roleManager, "Cashier", ResourceCodes.Products, true, false, false, false);
             EnsurePermission(context, roleManager, "Cashier", ResourceCodes.Inventory, true, false, false, false);
             EnsurePermission(context, roleManager, "Cashier", ResourceCodes.Sales, true, true, false, false);
@@ -230,10 +236,13 @@
             EnsurePermission(context, roleManager, "Cashier", ResourceCodes.Customers, true, true, true, false);
             EnsurePermission(context, roleManager, "Cashier", ResourceCodes.Shifts, true, true, true, false);
 
+            // Inventory Clerk: catalog, stock, suppliers, and purchasing.
+            // No sales, returns, user administration, or maintenance access.
             EnsurePermission(context, roleManager, "Inventory Clerk", ResourceCodes.Products, true, true, true, false);
             EnsurePermission(context, roleManager, "Inventory Clerk", ResourceCodes.Inventory, true, true, true, false);
             EnsurePermission(context, roleManager, "Inventory Clerk", ResourceCodes.Suppliers, true, false, false, false);
             EnsurePermission(context, roleManager, "Inventory Clerk", ResourceCodes.Purchasing, true, true, true, false);
+            EnsurePermission(context, roleManager, "Inventory Clerk", ResourceCodes.Dashboard, true, false, false, false);
 
             context.SaveChanges();
         }
@@ -308,6 +317,22 @@
             claim.CanAdd = canAdd;
             claim.CanEdit = canEdit;
             claim.CanDelete = canDelete;
+        }
+
+        private static void EnsureRole(RoleManager<Role> roleManager, string roleName)
+        {
+            if (roleManager.FindByName(roleName) != null)
+                return;
+
+            var result = roleManager.Create(new Role
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = roleName
+            });
+
+            if (!result.Succeeded)
+                throw new InvalidOperationException(
+                    $"Unable to seed role '{roleName}': {string.Join(", ", result.Errors)}");
         }
     }
 }

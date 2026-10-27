@@ -13,8 +13,11 @@ using static POS.Services.InventoryService;
 
 namespace POS.Forms
 {
-    public partial class frmCategory : DevExpress.XtraEditors.XtraForm
+    public partial class frmCategory : AuthorizedForm
     {
+        protected override string AuthorizationResource =>
+            POS.Core.Security.ResourceCodes.Products;
+
         private readonly InventoryService _inventoryService;
         public frmCategory() : this(new InventoryService())
         {

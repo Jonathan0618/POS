@@ -15,8 +15,10 @@ using System.Windows.Forms;
 
 namespace POS.Forms.Shifts
 {
-    public sealed class frmOpenShift : XtraForm
+    public sealed class frmOpenShift : AuthorizedForm
     {
+        protected override string AuthorizationResource => ResourceCodes.Shifts;
+
         private readonly CashierShiftService _service;
         private readonly ICurrentUser _currentUser;
         private readonly bool _canOpen;

@@ -18,6 +18,9 @@ namespace POS.Forms
 {
     public partial class frmAddProducts : AuthorizedForm
     {
+        protected override string AuthorizationResource =>
+            POS.Core.Security.ResourceCodes.Products;
+
         private readonly ControlMapper<InventoryDTO> _ControlMapper;
         private readonly ModelValidator<InventoryDTO> _validator;
         private readonly InventoryService _inventoryService;

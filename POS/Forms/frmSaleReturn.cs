@@ -4,6 +4,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraLayout;
 using POS.Common.Enumerations;
 using POS.Core;
+using POS.Core.Security;
 using POS.Models.Operations;
 using POS.Services.Point_of_Sale;
 using POS.Services.Shifts;
@@ -16,8 +17,10 @@ using System.Windows.Forms;
 
 namespace POS.Forms
 {
-    public sealed class frmSaleReturn : XtraForm
+    public sealed class frmSaleReturn : AuthorizedForm
     {
+        protected override string AuthorizationResource => ResourceCodes.Returns;
+
         private readonly SaleReturnService _returns;
         private readonly CashierShiftService _shifts;
         private readonly SaleReturnEligibilityDTO _eligibility;
