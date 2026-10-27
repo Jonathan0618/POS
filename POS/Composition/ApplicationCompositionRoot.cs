@@ -1,4 +1,4 @@
-using POS.Forms;
+﻿using POS.Forms;
 using POS.Forms.Security;
 using POS.Forms.Settings;
 using POS.Forms.Shifts;
@@ -8,9 +8,9 @@ using POS.Services.Security;
 using POS.Services.Settings;
 using POS.Services.Shifts;
 using POS.Core.Abstractions;
+using POS.Data.Context;
 using POS.Services.Reporting;
 using POS.Services.Point_of_Sale;
-using POS.Data.Context;
 using POS.Services.Purchasing;
 using POS.Services.Customers;
 using POS.Services.Inventory;
@@ -112,6 +112,8 @@ namespace POS.Composition
             control.Disposed += (sender, args) => service.Dispose();
             return control;
         }
+
+       
 
         public ucUsers CreateUsersControl()
         {

@@ -89,6 +89,31 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.4\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.4\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.BulletGraph.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Chart.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Chart.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Core.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Data.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Diagram.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Diagram.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Grid.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Grid.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.GridCommon.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfBarcode.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfInput.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfListView.WinForms, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Shared.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Shared.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SpellChecker.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Tools.Base, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Tools.Windows, Version=34.1462.29.0, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -151,6 +176,7 @@
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+
     <Compile Include="Forms\frmReceivePurchaseOrder.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +191,13 @@
     </Compile>
     <Compile Include="Forms\frmReceivePurchaseOrder.Designer.cs">
       <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
+    </Compile>
+
+    <Compile Include="Forms\frmPurchaseOrderEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPurchaseOrderEdit.Designer.cs">
+      <DependentUpon>frmPurchaseOrderEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Security\frmAddUser.cs">
       <SubType>Form</SubType>
@@ -265,6 +298,12 @@
     <Compile Include="Inventory\AddProducts.Designer.cs">
       <DependentUpon>AddProducts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ucPurchaseOrders.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ucPurchaseOrders.Designer.cs">
+      <DependentUpon>ucPurchaseOrders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ucStock.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -319,7 +358,10 @@
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmReceivePurchaseOrder.resx">
-      <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
+     <DependentUpon>frmReceivePurchaseOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPurchaseOrderEdit.resx">
+      <DependentUpon>frmPurchaseOrderEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Security\frmAddUser.resx">
       <DependentUpon>frmAddUser.cs</DependentUpon>
@@ -350,6 +392,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\AddProducts.resx">
       <DependentUpon>AddProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ucPurchaseOrders.resx">
+      <DependentUpon>ucPurchaseOrders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ucStock.resx">
       <DependentUpon>ucStock.cs</DependentUpon>
