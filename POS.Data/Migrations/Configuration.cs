@@ -81,8 +81,69 @@
             }
 
             SeedPermissions(context, roleManager, role);
+            SeedDemoUsers(userManager, roleManager);
             SeedDefaultPosConfiguration(context);
             SeedThreeMonthSales(context, user);
+        }
+
+        private static void SeedDemoUsers(
+            UserManager<User, string> userManager,
+            RoleManager<Role> roleManager)
+        {
+            // Development/demo accounts only. These credentials must be
+            // changed or disabled before a production deployment.
+            EnsureDemoUser(userManager, roleManager,
+                "cashier.demo", "Cashier@123", "Demo", "Cashier", "Cashier");
+            EnsureDemoUser(userManager, roleManager,
+                "inventory.demo", "Inventory@123", "Demo", "Inventory Clerk", "Inventory Clerk");
+            EnsureDemoUser(userManager, roleManager,
+                "manager.demo", "Manager@123", "Demo", "Manager", "Manager");
+        }
+
+        private static void EnsureDemoUser(
+            UserManager<User, string> userManager,
+            RoleManager<Role> roleManager,
+            string username,
+            string password,
+            string firstName,
+            string lastName,
+            string roleName)
+        {
+            var user = userManager.FindByName(username);
+            if (user == null)
+            {
+                user = new User
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = username,
+                    Email = username + "@demo.pos.local",
+                    EmailConfirmed = true,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    LockoutEnabled = true
+                };
+
+                var createResult = userManager.Create(user, password);
+                if (!createResult.Succeeded)
+                    throw new InvalidOperationException(
+                        $"Unable to seed demo user '{username}': " +
+                        string.Join(", ", createResult.Errors));
+            }
+
+            var role = roleManager.FindByName(roleName);
+            if (role == null)
+                throw new InvalidOperationException(
+                    $"Unable to assign demo user '{username}'; role '{roleName}' was not found.");
+
+            var roles = userManager.GetRoles(user.Id);
+            if (!roles.Any(x => x.Equals(roleName, StringComparison.OrdinalIgnoreCase)))
+            {
+                var roleResult = userManager.AddToRole(user.Id, roleName);
+                if (!roleResult.Succeeded)
+                    throw new InvalidOperationException(
+                        $"Unable to assign demo user '{username}' to '{roleName}': " +
+                        string.Join(", ", roleResult.Errors));
+            }
         }
 
         private static void SeedDefaultPosConfiguration(POSContext context)
