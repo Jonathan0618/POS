@@ -2,6 +2,7 @@
 using POS.Forms.Security;
 using POS.Forms.Settings;
 using POS.Forms.Shifts;
+using POS.Core;
 using POS.Models.Operations;
 using POS.Services;
 using POS.Services.Security;
@@ -15,6 +16,7 @@ using POS.Services.Purchasing;
 using POS.Services.Customers;
 using POS.Services.Inventory;
 using POS.Services.Maintenance;
+using System.Linq;
 
 namespace POS.Composition
 {
@@ -245,6 +247,34 @@ namespace POS.Composition
             var form = new frmCloseShift(service, authorization, shift);
             form.Disposed += (sender, args) => ((System.IDisposable)context).Dispose();
             return form;
+        }
+
+        public frmCloseShift CreateCurrentCloseShiftForm()
+        {
+            var lookupContext = new POSContext();
+            try
+            {
+                var currentUser = new CurrentUserAccessor();
+                var authorization = new ClaimsAuthorizationService(currentUser);
+                var lookupService = new CashierShiftService(
+                    lookupContext,
+                    new SystemClock(),
+                    currentUser,
+                    authorization);
+                var page = lookupService.Search(new CashierShiftSearchDTO
+                {
+                    CashierUserId = CurrentUser.UserId,
+                    Status = "Open",
+                    PageNumber = 1,
+                    PageSize = 10
+                });
+                var shift = page.Items.SingleOrDefault();
+                return shift == null ? null : CreateCloseShiftForm(shift);
+            }
+            finally
+            {
+                lookupContext.Dispose();
+            }
         }
 
         public frmOpenShift CreateOpenShiftForm()

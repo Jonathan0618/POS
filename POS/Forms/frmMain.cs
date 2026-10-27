@@ -38,6 +38,7 @@ namespace POS.Forms
         private BarButtonItem _receivingButton;
         private BarButtonItem _salesRegisterButton;
         private BarButtonItem _openShiftButton;
+        private BarButtonItem _closeShiftButton;
         private BarButtonItem _receiptsButton;
         private BarButtonItem _maintenanceButton;
         private RibbonPageGroup _purchasingNavigationGroup;
@@ -123,6 +124,10 @@ namespace POS.Forms
                 _openShiftButton.Visibility = _authorization.HasPermission(ResourceCodes.Shifts, ClaimActionType.View) &&
                     _authorization.HasPermission(ResourceCodes.Shifts, ClaimActionType.Add)
                     ? BarItemVisibility.Always : BarItemVisibility.Never;
+            if (_closeShiftButton != null)
+                _closeShiftButton.Visibility = _authorization.HasPermission(ResourceCodes.Shifts, ClaimActionType.View) &&
+                    _authorization.HasPermission(ResourceCodes.Shifts, ClaimActionType.Edit)
+                    ? BarItemVisibility.Always : BarItemVisibility.Never;
         }
 
         private void AddAssignedNavigation()
@@ -170,6 +175,10 @@ namespace POS.Forms
             _openShiftButton.ItemClick += (sender, args) => ExecuteNavigation(ShowOpenShiftDialog);
             ribbon.Items.Add(_openShiftButton);
             cashNavigationGroup.ItemLinks.Add(_openShiftButton);
+            _closeShiftButton = new BarButtonItem { Caption = "Close Shift", Id = 1110, Name = "bbiCloseShift" };
+            _closeShiftButton.ItemClick += (sender, args) => ExecuteNavigation(ShowCloseShiftDialog);
+            ribbon.Items.Add(_closeShiftButton);
+            cashNavigationGroup.ItemLinks.Add(_closeShiftButton);
 
             _receivingButton = new BarButtonItem { Caption = "Goods Receiving", Id = 1105, Name = "bbiReceiving" };
             _receivingButton.ItemClick += (sender, args) => ExecuteNavigation(() => ShowWorkspace(_composition.CreateGoodsReceivingControl()));
@@ -442,6 +451,25 @@ namespace POS.Forms
                         System.Windows.Forms.MessageBoxButtons.OK,
                         System.Windows.Forms.MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        private void ShowCloseShiftDialog()
+        {
+            using (var form = _composition.CreateCurrentCloseShiftForm())
+            {
+                if (form == null)
+                {
+                    XtraMessageBox.Show(
+                        this,
+                        "No open cashier shift was found for the current user. Open a shift before closing it.",
+                        "Close Shift",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.Information);
+                    return;
+                }
+
+                form.ShowDialog(this);
             }
         }
 
