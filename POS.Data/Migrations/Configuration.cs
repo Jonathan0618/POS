@@ -136,6 +136,20 @@
                     $"Unable to assign demo user '{username}'; role '{roleName}' was not found.");
 
             var roles = userManager.GetRoles(user.Id);
+            // Demo identities must have exactly one baseline role. This keeps
+            // their permission behavior deterministic if a previous seed run
+            // or manual test assigned an additional role.
+            foreach (var existingRole in roles
+                .Where(x => !x.Equals(roleName, StringComparison.OrdinalIgnoreCase))
+                .ToList())
+            {
+                var removeResult = userManager.RemoveFromRole(user.Id, existingRole);
+                if (!removeResult.Succeeded)
+                    throw new InvalidOperationException(
+                        $"Unable to remove role '{existingRole}' from demo user '{username}': " +
+                        string.Join(", ", removeResult.Errors));
+            }
+
             if (!roles.Any(x => x.Equals(roleName, StringComparison.OrdinalIgnoreCase)))
             {
                 var roleResult = userManager.AddToRole(user.Id, roleName);
