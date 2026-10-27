@@ -214,10 +214,10 @@ namespace POS.Forms
             CartColumn(nameof(SaleCartLineDTO.TaxAmount), "Tax", "n2");
             CartColumn(nameof(SaleCartLineDTO.LineTotal), "Total", "n2");
 
-            var summary = new TableLayoutPanel { Dock = DockStyle.Bottom, Height = 156, ColumnCount = 4, RowCount = 3, Padding = new Padding(10, 7, 10, 8), BackColor = System.Drawing.Color.White };
+            var summary = new TableLayoutPanel { Dock = DockStyle.Bottom, Height = 164, ColumnCount = 4, RowCount = 3, Padding = new Padding(10, 7, 10, 8), BackColor = System.Drawing.Color.White };
             for (var i = 0; i < 4; i++) summary.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
             summary.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
-            summary.RowStyles.Add(new RowStyle(SizeType.Absolute, 36));
+            summary.RowStyles.Add(new RowStyle(SizeType.Absolute, 42));
             summary.RowStyles.Add(new RowStyle(SizeType.Absolute, 52));
             summary.Controls.Add(Summary("Subtotal", _subtotal), 0, 0);
             summary.Controls.Add(Summary("Tax", _tax), 1, 0);
@@ -234,6 +234,10 @@ namespace POS.Forms
             _payment.Appearance.Options.UseBackColor = true;
             _payment.Appearance.Options.UseForeColor = true;
             _payment.Appearance.Options.UseFont = true;
+            _payment.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(148, 163, 184);
+            _payment.AppearanceDisabled.ForeColor = System.Drawing.Color.White;
+            _payment.AppearanceDisabled.Options.UseBackColor = true;
+            _payment.AppearanceDisabled.Options.UseForeColor = true;
             ConfigureSecondaryButton(_remove);
             ConfigureSecondaryButton(_hold);
             ConfigureSecondaryButton(_resume);
@@ -286,8 +290,8 @@ namespace POS.Forms
             var panel = new PanelControl { Dock = DockStyle.Fill, BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder, Padding = new Padding(2, 1, 2, 1) };
             var label = new LabelControl { Text = caption };
             label.SetBounds(0, 0, 120, 18);
-            label.Appearance.ForeColor = System.Drawing.Color.FromArgb(100, 116, 139);
-            label.Appearance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            label.Appearance.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
+            label.Appearance.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             label.Appearance.Options.UseForeColor = true;
             label.Appearance.Options.UseFont = true;
             value.Appearance.Font = new System.Drawing.Font("Segoe UI", caption == "TOTAL" ? 16F : 12F, System.Drawing.FontStyle.Bold);
@@ -317,7 +321,7 @@ namespace POS.Forms
             heading.Appearance.Options.UseForeColor = true;
             var detail = new LabelControl { Text = subtitle, Dock = DockStyle.Fill };
             detail.Appearance.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            detail.Appearance.ForeColor = System.Drawing.Color.FromArgb(100, 116, 139);
+            detail.Appearance.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
             detail.Appearance.Options.UseFont = true;
             detail.Appearance.Options.UseForeColor = true;
             panel.Controls.Add(detail);
@@ -348,10 +352,17 @@ namespace POS.Forms
 
         private static void ConfigureSecondaryButton(SimpleButton button)
         {
-            button.Appearance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            button.Appearance.ForeColor = System.Drawing.Color.FromArgb(51, 65, 85);
+            button.Appearance.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            button.Appearance.BackColor = System.Drawing.Color.FromArgb(51, 65, 85);
+            button.Appearance.ForeColor = System.Drawing.Color.White;
             button.Appearance.Options.UseFont = true;
+            button.Appearance.Options.UseBackColor = true;
             button.Appearance.Options.UseForeColor = true;
+            button.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(203, 213, 225);
+            button.AppearanceDisabled.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
+            button.AppearanceDisabled.Options.UseBackColor = true;
+            button.AppearanceDisabled.Options.UseForeColor = true;
+            button.MinimumSize = new System.Drawing.Size(0, 36);
         }
 
         private static void ConfigurePrimaryButton(SimpleButton button, System.Drawing.Color color)
