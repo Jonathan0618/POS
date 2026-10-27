@@ -80,7 +80,21 @@ namespace POS.Services.Shifts
                 {
                     try { transaction.Rollback(); } finally { ClearTracking(); }
                     if (Inventory.InventoryConflict.IsUniqueIndexViolation(exception, "IX_RequestId"))
+                    {
+                        // The insert may have committed in a competing request
+                        // before this connection received the unique-key error.
+                        // Resolve it as an idempotent retry instead of forcing
+                        // the cashier to retry manually.
+                        var committed = _context.CashierShifts.AsNoTracking()
+                            .SingleOrDefault(s => s.RequestId == request.RequestId);
+                        if (committed != null &&
+                            committed.RegisterStationId == request.RegisterStationId &&
+                            committed.CashierUserId == userId &&
+                            committed.OpeningCash == request.OpeningCash)
+                            return committed.Id;
+
                         throw new ValidationException("This shift-opening request was committed concurrently. Reload shifts and retry the unchanged request.", exception);
+                    }
                     if (Inventory.InventoryConflict.IsUniqueIndexViolation(exception, "IX_OpenShift"))
                         throw new ValidationException("The register or cashier acquired another open shift concurrently. Reload shifts.", exception);
                     if (Inventory.InventoryConflict.IsRecognized(exception))
