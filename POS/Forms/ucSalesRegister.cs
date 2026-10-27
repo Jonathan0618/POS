@@ -78,7 +78,7 @@ namespace POS.Forms
             Dock = DockStyle.Fill;
             BackColor = System.Drawing.Color.FromArgb(243, 246, 250);
             var header = BuildOperationalHeader();
-            var workArea = new SplitContainer { Dock = DockStyle.Fill, SplitterDistance = 500 };
+            var workArea = new SplitContainer { Dock = DockStyle.Fill, SplitterDistance = 460 };
             workArea.BackColor = System.Drawing.Color.FromArgb(243, 246, 250);
             workArea.Panel1.Padding = new Padding(10, 10, 5, 10);
             workArea.Panel2.Padding = new Padding(5, 10, 10, 10);
@@ -288,8 +288,7 @@ namespace POS.Forms
         private static Control Summary(string caption, LabelControl value)
         {
             var panel = new PanelControl { Dock = DockStyle.Fill, BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder, Padding = new Padding(2, 1, 2, 1) };
-            var label = new LabelControl { Text = caption };
-            label.SetBounds(0, 0, 120, 18);
+            var label = new LabelControl { Text = caption, Dock = DockStyle.Top, Height = 21 };
             label.Appearance.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
             label.Appearance.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             label.Appearance.Options.UseForeColor = true;
@@ -299,9 +298,11 @@ namespace POS.Forms
                 ? System.Drawing.Color.FromArgb(30, 64, 175)
                 : System.Drawing.Color.FromArgb(15, 23, 42);
             value.Appearance.Options.UseForeColor = true;
-            value.SetBounds(0, 22, 150, 28);
-            panel.Controls.Add(label);
+            value.Dock = DockStyle.Fill;
+            value.AutoSizeMode = LabelAutoSizeMode.None;
+            value.Padding = new Padding(0, 0, 0, 2);
             panel.Controls.Add(value);
+            panel.Controls.Add(label);
             return panel;
         }
 
