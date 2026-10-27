@@ -93,7 +93,7 @@ namespace POS.Forms
         private Control BuildOperationalHeader()
         {
             var header = new PanelControl { Dock = DockStyle.Fill, Padding = new Padding(14, 8, 14, 8) };
-            header.Appearance.BackColor = System.Drawing.Color.FromArgb(25, 55, 45);
+            header.Appearance.BackColor = System.Drawing.Color.FromArgb(31, 41, 55);
             header.Appearance.Options.UseBackColor = true;
             var layout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 4, RowCount = 2 };
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36));
@@ -211,7 +211,7 @@ namespace POS.Forms
             _clear.Dock = DockStyle.Fill;
             _payment.Dock = DockStyle.Fill;
             _payment.Appearance.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            _payment.Appearance.BackColor = System.Drawing.Color.FromArgb(0, 122, 72);
+            _payment.Appearance.BackColor = System.Drawing.Color.FromArgb(37, 99, 235);
             _payment.Appearance.ForeColor = System.Drawing.Color.White;
             _payment.Appearance.Options.UseBackColor = true;
             _payment.Appearance.Options.UseForeColor = true;
